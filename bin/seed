@@ -1,0 +1,76 @@
+#!/usr/bin/env node
+// SEED DB
+function rnd(min, max) {
+    return String( (Math.random() * (max - min) + min).toFixed(0) );
+}
+
+var db = require('../db.js');
+var moment = require('moment');
+
+db.serialize( function(){
+
+  // db.run(`CREATE TABLE IF NOT EXISTS users (
+  //   id INTEGER PRIMARY KEY AUTOINCREMENT, 
+  //   hash TEXT)`,
+  //   (err)=>{
+  //     console.log(err, this.lastID);
+  //   });
+
+  // db.run(`CREATE TABLE IF NOT EXISTS diaryposts (
+  //   id INTEGER PRIMARY KEY AUTOINCREMENT,
+  //   user_id INTEGER,
+  //   date TEXT,
+  //   down TEXT, 
+  //   awake REAL, 
+  //   up text,
+  //   rate INTEGER,
+  //   status TEXT,
+  //   t TIMESTAMP
+  //   DEFAULT CURRENT_TIMESTAMP
+
+  var rel_date,
+      rnd_down, 
+      rnd_up, 
+      rnd_awake, 
+      rnd_rate;
+
+  // Clear previous data:
+  db.run("DELETE FROM users WHERE 1; DELETE FROM diaryposts WHERE 1;");
+
+  db.run("INSERT INTO users(hash) VALUES (?)", ["123"], function(err){
+    var lastID = this.lastID;
+    console.log("User id:", lastID);
+    console.log("User hash: 123");
+    console.log(`Login link: /${lastID}/123`);
+    
+    stmt = db.prepare(
+      `INSERT INTO diaryposts 
+      (user_id, date, down, up, awake, rate) 
+      VALUES (?,?,?,?,?,?)`);
+    for (var i = 0; i < 35; i++) {
+        rnd_down    = "21:" + rnd(0,59);
+        rnd_up      = "09:" + rnd(0,59);
+        rnd_awake   = rnd(0,200);
+        rnd_rate    = rnd(1,5);
+        rel_date    = moment( Date.now() ).subtract(i, 'days').format("YYYY-MM-DD");
+        if(rnd(0,1) == 1) stmt.run([ // randomly skip days
+            lastID, 
+            rel_date, 
+            rnd_down, 
+            rnd_up, 
+            Number(rnd_awake), 
+            Number(rnd_rate) 
+          ]);
+        }
+    
+    console.log(rnd_down, 
+                rnd_up, 
+                rnd_awake, 
+                rnd_rate);
+
+    stmt.finalize();
+    db.close(); 
+  });
+
+});
+

@@ -1,0 +1,11 @@
+<div class="row">
+  <div class="col-sm-12 col-md-6">
+      <input type="hidden" name="postsdata" id="hidden_postdata" value="<%= JSON.stringify(posts) %>"> 
+      <%- include('_diary_form') %>    
+  </div>
+  
+  <div class="col col-md-6">
+    <canvas id="sleepcanvas" width="80" height="50"></canvas>
+  </div>
+</div>
+

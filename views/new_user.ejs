@@ -1,0 +1,13 @@
+<% if (link) { -%>
+  <strong>Länk till ny dagbok: </strong>
+  <p><%= link %></p>
+  
+  <p> <a href="<%=link%>"> <%=link%> </a> </p>
+  
+  <a href="/users" class="mb-3"> Tillbaka </a>    
+
+<% } else { -%>
+  <form method="post" action="/users">
+    <input type="submit" name="createuser" value="Skapa ny dagbok">
+  </form>
+<% } -%>
