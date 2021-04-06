@@ -16,6 +16,4 @@ d = moment( Date.now() ).subtract(0, 'days').format("YYYY-MM-DD");
 var t = [1,2,3,4,5,6,7,8,9,10,11,12]
 var s = []
 
-console.log(t.length);
-console.log( avg_quality_cal(t) );
-
+console.log(['this'] + new Array(3));

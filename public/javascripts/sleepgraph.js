@@ -63,23 +63,7 @@ $(document).ready(function(){
             last_date = post.date;
             // data.datasets[1].data.push({x: post.date, y: post.rate})    
         });
-      
-        // create a table of dates between first and last post
-        // current_date = moment(first_date);
-        for (var i=0; i < 60; i++) {
-            current_date = moment(first_date).add(i, 'days').format("YYYY-MM-DD");
-            posts_table.push( current_date );
-            if(current_date == moment(last_date).format("YYYY-MM-DD")) break; 
-        }
 
-        let week;
-        for (var i = 0; i < 10; i++) {
-            week = posts_table.slice( (i*7), (i*7+7) );
-            if(week.length == 0) break;
-            week_table.push( week )
-        }
-
-        console.log(posts_table, week_table);
 
         var ctx = document.getElementById('sleepcanvas');
         var chart = new Chart(ctx, {

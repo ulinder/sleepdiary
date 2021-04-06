@@ -19,3 +19,6 @@ pm2 ls // list units
 
 # db cli
 sqlite sleepdiary.sqlite
+
+# seeded client
+http://localhost:3001/39/123
