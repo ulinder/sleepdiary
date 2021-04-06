@@ -5,9 +5,8 @@ var moment = require('moment')
 
 /* GET home page. */
 router.get('/', (req, res, next) => {
-
+  console.log(req.baseUrl);
   db.all("SELECT * FROM diaryposts WHERE user_id = ? ORDER BY date ASC", [req.cookies.user], (error, dbresults) =>{
-    if(dbresults.length == 0) res.render('401');
     res.render('index', { title: 'Sömndagboken', posts: dbresults, table: date_table(dbresults) });
   });
 });
@@ -17,7 +16,7 @@ router.get('/', (req, res, next) => {
 router.get('/:id/:hash', (req, res, next) => {
  
     db.get("SELECT * FROM users WHERE id=?", [req.params.id], (err, user) =>{
-      console.log("db user: ", user);  
+      console.log("User: ", user);
       if(user && user.hash == req.params.hash){
         res.cookie('user', req.params.id);
         res.cookie('user_hash', req.params.hash);
