@@ -5,10 +5,9 @@ var moment = require('moment')
 
 /* GET home page. */
 router.get('/', (req, res, next) => {
-  // if(req.cookies.user) 
-  console.log("User cookie: ", req.cookies.user);
+
   db.all("SELECT * FROM diaryposts WHERE user_id = ? ORDER BY date ASC", [req.cookies.user], (error, dbresults) =>{
-    
+    if(dbresults.length == 0) res.render('401');
     res.render('index', { title: 'Sömndagboken', posts: dbresults, table: date_table(dbresults) });
   });
 });
