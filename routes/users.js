@@ -12,7 +12,7 @@ router.post('/', function(req, res, next) {
   var hash = md5(Date.now()).slice(0,12);
   db.run(`INSERT INTO users (hash) VALUES (?)`,[hash], function(err){
     console.warn(err);
-    res.render('new_user', { link: `/${this.lastID}/${hash}` });
+    res.render('new_user', { link: `${req.hostname}/${this.lastID}/${hash}` });
   }) 
 });
 
