@@ -1,3 +1,19 @@
+/* Läsa in externa fonter*/
+/* EXEMPEL: */
+@font-face {
+  font-family: "Gilroy Black";
+  src: url("font/GilroyBlack.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Gilroy Medium";
+  src: url("font/Gilroy-Medium_1.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Frutiger Roman";
+  src: url("fonts/FrutigerLTStd-Roman.otf") format("opentype");
+}
+
 body {
   padding: 50px;
   font: 16px "Frutiger", Helvetica, Arial, sans-serif;
@@ -7,4 +23,13 @@ body {
 
 a {
   color: #00B7FF;
+}
+
+
+h1, h2, h3, h4, h5{ /*Huvudrubrik: MIN SÖMNDAGBOK */
+  font-family: "Frutiger Roman";
+}
+
+h1, h2, h3, p {
+  color: white;
 }
