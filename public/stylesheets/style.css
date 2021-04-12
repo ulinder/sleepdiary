@@ -1,22 +1,23 @@
 /* Läsa in externa fonter*/
 /* EXEMPEL: */
+
 @font-face {
-  font-family: "Gilroy Black";
-  src: url("font/GilroyBlack.ttf") format("truetype");
-}
-@font-face {
-  font-family: "Gilroy Medium";
-  src: url("font/Gilroy-Medium_1.ttf") format("truetype");
+  font-family: "Frutiger Light";
+  src: url("../fonts/FrutigerLTStd-Light.otf") format("opentype");
 }
 
 @font-face {
   font-family: "Frutiger Roman";
-  src: url("fonts/FrutigerLTStd-Roman.otf") format("opentype");
+  src: url("../fonts/FrutigerLTStd-Roman.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Frutiger Bold";
+  src: url("../fonts/FrutigerLTStd-Bold.otf") format("opentype");
 }
 
 body {
   padding: 50px;
-  font: 16px "Frutiger", Helvetica, Arial, sans-serif;
   background-color: #2D333F;
   color: #D8DEE9;
 }
@@ -25,11 +26,28 @@ a {
   color: #00B7FF;
 }
 
-
 h1, h2, h3, h4, h5{ /*Huvudrubrik: MIN SÖMNDAGBOK */
-  font-family: "Frutiger Roman";
+  font-family: "Frutiger Bold";
 }
 
-h1, h2, h3, p {
-  color: white;
+h3 {
+  font-size: 1.44em;
+}
+
+
+/* Skapa nytt dagboksinlägg*/
+label {
+  font-family:"Frutiger Roman" ;
+  font-size: 1.25em;
+}
+.form-control{
+  font-size: 1.25em;
+  border:2px solid #86BECE;
+  border-radius: 5px;
+  border-color: #86BECE;
+  max-width: 235px;
+  color: #D3D5D9;
+}
+input[type="text"],input[type="date"], textarea {
+  background-color: #2D333F;
 }
