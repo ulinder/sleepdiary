@@ -10,7 +10,10 @@ function link_to(req, path){
 
 /* NEW user */
 router.get('/', function(req, res, next) {
+  console.log("reg.get(host) : ", req.get('host') );
+  console.log("hostname : ", app.port );
   res.render('new_user', {link:""} );
+
 });
 
 /* GET users listing. */
