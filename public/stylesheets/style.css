@@ -1,33 +1,26 @@
+/* Läsa in externa fonter*/
+/* EXEMPEL: */
+@font-face {
+  font-family: "Gilroy Black";
+  src: url("font/GilroyBlack.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Gilroy Medium";
+  src: url("font/Gilroy-Medium_1.ttf") format("truetype");
+}
+
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
   color: #00B7FF;
 }
 
-h1{ /*Huvudrubrik: MIN SÖMNDAGBOK */
-  font-family: ;
-  color: ;
-  text-align: center;
+h1, h2, h3, h4, h5{ /*Huvudrubrik: MIN SÖMNDAGBOK */
+  font-family: "Arial";
 }
 
-
-.btn-spara {
-  background-color: #4CAF50;
-  border: solid thin;
-  color: white;
-  padding: 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
+h1, h2, h3, p {
+  color: white; 
 }
-
-.button1 {border-radius: 2px;}
-.button2 {border-radius: 4px;}
-.button3 {border-radius: 8px;}
-.button4 {border-radius: 12px;}
-.button5 {border-radius: 50%;}
