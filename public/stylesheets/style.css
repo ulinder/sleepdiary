@@ -1,4 +1,4 @@
-body {
+﻿body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background-color: #2D333F;
@@ -11,3 +11,29 @@ a {
 h3 {
   color: #D8DEE9;
 }
+
+h1{ /*Huvudrubrik: MIN SÖMNDAGBOK */
+  font-family: ;
+  color: ;
+  text-align: center;
+}
+
+
+.btn-spara {
+  background-color: #4CAF50;
+  border: solid thin;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+}
+
+.button1 {border-radius: 2px;}
+.button2 {border-radius: 4px;}
+.button3 {border-radius: 8px;}
+.button4 {border-radius: 12px;}
+.button5 {border-radius: 50%;}
+
