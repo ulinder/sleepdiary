@@ -39,15 +39,33 @@ h3 {
 label {
   font-family:"Frutiger Roman" ;
   font-size: 1.25em;
+  margin-bottom: 10px;
 }
-.form-control{
+.blue-input-frame{
   font-size: 1.25em;
   border:2px solid #86BECE;
   border-radius: 5px;
   border-color: #86BECE;
-  max-width: 235px;
-  color: #D3D5D9;
+  background-color:#2D333F;
+  color: #D8DEE9;
 }
-input[type="text"],input[type="date"], textarea {
+#morning_date{
+  max-width: 235px;
+}
+.liten-ruta{
+  max-width: 135px;
+}
+
+option {
+  color: #D8DEE9;
   background-color: #2D333F;
+}
+
+#awake-slider{
+  max-width: 230px;
+}
+
+/* Tabell*/
+td {
+  color:#D8DEE9;
 }
