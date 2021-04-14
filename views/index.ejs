@@ -1,6 +1,15 @@
 <h1>DIN SÖMNDAGBOK</h1>
 
 <div class="row">
+
+
+  <!-- Veckans Tips -->
+  <div class="col col-md-5">
+      <%- include('_veckans_tips') %>
+  </div>
+
+
+  <!-- Inläggs streak -->
   <div class="col-sm-12 col-md-7">
       <input type="hidden" name="postsdata" id="hidden_postdata" value="<%= JSON.stringify(posts) %>">
       <h3 class="mb-4">Skapa nytt dagboksinlägg</h3>
@@ -8,27 +17,15 @@
       <%- include('_diary_form') %>
   </div>
 
-  <div class="col col-md-5">
-    <canvas id="sleepcanvas" width="80" height="50"></canvas>
-    <table class="table m-3">
-      <tr>
-        <td>Datum</td>
-        <td>Sänggång</td>
-        <td>Klev upp</td>
-        <td>Skattning</td>
-      </tr>
 
-      <% table.forEach( function(date){ %>
-        <tr>
-          <td><%= date[0] %></td>
-          <td><%= date[1] %></td>
-          <td><%= date[2] %></td>
-          <td><%= date[3] %></td>
-        </tr>
-      <% }); %>
-
-    </table>
-  </div>
 </div>
+<div class="row">
+  
+  <!-- Veckans Inlägg -->
+  <div class="col">
+      <%- include('_veckans_inlagg') %>
+  </div>
 
-<script type="text/javascript" src="/javascripts/sleepgraph.js"></script>
+
+
+</div>
