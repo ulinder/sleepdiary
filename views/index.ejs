@@ -1,31 +1,48 @@
-<h1>DIN SÖMNDAGBOK</h1>
-
-<div class="row">
-
-
-  <!-- Veckans Tips -->
-  <div class="col col-md-5">
-      <%- include('_veckans_tips') %>
-  </div>
-
-
-  <!-- Inläggs streak -->
-  <div class="col-sm-12 col-md-7">
-      <input type="hidden" name="postsdata" id="hidden_postdata" value="<%= JSON.stringify(posts) %>">
-      <h3 class="mb-4">Skapa nytt dagboksinlägg</h3>
-      <div class="message-div"></div>
-      <%- include('_diary_form') %>
-  </div>
-
-
-</div>
-<div class="row">
+<div class="container">
   
-  <!-- Veckans Inlägg -->
-  <div class="col">
-      <%- include('_veckans_inlagg') %>
-  </div>
 
+    <h1>DIN SÖMNDAGBOK</h1>
+
+    <div class="row">
+
+
+      <!-- Veckans Tips -->
+      <div class="col col-md-5">
+          <%- include('_veckans_tips') %>
+      </div>
+
+      <!-- Streaks -->
+      <div class="col col-md-5">
+          <%- include('_streaks') %>
+      </div>
+
+
+    </div>
+    <div class="row">
+        
+      <div class="col"></div>
+
+      <!-- Inläggs streak -->
+      <div class="col-sm-12 col-md-8">
+          <input type="hidden" name="postsdata" id="hidden_postdata" value="<%= JSON.stringify(posts) %>">
+          <h3 class="mb-4">Skapa nytt dagboksinlägg</h3>
+          <div class="message-div"></div>
+          <%- include('_diary_form') %>
+      </div>
+
+
+    </div>
+
+    <div class="row">
+      
+      <!-- Veckans Inlägg -->
+      <div class="col">
+          <%- include('_veckans_inlagg') %>
+      </div>
+
+
+
+    </div>
 
 
 </div>
