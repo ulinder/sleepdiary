@@ -28,10 +28,16 @@ a {
 
 h1, h2, h3, h4, h5{ /*Huvudrubrik: MIN SÖMNDAGBOK */
   font-family: "Frutiger Bold";
+  margin-bottom: 30px;
+  margin-top: 40px;
 }
 
+h1 {
+  color: #86BECE;
+}
 h3 {
   font-size: 1.44em;
+
 }
 
 
@@ -40,6 +46,7 @@ label {
   font-family:"Frutiger Roman" ;
   font-size: 1.25em;
   margin-bottom: 10px;
+
 }
 .blue-input-frame{
   font-size: 1.25em;
@@ -48,6 +55,13 @@ label {
   border-color: #86BECE;
   background-color:#2D333F;
   color: #D8DEE9;
+  align-items: center;
+  margin: auto;
+}
+
+.mb-4 {
+  text-align:center;
+
 }
 #morning_date{
   max-width: 235px;
