@@ -22,3 +22,10 @@ sqlite sleepdiary.sqlite
 
 # seeded client
 http://localhost:3001/39/123
+
+# WINDOWS INSTRUKTIONER
+
+OM node ligger i C:/node och sleepdiary ligger i C:/sleepdiary
+
+Starta dev server
+> server.bat
