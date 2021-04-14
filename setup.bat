@@ -1,3 +1,3 @@
 @ECHO OFF
 SET PATH=%PATH%;c:\node
-npm install
+START npm install
