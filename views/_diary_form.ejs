@@ -1,29 +1,21 @@
-<h3 class="mb-4">Skapa nytt dagboksinlägg</h3>
-<div class="message-div"></div>
-
-<form action="diaryposts" method="post">
+<form action="diaryposts" class="" method="post">
 
   <div class="mb-4 row">
     <div class="col">
       <label for="date">Morgonen efter sömnen som skattas</label>
-    </div>
-    <div class="col">
-      <input required=required type="date" id="morning_date" name="date" onchange="check_form();" value="<%= moment().format('YYYY-MM-DD') %>"  class="form-control">            
+      <input required=required type="date" class="form-control blue-input-frame" id="morning_date" name="date" onchange="check_form();" value="2021-04-12"  class="form-control">
     </div>
   </div>
 
   <div class="disabler">
-    
+
       <div class="mb-4 clockpicker row" data-autoclose="true">
         <div class="col">
           <label for="sleep_time">Tid jag gick i säng</label>
-        </div>
-
-        <div class="col">
-          <input type="text" class="form-control" name="down" placeholder="Klicka för att ange tid...">
+          <input type="text" class="form-control blue-input-frame liten-ruta"  name="down" placeholder="00:00">
           <span class="input-group-addon">
               <span class="glyphicon glyphicon-time"></span>
-          </span>              
+          </span>
         </div>
       </div>
 
@@ -31,34 +23,28 @@
         <label for="awake">Total tid jag låg vaken i sängen</label>
         <div class="row">
           <div class="col">
+            <input type="text" name="slider-target" class="blue-input-frame" id="awake-slider-target" value="0">
             <input required=required type="range" min=0 max=1080 step="10" name="awake" id="awake-slider" class="form-range" value=0>
-          </div>  
-          <div class="col">
-            <input type="text" name="slider-target" id="awake-slider-target" value="0">
           </div>
-          
+
+
         </div>
       </div>
 
       <div class="mb-4 clockpicker row" data-autoclose="true">
         <div class="col">
           <label for="sleep_time">Tid jag klev upp på morgonen</label>
-        </div>
-
-        <div class="col">
-          <input type="text" class="form-control" name="up" id="up" placeholder="Klicka för att ange tid...">
+          <input type="text" class="form-control blue-input-frame liten-ruta" name="up" id="up" placeholder="00:00">
           <span class="input-group-addon">
               <span class="glyphicon glyphicon-time"></span>
-          </span>              
+          </span>
         </div>
       </div>
 
       <div class="mb-4 row">
         <div class="col">
           <label for="rate">Skattad sömnkvalitét</label>
-        </div>
-        <div class="col">
-          <select name="rate" id="rate">  
+          <select name="rate" class="form-control blue-input-frame liten-ruta" id="rate">
             <option value="1">Dålig</option>
             <option value="2">Ganska dåligt</option>
             <option value="3" selected="">Medel</option>
