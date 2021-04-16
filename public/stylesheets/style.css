@@ -17,9 +17,15 @@
 }
 
 body {
-  padding: 50px;
+  padding: 16px;
   background-color: #2D333F;
   color: #D8DEE9;
+}
+
+@media (min-width: 600px) {
+  body {
+    padding: 50px;
+  }
 }
 
 a {
@@ -40,15 +46,22 @@ h3 {
 
 }
 
+/* Alla cards*/
+.card{
+  border-color: #4C566A;
+  background-color: #2D333F;
+  box-shadow: 0px 3px 10px #1E2128;
+}
+
 
 /* Skapa nytt dagboksinlägg*/
-label {
+.question-label {
   font-family:"Frutiger Roman" ;
   font-size: 1.25em;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 
 }
-.blue-input-frame{
+.blue-input-frame{ /* input-boxarna*/
   font-size: 1.25em;
   border:2px solid #86BECE;
   border-radius: 5px;
@@ -57,6 +70,7 @@ label {
   color: #D8DEE9;
   align-items: center;
   margin: auto;
+  text-align: center;
 }
 
 .mb-4 {
@@ -70,13 +84,22 @@ label {
   max-width: 135px;
 }
 
-option {
+option { /* Skattningsalternativ */
   color: #D8DEE9;
   background-color: #2D333F;
 }
 
 #awake-slider{
   max-width: 230px;
+}
+
+.linje-ny-dagbok /*linjer mellan frågorna */ {
+    border-top: 2px solid 4C566A;
+    width:70%;
+    margin: auto;
+    margin-bottom: 20px;
+    margin-top: 60px;
+
 }
 
 /* Tabell*/
