@@ -1,28 +1,39 @@
 <div class="container">
-  
+
 
     <h1>DIN SÖMNDAGBOK</h1>
 
+    <h3> Hej och välkommen tillbaka </h3>
+
     <div class="row">
 
 
-      <!-- Veckans Tips -->
-      <div class="col col-md-5">
+      <!-- Veckans Tips och Streaks-->
+
+      <div class="col-sm-12 col-md-5">
           <%- include('_veckans_tips') %>
       </div>
 
-      <!-- Streaks -->
-      <div class="col col-md-5">
-          <%- include('_streaks') %>
+      <!-- Streaks-->
+
+      <div class="col-sm-12 col-md-5">
+              <%- include('_streaks') %>
       </div>
 
-
     </div>
+
+
+
+
+
+
+
+
     <div class="row">
-        
+
       <div class="col"></div>
 
-      <!-- Inläggs streak -->
+      <!-- Nytt inlägg -->
       <div class="col-sm-12 col-md-8">
           <input type="hidden" name="postsdata" id="hidden_postdata" value="<%= JSON.stringify(posts) %>">
           <h3 class="mb-4">Skapa nytt dagboksinlägg</h3>
@@ -34,7 +45,7 @@
     </div>
 
     <div class="row">
-      
+
       <!-- Veckans Inlägg -->
       <div class="col">
           <%- include('_veckans_inlagg') %>

@@ -17,9 +17,12 @@
 }
 
 body {
-  padding: 50px;
   background-color: #2D333F;
   color: #D8DEE9;
+}
+
+@media (min-width: 600px) {
+
 }
 
 a {
@@ -28,26 +31,55 @@ a {
 
 h1, h2, h3, h4, h5{ /*Huvudrubrik: MIN SÖMNDAGBOK */
   font-family: "Frutiger Bold";
+  margin-bottom: 30px;
+  margin-top: 40px;
 }
 
+h1 {
+  color: #86BECE;
+}
 h3 {
   font-size: 1.44em;
+
 }
+
+/* Alla cards*/
+.card{
+  border-color: #4C566A;
+  background-color: #2D333F;
+  box-shadow: 0px 3px 10px #1E2128;
+}
+
 
 
 /* Skapa nytt dagboksinlägg*/
-label {
+
+input::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+
+.question-label {
   font-family:"Frutiger Roman" ;
   font-size: 1.25em;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+
 }
-.blue-input-frame{
+.blue-input-frame{ /* input-boxarna*/
   font-size: 1.25em;
   border:2px solid #86BECE;
   border-radius: 5px;
   border-color: #86BECE;
   background-color:#2D333F;
   color: #D8DEE9;
+  align-items: center;
+  margin: auto;
+  text-align: center;
+}
+
+.mb-4 {
+  text-align:center;
+
 }
 #morning_date{
   max-width: 235px;
@@ -56,7 +88,7 @@ label {
   max-width: 135px;
 }
 
-option {
+option { /* Skattningsalternativ */
   color: #D8DEE9;
   background-color: #2D333F;
 }
@@ -64,6 +96,79 @@ option {
 #awake-slider{
   max-width: 230px;
 }
+
+.linje-ny-dagbok /*linjer mellan frågorna */ {
+    border-top: 2px solid 4C566A;
+    width:70%;
+    margin: auto;
+    margin-bottom: 20px;
+    margin-top: 60px;
+}
+
+.flex-column-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.btn-spara /*Spara-knappen*/{
+  background-color: #86BECE;
+}
+
+/* STJÄRTNOR RATING*/
+.stars {
+  display:flex;
+  flex-direction:column;
+  align-items: center;
+}
+.rate {
+    height: 46px;
+    padding: 0 10px;
+}
+.rate:not(:checked) > input {
+  opacity: 0;
+  position: absolute;
+  left: -9999px;
+}
+.rate:not(:checked) > label {
+    float:right;
+    width:1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:50px;
+    color:#2D333F;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #E0DAA0;
+    text-shadow: 0 4px 4px #000;
+
+}
+.rate:not(:checked) > label:before {
+    content: '★ ';
+}
+.rate > input:checked ~ label {
+    color: #E0DAA0;
+    text-shadow: 0 4px 4px #000;
+}
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+    color: #E0DAA0;
+    -webkit-text-stroke-color: #E0DAA0;
+    text-shadow: 0 4px 4px #000;
+
+}
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+    color: #E0DAA0;
+    text-shadow: 0 4px 4px #000;
+
+}
+
+
+
 
 /* Tabell*/
 td {
