@@ -35,15 +35,23 @@ module.exports = router;
 var date_table = (dbresults) =>{
   if(dbresults.length == 0) return [];
   // create a table of dates between first and last post
+  // TABLE 
+  // date, down, up, rate, sleep_length, sleep_efficiency, awake_time
+  // 
+
   var first_date = dbresults[0].date, 
       last_date = dbresults[dbresults.length -1].date,
       current_date,
       table = [],
       found;
+  
   for (var i=0; i < 60; i++) {
+
       current_date = moment( dbresults[0].date ).add(i, 'days').format("YYYY-MM-DD");
+
       found = dbresults.find( (row)=> row.date == current_date);
-      found = found ? [current_date, found.down, found.up, found.rate] : [current_date, "","",""];
+      found = found ? 
+        [current_date, found.down, found.up, found.rate] : [current_date, "","","", "","",""];
 
       table.push( found );
       if(current_date == moment(last_date).format("YYYY-MM-DD")) break; 
