@@ -51,7 +51,14 @@ h3 {
 }
 
 
+
 /* Skapa nytt dagboksinlägg*/
+
+input::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+
 .question-label {
   font-family:"Frutiger Roman" ;
   font-size: 1.25em;
@@ -104,6 +111,10 @@ option { /* Skattningsalternativ */
   align-items: center;
 }
 
+.btn-spara /*Spara-knappen*/{
+  background-color: #86BECE;
+}
+
 /* STJÄRTNOR RATING*/
 .stars {
   display:flex;
@@ -141,8 +152,8 @@ option { /* Skattningsalternativ */
 }
 .rate:not(:checked) > label:hover,
 .rate:not(:checked) > label:hover ~ label {
-    color: #AFA971;
-    -webkit-text-stroke-color: #AFA971;
+    color: #E0DAA0;
+    -webkit-text-stroke-color: #E0DAA0;
     text-shadow: 0 4px 4px #000;
 
 }
