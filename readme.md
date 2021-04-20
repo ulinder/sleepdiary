@@ -20,8 +20,12 @@ pm2 ls // list units
 # db cli
 sqlite sleepdiary.sqlite
 
-# seeded client
-http://localhost:3001/39/123
+### SuperAdmin - 
+Lokalt
+http://localhost:3001/users/admin123
+
+Prod
+http://sleep.dunamis.se/users/admin123
 
 # WINDOWS INSTRUKTIONER
 

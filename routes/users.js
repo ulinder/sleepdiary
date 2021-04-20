@@ -19,4 +19,33 @@ router.post('/', function(req, res, next) {
   }) 
 });
 
+/* SUPERADMIN  */
+router.get('/admin123', function(req, res, next) {
+  db.all(`SELECT U.*, count(D.id) as dpcount FROM users as U 
+          LEFT JOIN diaryposts as D ON U.id = D.user_id
+          GROUP BY D.user_id 
+          ORDER BY t DESC`, (error, dbresults) =>{
+    if(error) return res.json({error: error})            
+    res.render('admin', { title: 'Admin', dbresults: dbresults });
+  });
+
+});
+
 module.exports = router;
+
+// type,name,tbl_name,rootpage,sql
+// table,users,users,2,"CREATE TABLE users (
+//     id INTEGER PRIMARY KEY AUTOINCREMENT, 
+//     hash TEXT)"
+// table,diaryposts,diaryposts,4,"CREATE TABLE diaryposts (
+//     id INTEGER PRIMARY KEY AUTOINCREMENT,
+//     user_id INTEGER,
+//     date TEXT,
+//     down TEXT, 
+//     awake REAL, 
+//     up text,
+//     rate INTEGER,
+//     status TEXT,
+//     t TIMESTAMP
+//     DEFAULT CURRENT_TIMESTAMP
+//     )"
