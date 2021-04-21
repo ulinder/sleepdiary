@@ -5,7 +5,7 @@ var db = require('../db.js');
 var moment = require('moment'); //.locale('sv');
 
 var date_table = (dbresults) =>{
-  if(dbresults.length == 0) return [];
+  if(!dbresults) return [];
   // create a table of dates between first and last post
   // TABLE 
   // date, down, up, rate, sleep_length, sleep_efficiency, awake_time

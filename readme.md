@@ -33,3 +33,22 @@ OM node ligger i C:/node och sleepdiary ligger i C:/sleepdiary
 
 Starta dev server
 > server.bat
+
+
+# moment(Number);
+Similar to new Date(Number), you can create a moment by passing an integer value 
+representing the number of milliseconds since the Unix Epoch (Jan 1 1970 12AM UTC).
+
+# UTS som moment-datum
+` var day = moment(1318781876406); `
+
+# Idag som UTS
+` console.log(Date.now()/3600000/24/365); `
+
+1360013296123/3600000/24/365 = 43,1257387152
+
+
+1. Formulär:
+    Skapa datum -> spara som UNIX timestamp
+2. Beräkna sömneffektivitet
+3. 

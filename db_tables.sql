@@ -5,7 +5,7 @@ table,users,users,2,"CREATE TABLE users (
 table,diaryposts,diaryposts,4,"CREATE TABLE diaryposts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER,
-    date TEXT,
+    date TEXT, 
     down TEXT, 
     awake REAL, 
     up text,
@@ -14,3 +14,4 @@ table,diaryposts,diaryposts,4,"CREATE TABLE diaryposts (
     t TIMESTAMP
     DEFAULT CURRENT_TIMESTAMP
     )"
+    
