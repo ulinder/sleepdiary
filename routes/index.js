@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var db = require('../db.js');
-var moment = require('moment')
+// var moment = require('../utils/moment')
+var moment = require('moment'); //.locale('sv');
 
 var date_table = (dbresults) =>{
   if(dbresults.length == 0) return [];
@@ -37,6 +38,7 @@ router.get('/', (req, res, next) => {
   console.log(req.baseUrl);
   db.all("SELECT * FROM diaryposts WHERE user_id = ? ORDER BY date ASC", [req.cookies.user], (error, dbresults) =>{
     res.render('index', { title: 'Sömndagboken', posts: dbresults, table: date_table(dbresults) });
+    // res.json({time: moment( Date.now() ).locale('sv').format('LLLL')})
   });
 });
 
