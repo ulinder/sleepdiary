@@ -91,6 +91,12 @@ h3 h2 {
   box-shadow: 0px 3px 10px #1E2128;
   margin-bottom: 20px;
 }
+.card-inlagg{
+  border-color: #4C566A;
+  background-color: #2D333F;
+  box-shadow: 0px 3px 10px #1E2128;
+  margin-bottom: 14px;
+}
 
 /*  Veckans-tips och streaks*/
 
@@ -270,6 +276,18 @@ option { /* Skattningsalternativ */
 
 }
 
+
+/* Veckans inlägg*/
+.inlagg {
+    font-family:"Frutiger Light";
+    font-size: 16px;
+}
+
+.inlagg-description {
+    font-family: "Frutiger Bold";
+    font-size: 16px;
+
+}
 
 
 
