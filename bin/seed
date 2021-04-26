@@ -16,7 +16,7 @@ db.serialize( function(){
   //     console.log(err, this.lastID);
   //   });
 
-  // db.run(`CREATE TABLE IF NOT EXISTS diaryposts (
+  // db.run(`CREATE TABLE IF NOT EXISTS posts (
   //   id INTEGER PRIMARY KEY AUTOINCREMENT,
   //   user_id INTEGER,
   //   date TEXT,
@@ -35,7 +35,7 @@ db.serialize( function(){
       rnd_rate;
 
   // Clear previous data:
-  db.run("DELETE FROM users WHERE 1; DELETE FROM diaryposts WHERE 1;");
+  db.run("DELETE FROM users WHERE 1; DELETE FROM posts WHERE 1;");
 
   db.run("INSERT INTO users(hash) VALUES (?)", ["123"], function(err){
     var lastID = this.lastID;
@@ -44,7 +44,7 @@ db.serialize( function(){
     console.log(`Login link: /${lastID}/123`);
     
     stmt = db.prepare(
-      `INSERT INTO diaryposts 
+      `INSERT INTO posts 
       (user_id, date, down, up, awake, rate) 
       VALUES (?,?,?,?,?,?)`);
     for (var i = 0; i < 35; i++) {

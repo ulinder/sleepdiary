@@ -5,7 +5,7 @@ var db = require('../db.js');
 var moment = require('moment'); //.locale('sv');
 
 var date_table = (dbresults) =>{
-  if(!dbresults || dbresults.length === 0) return [];
+  if(!dbresults || dbresults.length == 0) return [];
   // create a table of dates between first and last post
   // TABLE
   // date, down, up, rate, sleep_length, sleep_efficiency, awake_time
@@ -23,7 +23,7 @@ var date_table = (dbresults) =>{
 
       found = dbresults.find( (row)=> row.date == current_date);
       found = found ?
-        [current_date, found.down, found.up, found.rate] : [current_date, "","","", "","",""];
+        [current_date, found.down, found.up, found.rate] : [current_date,"","","","","",""];
 
       table.push( found );
       if(current_date == moment(last_date).format("YYYY-MM-DD")) break;
@@ -36,7 +36,7 @@ var date_table = (dbresults) =>{
 /* GET home page. */
 router.get('/', (req, res, next) => {
   console.log(req.baseUrl);
-  db.all("SELECT * FROM diaryposts WHERE user_id = ? ORDER BY date ASC", [req.cookies.user], (error, dbresults) =>{
+  db.all("SELECT * FROM posts WHERE user_id = ? ORDER BY date ASC", [req.cookies.user], (error, dbresults) =>{
     res.render('index', { title: 'Sömndagboken', posts: dbresults, table: date_table(dbresults) });
     // res.json({time: moment( Date.now() ).locale('sv').format('LLLL')})
   });
@@ -47,6 +47,7 @@ router.get('/', (req, res, next) => {
 router.get('/:id/:hash', (req, res, next) => {
 
     db.get("SELECT * FROM users WHERE id=?", [req.params.id], (err, user) =>{
+      if(err){ console.log(err); }
       console.log("User: ", user);
       if(user && user.hash == req.params.hash){
         res.cookie('user', req.params.id);
@@ -58,7 +59,5 @@ router.get('/:id/:hash', (req, res, next) => {
 
     });
 });
-
-
 
 module.exports = router;

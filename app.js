@@ -6,7 +6,7 @@ var logger = require('morgan');
 const expressLayouts = require('express-ejs-layouts')
 
 
-var diarypostsRouter = require('./routes/diaryposts');
+var postsRouter = require('./routes/posts');
 var usersRouter = require('./routes/users');
 var indexRouter = require('./routes/index');
 
@@ -26,7 +26,7 @@ app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static( 'public'));
 
-app.use('/diaryposts', diarypostsRouter);
+app.use('/posts', postsRouter);
 app.use('/users', usersRouter);
 app.use('/', indexRouter);
 

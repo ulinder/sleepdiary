@@ -2,12 +2,12 @@
 <div class="card">
     <div class="card-body">
 
-<form action="diaryposts" class="" method="post">
+<form action="posts" class="" method="post">
 
   <div class="mb-4 row">
     <div class="col">
       <label class="question-label" for="date">Datum när jag lade mig i sängen</label>
-      <input required=required type="date" class="form-control blue-input-frame" id="morning_date" name="down_down" onchange="check_form();" value="2021-04-12"  class="form-control">
+      <input required=required type="date" class="form-control blue-input-frame" id="morning_date" name="down_date" onchange="check_form();" value="<%= moment().subtract(1, 'days').format("YYYY-MM-DD") %>"  class="form-control">
     </div>
   </div>
 
@@ -41,7 +41,7 @@
   <div class="mb-4 row">
     <div class="col">
       <label class="question-label" for="date">Datum när jag klev upp ur sängen</label>
-      <input required=required type="date" class="form-control blue-input-frame" id="morning_date" name="up_date" onchange="check_form();" value=""  class="form-control">
+      <input required=required type="date" class="form-control blue-input-frame" id="morning_date" name="up_date" onchange="check_form();" value="<%= moment().format("YYYY-MM-DD") %>"  class="form-control">
     </div>
   </div>
 
@@ -74,13 +74,7 @@
               <label for="star1" title="text">1 star</label>
          </div>
 
-        <!--  <select name="rate" class="form-control blue-input-frame liten-ruta" id="rate">
-            <option value="1">Dålig</option>
-            <option value="2">Ganska dåligt</option>
-            <option value="3" selected="">Medel</option>
-            <option value="4">Bra</option>
-            <option value="5">Väldigt bra</option>
-          </select> -->
+
         </div>
       </div>
 <hr class="linje-ny-dagbok">

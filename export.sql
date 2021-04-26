@@ -1,1 +1,0 @@
-SELECT * FROM sqlite_master WHERE type='table' and tbl_name not like 'sqlite_%';

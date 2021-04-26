@@ -22,7 +22,7 @@ router.post('/', function(req, res, next) {
 /* SUPERADMIN  */
 router.get('/admin123', function(req, res, next) {
   db.all(`SELECT U.*, count(D.id) as dpcount FROM users as U 
-          LEFT JOIN diaryposts as D ON U.id = D.user_id
+          LEFT JOIN posts as D ON U.id = D.user_id
           GROUP BY D.user_id 
           ORDER BY t DESC`, (error, dbresults) =>{
     if(error) return res.json({error: error})            
@@ -37,7 +37,7 @@ module.exports = router;
 // table,users,users,2,"CREATE TABLE users (
 //     id INTEGER PRIMARY KEY AUTOINCREMENT, 
 //     hash TEXT)"
-// table,diaryposts,diaryposts,4,"CREATE TABLE diaryposts (
+// table,posts,posts,4,"CREATE TABLE posts (
 //     id INTEGER PRIMARY KEY AUTOINCREMENT,
 //     user_id INTEGER,
 //     date TEXT,

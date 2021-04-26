@@ -34,6 +34,12 @@ OM node ligger i C:/node och sleepdiary ligger i C:/sleepdiary
 Starta dev server
 > server.bat
 
+# describe tables
+Gives all tables
+    db > SELECT name FROM sqlite_master WHERE type='table' and tbl_name not like 'sqlite_%';
+Descsribe each table:
+    db > pragma table_info('posts');
+
 
 # moment(Number);
 Similar to new Date(Number), you can create a moment by passing an integer value 
