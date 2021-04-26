@@ -6,7 +6,7 @@ var utils = require('../utils');
 
 /* NEW user */
 router.get('/', function(req, res, next) {
-  res.render('new_user', {link:""} );
+  res.render('new_user', {link:"", title: "Ny dagbok"} );
 });
 
 /* GET users listing. */
@@ -14,7 +14,7 @@ router.post('/', function(req, res, next) {
   var hash = md5(Date.now()).slice(0,12);
   db.run(`INSERT INTO users (hash) VALUES (?)`,[hash], function(err){
     
-    res.render('new_user', { link: utils.link_to(req, `${this.lastID}/${hash}`) });
+    res.render('new_user', { link: utils.link_to(req, `${this.lastID}/${hash}`), title: "Ny dagbok" });
     
   }) 
 });

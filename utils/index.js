@@ -1,10 +1,9 @@
 module.exports = {
-  link_to: link_to
-} 
-
-var link_to = (req, path) => {
+  link_to: function(req, path)
+    {
     return `${req.protocol}://${req.get('host')}/${path}`
-}
+    }
+} 
 
 // Convert time going to bed to MINUTES SINCE START OF DAY 
 // Asuming that to go to bed before getting up in the morning
