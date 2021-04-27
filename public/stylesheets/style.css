@@ -138,8 +138,8 @@ input::-webkit-calendar-picker-indicator {
   font-family:"Frutiger Roman" ;
   font-size: 1.25em;
   margin-bottom: 15px;
-
 }
+
 .blue-input-frame{ /* input-boxarna*/
   font-size: 1.25em;
   border:2px solid #86BECE;
@@ -149,8 +149,38 @@ input::-webkit-calendar-picker-indicator {
   color: #D8DEE9;
   align-items: center;
   margin: auto;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left:10px;
+  padding-right:20px;
   text-align: center;
 }
+
+.info {
+  font-size:16px;
+  border:2px solid #86BECE;
+  width:30px;
+  height: 30px;
+  border-radius: 50%;
+  padding-bottom:5px;
+  border-color: #86BECE;
+  background-color:#2D333F;
+  color: #D8DEE9;
+  align-items: center;
+  text-align: center;
+  margin-right: 10px;
+}
+
+.info:hover {
+  background-color: #66A1B2;
+  border: none;
+  color: #ffff;
+}
+.tid-dropdown {
+    display:flex;
+    justify-content:space-evenly;
+}
+
 
 .mb-4 {
   text-align:center;
@@ -171,6 +201,7 @@ option { /* Skattningsalternativ */
 #awake-slider{
   max-width: 230px;
 }
+
 
 .linje-ny-dagbok /*linjer mellan frågorna */ {
     border-top: 2px solid #4C566A;

@@ -39,18 +39,17 @@ const check_form = function() {
   // CHECK IF SELECTED DATE WAS REGISTRED ALREADY
   if( $('#morning_date').length && $('#hidden_postdata').length ){
 
-    var post_array = JSON.parse($('#hidden_postdata').val());
-    var set_date_find = post_array.find(el => el.date == $('#morning_date').val());
-    if(set_date_find){ 
-      console.log(set_date_find); 
-      $('.disabler').hide();
-      $('.message-div').append("<strong>Denna dag finns sparad sedan innan</strong>")
+    // var post_array = JSON.parse($('#hidden_postdata').val());
+    // var set_date_find = post_array.find(el => el.date == $('#morning_date').val());
+    // if(set_date_find){
+    //   console.log(set_date_find);
+    //   $('.disabler').hide();
+    //   $('.message-div').append("<strong>Denna dag finns sparad sedan innan</strong>")
+    //
+    // } else {
+    //   $('.disabler').show();
+    //   $('.message-div').empty();
 
-    } else {
-      $('.disabler').show();
-      $('.message-div').empty();
-      
-    }
+    //}
   }
 }
-
