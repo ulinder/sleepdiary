@@ -137,7 +137,7 @@ input::-webkit-calendar-picker-indicator {
 .question-label {
   font-family:"Frutiger Roman" ;
   font-size: 1.25em;
-  margin-bottom: 15px;
+  margin-bottom: 0px;
 }
 
 .blue-input-frame{ /* input-boxarna*/
@@ -168,8 +168,9 @@ input::-webkit-calendar-picker-indicator {
   color: #D8DEE9;
   align-items: center;
   text-align: center;
-  margin-right: 10px;
+  margin-right: 0px;
 }
+
 
 .info:hover {
   background-color: #66A1B2;

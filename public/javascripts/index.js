@@ -2,6 +2,10 @@ $(document).ready( function(){
 
   $('.clockpicker').clockpicker();
 
+  var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl)
+  })
   // $('#awake-slider').on('input', function(){ // Wake slider change
   //   let awake = $('#awake-slider').val();
   //   let mess = "";
