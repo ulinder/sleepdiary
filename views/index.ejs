@@ -1,5 +1,4 @@
-<div class="container" id="index_container" data-posts="<%= JSON.stringify(data_table) %>">
-
+<div class="container">
 
     <div class="row">
       <div class="col-sm-12">
@@ -7,21 +6,21 @@
         <hr class="linje-rubrik">
 
         <p class="hello" > Hej och välkommen tillbaka </p>
-        </div>
+      </div>
     </div>
 
     <!--                      Översta raden                   -->
-    <div class="row collapse">
+    <div class="row">
 
       <!-- Veckans Tips och Streaks-->
       <div class="col-sm">
-          <%- include('_veckans_tips') %>
+        <%- include('_veckans_tips') %>
       </div>
 
 
       <!-- Streaks-->
       <div class="col-sm">
-              <%- include('_streaks') %>
+        <%- include('_streaks') %>
       </div>
 
     </div>
@@ -31,11 +30,10 @@
       
       <!-- Nytt inlägg -->
       <div class="col-md-6 offset-md-3">
-          <h3 class="mb-4">Skapa ny sömnregistrering</h3>
-          <div class="message-div"></div>
-          <%- include('_diary_form') %>
+        <h3 class="mb-4">Skapa ny sömnregistrering</h3>
+        <div class="message-div"></div>
+        <%- include('_diary_form') %>
       </div>
-
 
     </div>
 
@@ -45,8 +43,6 @@
       <div class="col">
           <%- include('_veckans_inlagg') %>
       </div>
-
-
 
     </div>
 

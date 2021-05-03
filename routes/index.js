@@ -4,6 +4,17 @@ var db = require('../db.js');
 // var moment = require('../utils/moment')
 var moment = require('moment'); //.locale('sv');
 
+var seconds_to_text = (time) => {
+    var hrs = ~~(time / 3600);
+    var mins = ~~((time % 3600) / 60);
+    var ret = "";
+    if (hrs > 0) {
+        ret += "" + hrs + "h ";
+    }
+    ret += "" + mins + "min";   
+    return ret;
+}
+
 var data_table = (dbresults) =>{
   if(!dbresults || dbresults.length == 0) return [];
   
@@ -17,7 +28,7 @@ var data_table = (dbresults) =>{
 
   for (var i=0; i < 60; i++) {
       this_down_date = moment(first_date_str).add(i, 'days').format("YYYY-MM-DD").toString();
-      console.log("This down date: ", this_down_date);
+      
 
       if( moment(dbresults[0].down, "X").format("YYYY-MM-DD") == this_down_date){
         found = dbresults.shift();
@@ -26,12 +37,14 @@ var data_table = (dbresults) =>{
         table.push( {
                   week: moment(this_down_date).format("ww"),
                   day: this_down_date, 
+                  show: true,
                   time_to_bed: moment(found.down, "X").format("YYYY-MM-DD HH:MM"), 
                   time_up_from_bed: moment(found.up, "X").format("YYYY-MM-DD HH:MM"), 
-                  seconds_in_bed: seconds_in_bed,
+                  seconds_in_bed: seconds_to_text(seconds_in_bed),
                   sleep_rate: found.rate,
-                  seconds_awake: found.awake,
-                  sleep_quality: ( seconds_asleep/seconds_in_bed*100 ).toString().split(".")[0]
+                  seconds_awake: seconds_to_text(found.awake),
+                  seconds_asleep: seconds_to_text(seconds_asleep),
+                  sleep_efficiency: ( seconds_asleep/seconds_in_bed*100 ).toString().split(".")[0]
                   } );
       } else {
         table.push( {day: this_down_date } );        
@@ -48,12 +61,12 @@ var data_table = (dbresults) =>{
   return table
 }
 
-// var meta_info = (dbresults) => {
-//   return {
-//     min_week: moment(dbresults[0].down, "X").format("ww"),
-//     max_week: moment(dbresults[ dbresults.lastIndexOf() ].down, "X").format("ww")
-//   }
-// }
+var meta_info = (dataTable) => { 
+  return {
+    min_week: dataTable[0].week
+    // max_week: dataTable[ dataTable.lastIndexOf() ].week
+  }
+}
 
 /* GET home page. */
 router.get('/', (req, res, next) => {
@@ -63,7 +76,7 @@ router.get('/', (req, res, next) => {
   db.all("SELECT * FROM posts WHERE user_id = ? ORDER BY down ASC", [req.cookies.user], (error, dbresults) =>{
     if(error) console.log(error);
     dataTable = data_table(dbresults);
-    res.render('index', { title: 'Sömndagboken', data_table: dataTable });
+    res.render('index', { title: 'Sömndagboken', data_table: dataTable, meta: meta_info(dataTable) });
     // res.json({ posts_table: data_table })
   });
 });
@@ -78,7 +91,7 @@ router.get('/:id/:hash', (req, res, next) => {
         res.cookie('user_hash', req.params.hash);
         res.redirect('/');
       } else {
-        res.render('401')
+        res.render('401', {title: "Ej behörig"})
       }
 
     });
