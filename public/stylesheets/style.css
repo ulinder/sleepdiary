@@ -88,14 +88,23 @@ h3 h2 {
 .card{
   border-color: #4C566A;
   background-color: #2D333F;
+
+}
+.card-background{
   box-shadow: 0px 3px 10px #1E2128;
   margin-bottom: 20px;
 }
+
 .card-inlagg{
   border-color: #4C566A;
   background-color: #2D333F;
   box-shadow: 0px 3px 10px #1E2128;
   margin-bottom: 14px;
+}
+
+.infocard { /* Inforutorna */
+    width: 80%;
+    margin: 0 auto;
 }
 
 /*  Veckans-tips och streaks*/
