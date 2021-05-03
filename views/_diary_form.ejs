@@ -6,7 +6,9 @@
 
   <div class="mb-4 row">
     <div class="col">
+      <button type="button" class=" info">!</button>
       <label class="question-label" for="date">Datum när jag lade mig i sängen</label>
+
       <input required=required type="date" class="form-control blue-input-frame" id="morning_date" name="down_date" onchange="check_form();" value="<%= moment().subtract(1, 'days').format("YYYY-MM-DD") %>"  class="form-control">
     </div>
   </div>
@@ -18,6 +20,7 @@
 
       <div class="mb-4 clockpicker input-group row" data-autoclose="true">
         <div class="col">
+          <button type="button" class=" info">!</button>
           <label class="question-label" for="sleep_time">Klockslag jag lade mig i sängen</label>
           <input type="text" class="form-control blue-input-frame liten-ruta"  name="down_time" placeholder="00:00">
           <span class="input-group-addon">
@@ -28,18 +31,59 @@
 <hr class="linje-ny-dagbok">
 
       <div class="mb-4 row">
-        <div class="col flex-column-center">
-        <label class="question-label" for="awake">Total tid jag låg vaken i sängen</label>
+        <div class="col ">
+            <button type="button" class=" info">!</button>
 
-            <input type="text" name="slider-target" class="blue-input-frame" id="awake-slider-target" value="0">
+
+
+            <label class="question-label flex-column-center" for="awake">Total tid jag låg vaken i sängen</label>
+
+          <!--  <input type="text" name="slider-target" class="blue-input-frame" id="awake-slider-target" value="0">
             <input required=required type="range" min=0 max=1080 step="10" name="awake" id="awake-slider" class="form-range" value=0>
+            -->
 
+          </div>
         </div>
-      </div>
+
+        <div class="mb-4 row">
+              <div class="tid-dropdown">
+                      <div>
+                      <select class=" blue-input-frame " aria-label="Default select example">
+                        <option selected>0 h</option>
+                        <option value="60">1 h</option>
+                        <option value="120">2 h</option>
+                        <option value="180">3 h</option>
+                        <option value="240">4 h</option>
+                        <option value="300">5 h</option>
+                        <option value="360">6 h</option>
+                        <option value="420">7 h</option>
+                        <option value="480">8 h</option>
+                        <option value="540">9 h</option>
+                        <option value="600">10+ h</option>
+                      </select>
+                      </div>
+                      <div>
+                      <select class=" blue-input-frame " aria-label="Default select example">
+                        <option selected>0 min</option>
+                        <option value="10">10 min</option>
+                        <option value="20">20 min</option>
+                        <option value="30">30 min</option>
+                        <option value="40">40 min</option>
+                        <option value="50">50 min</option>
+                      </select>
+                      </div>
+
+                </div>
+        </div>
+
+
+
+
 <hr class="linje-ny-dagbok">
 
   <div class="mb-4 row">
     <div class="col">
+      <button type="button" class=" info">!</button>
       <label class="question-label" for="date">Datum när jag klev upp ur sängen</label>
       <input required=required type="date" class="form-control blue-input-frame" id="morning_date" name="up_date" onchange="check_form();" value="<%= moment().format("YYYY-MM-DD") %>"  class="form-control">
     </div>
@@ -49,6 +93,7 @@
 
       <div class="mb-4 clockpicker row" data-autoclose="true">
         <div class="col">
+          <button type="button" class=" info">!</button>
           <label class="question-label" for="sleep_time">Klockslag jag klev upp ur sängen</label>
           <input type="text" class="form-control blue-input-frame liten-ruta" name="up_time" id="up" placeholder="00:00">
           <span class="input-group-addon">
@@ -56,10 +101,12 @@
           </span>
         </div>
       </div>
+
 <hr class="linje-ny-dagbok">
 
       <div class="mb-4 row">
         <div class="col stars">
+          <button type="button" class=" info">!</button>
           <label class="question-label" for="rate">Skattad sömnkvalitét</label>
           <div class="rate">
               <input type="radio" id="star5" name="rate" value="5" />
