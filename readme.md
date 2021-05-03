@@ -8,7 +8,7 @@ Varje länk är en unik ingång till en sömndagbok. Behandlare och patient anv�
 
 ## Teknisk info
 NODE/EXPRESS/SQLITE3
-
+  
 Setting up 
 starting app in dev-mode using nodemon
 nodemon DEBUG=myapp:* npm start
@@ -24,7 +24,7 @@ sqlite sleepdiary.sqlite
 Lokalt
 http://localhost:3001/users/admin123
 
-Prod
+Prod 
 http://sleep.dunamis.se/users/admin123
 
 # WINDOWS INSTRUKTIONER

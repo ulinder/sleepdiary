@@ -4,48 +4,72 @@ var db = require('../db.js');
 // var moment = require('../utils/moment')
 var moment = require('moment'); //.locale('sv');
 
-var date_table = (dbresults) =>{
+var data_table = (dbresults) =>{
   if(!dbresults || dbresults.length == 0) return [];
-  // create a table of dates between first and last post
-  // TABLE
-  // date, down, up, rate, sleep_length, sleep_efficiency, awake_time
-  //
   
-  var first_date = dbresults[0].date,
-      last_date = dbresults[dbresults.length -1].date,
-      current_date,
+  var first_date_str = moment( dbresults[0].down, "X" ).format("YYYY-MM-DD").toString(),
+      this_down_date,
       table = [],
-      found;
+      found,
+      seconds_in_bed,
+      seconds_asleep,
+      raw_table;
 
   for (var i=0; i < 60; i++) {
+      this_down_date = moment(first_date_str).add(i, 'days').format("YYYY-MM-DD").toString();
+      console.log("This down date: ", this_down_date);
 
-      current_date = moment( dbresults[0].date ).add(i, 'days').format("YYYY-MM-DD");
-
-      found = dbresults.find( (row)=> row.date == current_date);
-      found = found ?
-        [current_date, found.down, found.up, found.rate] : [current_date,"","","","","",""];
-
-      table.push( found );
-      if(current_date == moment(last_date).format("YYYY-MM-DD")) break;
+      if( moment(dbresults[0].down, "X").format("YYYY-MM-DD") == this_down_date){
+        found = dbresults.shift();
+        seconds_in_bed = found.up - found.down;
+        seconds_asleep = seconds_in_bed - found.awake
+        table.push( {
+                  week: moment(this_down_date).format("ww"),
+                  day: this_down_date, 
+                  time_to_bed: moment(found.down, "X").format("YYYY-MM-DD HH:MM"), 
+                  time_up_from_bed: moment(found.up, "X").format("YYYY-MM-DD HH:MM"), 
+                  seconds_in_bed: seconds_in_bed,
+                  sleep_rate: found.rate,
+                  seconds_awake: found.awake,
+                  sleep_quality: ( seconds_asleep/seconds_in_bed*100 ).toString().split(".")[0]
+                  } );
+      } else {
+        table.push( {day: this_down_date } );        
+      }
+      if(dbresults.length === 0) break;
   }
-  console.log(table);
-  return table;
+
+  raw_table = dbresults.map( (row)=>{
+    row.up = moment(row.up, "X").toString();
+    row.down = moment(row.down, "X").toString();
+    return row;
+  });
+
+  return table
 }
 
+// var meta_info = (dbresults) => {
+//   return {
+//     min_week: moment(dbresults[0].down, "X").format("ww"),
+//     max_week: moment(dbresults[ dbresults.lastIndexOf() ].down, "X").format("ww")
+//   }
+// }
 
 /* GET home page. */
 router.get('/', (req, res, next) => {
-  console.log(req.baseUrl);
-  db.all("SELECT * FROM posts WHERE user_id = ? ORDER BY date ASC", [req.cookies.user], (error, dbresults) =>{
-    res.render('index', { title: 'Sömndagboken', posts: dbresults, table: date_table(dbresults) });
-    // res.json({time: moment( Date.now() ).locale('sv').format('LLLL')})
+
+  if(!req.cookies.user) return res.render('401')
+
+  db.all("SELECT * FROM posts WHERE user_id = ? ORDER BY down ASC", [req.cookies.user], (error, dbresults) =>{
+    if(error) console.log(error);
+    dataTable = data_table(dbresults);
+    res.render('index', { title: 'Sömndagboken', data_table: dataTable });
+    // res.json({ posts_table: data_table })
   });
 });
 
-
 /* HANDLE login */
 router.get('/:id/:hash', (req, res, next) => {
-
     db.get("SELECT * FROM users WHERE id=?", [req.params.id], (err, user) =>{
       if(err){ console.log(err); }
       console.log("User: ", user);

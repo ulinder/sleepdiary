@@ -13,9 +13,7 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next) {
   var hash = md5(Date.now()).slice(0,12);
   db.run(`INSERT INTO users (hash) VALUES (?)`,[hash], function(err){
-    
     res.render('new_user', { link: utils.link_to(req, `${this.lastID}/${hash}`), title: "Ny dagbok" });
-    
   }) 
 });
 

@@ -1,72 +1,60 @@
 #!/usr/bin/env node
 // SEED DB
+var db = require('../db.js');
+var m = require('moment');
+
 function rnd(min, max) {
-    return String( (Math.random() * (max - min) + min).toFixed(0) );
+ return String( (Math.random() * (max - min) + min).toFixed(0) );
 }
 
-var db = require('../db.js');
-var moment = require('moment');
+function rnd_date_time_x_format(){ // return a night or morning date
+  
+}
 
 db.serialize( function(){
 
-  // db.run(`CREATE TABLE IF NOT EXISTS users (
-  //   id INTEGER PRIMARY KEY AUTOINCREMENT, 
-  //   hash TEXT)`,
-  //   (err)=>{
-  //     console.log(err, this.lastID);
-  //   });
 
-  // db.run(`CREATE TABLE IF NOT EXISTS posts (
-  //   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  //   user_id INTEGER,
-  //   date TEXT,
-  //   down TEXT, 
-  //   awake REAL, 
-  //   up text,
-  //   rate INTEGER,
-  //   status TEXT,
-  //   t TIMESTAMP
-  //   DEFAULT CURRENT_TIMESTAMP
-
-  var rel_date,
-      rnd_down, 
+  var sql,
+      rel_date,
+      today_date = m().format("YYYY-MM-DD"),
+      rnd_down_time, 
+      rnd_down_date, 
       rnd_up, 
+      rnd_up_date, 
       rnd_awake, 
       rnd_rate;
 
   // Clear previous data:
   db.run("DELETE FROM users WHERE 1; DELETE FROM posts WHERE 1;");
 
-  db.run("INSERT INTO users(hash) VALUES (?)", ["123"], function(err){
+  db.run("INSERT INTO users (hash) VALUES (?)", ["123"], function(err){
     var lastID = this.lastID;
     console.log("User id:", lastID);
     console.log("User hash: 123");
     console.log(`Login link: /${lastID}/123`);
     
-    stmt = db.prepare(
-      `INSERT INTO posts 
-      (user_id, date, down, up, awake, rate) 
-      VALUES (?,?,?,?,?,?)`);
-    for (var i = 0; i < 35; i++) {
-        rnd_down    = "21:" + rnd(0,59);
-        rnd_up      = "09:" + rnd(0,59);
-        rnd_awake   = rnd(0,200);
-        rnd_rate    = rnd(1,5);
-        rel_date    = moment( Date.now() ).subtract(i, 'days').format("YYYY-MM-DD");
-        if(rnd(0,1) == 1) stmt.run([ // randomly skip days
+    stmt = db.prepare(`
+    INSERT INTO posts 
+    (user_id, down, up, awake, rate) 
+     VALUES (?,?,?,?,?)`); 
+
+    for (var i = 0; i < 35; i++) { // Create a series of days backwards in time
+        rnd_awake      = rnd(300,7000); 
+        rnd_down_time  = rnd(21,23) + ":" + rnd(10,59); 
+        rnd_up_time    = "0" + rnd(6,9) + ":" + rnd(10,59); 
+        rnd_rate       = rnd(1,5);
+        date_down      = m().subtract(i+1, 'days').format("YYYY-MM-DD").toString(); 
+        date_up        = m().subtract(i, 'days').format("YYYY-MM-DD").toString(); 
+
+
+        if(rnd(0,1) == 1) stmt.run([ // randomly skip days 
             lastID, 
-            rel_date, 
-            rnd_down, 
-            rnd_up, 
+            m(`${date_down} ${rnd_down_time}`).format("X"), 
+            m(`${date_up} ${rnd_up_time}`).format("X"), 
             Number(rnd_awake), 
             Number(rnd_rate) 
           ]);
         }
-    
-    console.log(rnd_down, 
-                rnd_up, 
-                rnd_awake, 
-                rnd_rate);
 
     stmt.finalize();
     db.close(); 
@@ -74,3 +62,23 @@ db.serialize( function(){
 
 });
 
+
+// ┌─────────┬─────────┐
+// │ (index) │  name   │
+// ├─────────┼─────────┤
+// │    0    │ 'users' │
+// │    1    │ 'posts' │
+// └─────────┴─────────┘
+//  db > pragma table_info('posts');
+// ┌─────────┬─────┬───────────┬─────────────┬─────────┬─────────────────────┬────┐
+// │ (index) │ cid │   name    │    type     │ notnull │     dflt_value      │ pk │
+// ├─────────┼─────┼───────────┼─────────────┼─────────┼─────────────────────┼────┤
+// │    0    │  0  │   'id'    │  'INTEGER'  │    0    │        null         │ 1  │
+// │    1    │  1  │ 'user_id' │  'INTEGER'  │    0    │        null         │ 0  │
+// │    2    │  2  │  'down'   │  'INTEGER'  │    0    │        null         │ 0  │
+// │    3    │  3  │  'awake'  │  'INTEGER'  │    0    │        null         │ 0  │
+// │    4    │  4  │   'up'    │  'INTEGER'  │    0    │        null         │ 0  │
+// │    5    │  5  │  'rate'   │  'INTEGER'  │    0    │        null         │ 0  │
+// │    6    │  6  │ 'status'  │  'INTEGER'  │    0    │        null         │ 0  │
+// │    7    │  7  │    't'    │ 'TIMESTAMP' │    0    │ 'CURRENT_TIMESTAMP' │ 0  │
+// └─────────┴─────┴───────────┴─────────────┴─────────┴─────────────────────┴────┘
