@@ -273,6 +273,8 @@ option { /* Skattningsalternativ */
   display:flex;
   flex-direction:column;
   align-items: center;
+  color: #E0DAA0;
+  font-size:20px;
 }
 
 .rate {
@@ -323,6 +325,38 @@ option { /* Skattningsalternativ */
 
 
 /* Veckans inlägg*/
+.btn-redigera {
+  background-color: #86BECE;
+  border: none;
+  color: #2F3032;
+  border-radius: 26px;
+  padding: 12px 18px;
+  margin-left: 0px;
+
+  font-size: 16px;
+  font-weight: bold;
+  box-shadow: 0px 3px 10px #1E2128;
+  font-family:"Frutiger Roman";
+}
+
+.btn-redigera:hover {
+  background-color: #66A1B2;
+  border: none;
+  color: #ffff;
+}
+
+.kortinnehall-knapp {
+  width:50px;
+  display: flex;
+
+}
+
+.fa-chevron-down {
+  transform: rotate(180deg);
+}
+
+
+
 .inlagg {
     font-family:"Frutiger Light";
     font-size: 16px;
@@ -341,7 +375,16 @@ option { /* Skattningsalternativ */
 .flex-kolumn {
   display: flex;
   flex-direction: column;
-  width: 210px;
+
+}
+
+.flex-kolumn-content {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom:10px;
+
 }
 
 
@@ -357,13 +400,9 @@ option { /* Skattningsalternativ */
   flex-direction: row;
   justify-content: space-between;
   margin-bottom: 10px;
+  flex-wrap:wrap;
 }
 
-.kortinnehall-knapp {
-  width:50px;
-  display: flex;
-  align-items: center;
-}
 
 
 
