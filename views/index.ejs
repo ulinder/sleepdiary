@@ -26,7 +26,7 @@
     </div>
 
 
-    <div class="row"> <!-- collapse -->
+    <div id="form_row" class="row collapse"> <!-- collapse -->
 
       <!-- Nytt inlägg -->
       <div class="col-md-6 offset-md-3">
@@ -38,13 +38,30 @@
     </div>
 
     <div class="row">
-
       <!-- Veckans Inlägg -->
-      <div class="col">
-          <%- include('_veckans_inlagg') %>
+      <div class="col" id="col-for-posts">       
       </div>
 
+      <div class="col collapse" id="col-for-posts-table">       
+        <table id="table-all-posts">
+          <thead>
+          <tr>
+            <th>Vecka</th>
+            <th>Tid: sänggång</th>
+            <th>Tid: klev upp</th>
+            <th>Tid: vaken</th>
+            <th>Sömneffektivitet</th>
+            <th>Skattning</th>
+          </tr>
+          </thead>
+          <tbody>
+            
+          </tbody>
+        </table>
+      </div>
     </div>
 
 
 </div> <!-- / CONTAINER -->
+
+<script type="text/javascript" src="/javascripts/diary.js"></script>

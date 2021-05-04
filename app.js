@@ -1,16 +1,15 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-const expressLayouts = require('express-ejs-layouts')
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const expressLayouts = require('express-ejs-layouts');
 
+const postsRouter = require('./routes/posts');
+const usersRouter = require('./routes/users');
+const indexRouter = require('./routes/index');
 
-var postsRouter = require('./routes/posts');
-var usersRouter = require('./routes/users');
-var indexRouter = require('./routes/index');
-
-var app = express();
+const app = express();
 
 // view engine setup
 app.use(expressLayouts)
@@ -29,7 +28,6 @@ app.use(express.static( 'public'));
 app.use('/posts', postsRouter);
 app.use('/users', usersRouter);
 app.use('/', indexRouter);
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
