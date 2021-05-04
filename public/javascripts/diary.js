@@ -17,6 +17,8 @@ $(document).ready( ()=>{
         if (this.status >= 200 && this.status < 400) {
           // Success!
           var data = JSON.parse(this.response);
+          draw_veckans_inlagg(data.posts_table);
+
         } else {
           // We reached our target server, but it returned an error
         }
@@ -28,3 +30,11 @@ $(document).ready( ()=>{
 
       request.send();
 })
+
+function draw_veckans_inlagg(data) {
+  data.forEach( function(element, index) {
+      var temp = document.getElementsByClassName("template-veckans-inlagg")[0];
+      var clon = temp.content.cloneNode(true);
+      document.getElementById("inlagg_taget_div").appendChild(clon);
+  });
+}
