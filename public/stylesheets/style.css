@@ -436,3 +436,8 @@ option { /* Skattningsalternativ */
 td {
   color:#D8DEE9;
 }
+
+
+thead {
+  color: white;
+}

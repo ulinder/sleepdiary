@@ -18,58 +18,91 @@ var data_table = (dbresults) =>{
   if(!dbresults || dbresults.length == 0) return [];
   
   var first_date_str = moment( dbresults[0].up, "X" ).format("YYYY-MM-DD").toString(),
+      first_week_str = moment( dbresults[0].up, "X" ).format("ww").toString(),
       this_up_date,
-      table = [],
+      posts_table = [],
+      weeks = new Map(),
       found,
       seconds_in_bed,
-      seconds_asleep,
-      raw_table;
+      seconds_asleep;
+
+  var found_dummy = {
+            id: "",
+            date_to_bed: "",
+            time_to_bed: "",
+            date_up_from_bed: "",
+            time_up_from_bed: "",
+            time_in_bed: "",
+            sleep_rate: "",
+            time_awake: "",
+            time_asleep: "",
+            sleep_efficiency: ""
+  }
+   
 
   for (var i=0; i < 60; i++) {
       this_up_date = moment(first_date_str).add(i, 'days').format("YYYY-MM-DD").toString();
       
+      if( moment(dbresults[0].up, "X").format("YYYY-MM-DD") == this_up_date){ // this date has a post? 
 
-      if( moment(dbresults[0].up, "X").format("YYYY-MM-DD") == this_up_date){
         found = dbresults.shift();
         seconds_in_bed = found.up - found.down;
         seconds_asleep = seconds_in_bed - found.awake
-        table.push( {
-                  week: moment(this_up_date).format("ww"),
-                  day: this_up_date, 
-                  found: {
-                    id: found.id,
-                    time_to_bed: moment(found.down, "X").format("YYYY-MM-DD HH:MM"), 
-                    time_up_from_bed: moment(found.up, "X").format("YYYY-MM-DD HH:MM"), 
-                    time_in_bed: seconds_to_text(seconds_in_bed),
-                    sleep_rate: found.rate,
-                    time_awake: seconds_to_text(found.awake),
-                    time_asleep: seconds_to_text(seconds_asleep),
-                    sleep_efficiency: ( seconds_asleep/seconds_in_bed*100 ).toString().split(".")[0]
-                    }
-                  } );
+        posts_table.push( {
+          week: moment(this_up_date).format("ww"),
+          day: this_up_date, 
+          found: {
+              id: found.id, 
+              date_to_bed: moment(found.down, "X").format("YYYY-MM-DD"), 
+              time_to_bed: moment(found.down, "X").format("HH:MM"), 
+              date_up_from_bed: moment(found.up, "X").format("YYYY-MM-DD"), 
+              time_up_from_bed: moment(found.up, "X").format("HH:MM"), 
+              time_in_bed: seconds_to_text(seconds_in_bed),
+              sleep_rate: found.rate,
+              time_awake: seconds_to_text(found.awake),
+              time_asleep: seconds_to_text(seconds_asleep),
+              sleep_efficiency: ( seconds_asleep/seconds_in_bed*100 ).toString().split(".")[0] + '%'
+            }
+        } );
       } else {
-        table.push( { week: moment(this_up_date).format("ww"), day: this_up_date, found: null } ); 
+        posts_table.push( { week: moment(this_up_date).format("ww"), day: this_up_date, found: null } ); 
       }
     if(dbresults.length == 0) break;
   } // for 
 
-  raw_table = dbresults.map( (row)=>{
-    row.up = moment(row.up, "X").toString();
-    row.down = moment(row.down, "X").toString();
-    return row;
+  const arrAvg = (accumulator, currentValue) => accumulator + currentValue;  
+
+  // Build Weeks object 
+  posts_table.map( (day)=>{ 
+    if(weeks.has(day.week) === false){ weeks.set(day.week, { avg: 0, posts: [] } ); } // set current week to 0 in map if doesnt exist
+    
+    if(day.found){ 
+      arr = weeks.get(day.week).posts;
+      arr.push( parseInt(day.found.sleep_efficiency) );
+      weeks.set( day.week, { posts: arr, avg: Math.round( arr.reduce(arrAvg)/arr.length) } ); 
+    } 
   });
 
-  return table
+  let weeks_arr = [];
+  weeks.forEach((v,k)=> weeks_arr.push({w: k,val: v}) );
+  
+  return { 
+    data_table: posts_table,
+    current_week: moment().format('ww'),
+    first_week: first_week_str,
+    // weeks: Array.fromEntries( weeks )    // 
+    weeks: weeks_arr // <- turn Map into Obj
+  }
+  
 }
-
 
 /* GET home page. */
 router.get('/:id/json', function(req, res, next) {
 
     db.all("SELECT * FROM posts WHERE user_id = ? ORDER BY down ASC", [req.params.id], (error, dbresults) =>{
-    if(error) res.json({ error: error })
-    res.json({ posts_table: data_table(dbresults) })
-    });
+      if(error) res.json({ error: error })
+      res.json( data_table(dbresults) )
+      });
 
 });
 
