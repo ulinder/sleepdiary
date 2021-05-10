@@ -11,35 +11,25 @@ var found_dummy = {
             sleep_efficiency: ""
   }
 
-$(document).ready( ()=>{ 
-    const user_id = document.cookie  .split('; ')  .find(row => row.startsWith('user='))  .split('=')[1];
+function draw_veckans_tips(data) {
+  var prev_week_int = parseInt(data.current_week) - 1,
+      prev_week_data,
+      clon ;
 
-      var request = new XMLHttpRequest();
-      request.open('GET', '/posts/' + user_id + '/json', true);
+  prev_week_data = data.weeks.find( x => x.w == prev_week_int );
+  
+  console.log(prev_week_data)
+  temp = document.getElementById("template-veckans-tips");
+  clon = temp.content.cloneNode(true);
+  clon.querySelector('.effektivitet')
+  .innerHTML = prev_week_data.val.avg + '%';
 
-      request.onload = function() {
-        if (this.status >= 200 && this.status < 400) {
-          // Success!
-          var data = JSON.parse(this.response);
-          draw_veckans_inlagg(data);
-          if(data.weeks.length > 0) draw_graph(data);
-            
-          
-        } else {
-          // We reached our target server, but it returned an error
-        }
-      };
-
-      request.onerror = function() {
-        console.error("Error when fetching posts from user");
-      };
-
-      request.send();
-})
-
+  document.getElementById('append_veckans_tips')
+    .appendChild(clon);
+}
 
 function draw_veckans_inlagg(data) {
-  var temp, clon, template;
+  var temp, clon, template, n_this_week = 0;
 
   data.data_table.forEach( function(element, index) {
 
@@ -65,7 +55,8 @@ function draw_veckans_inlagg(data) {
 
     if(element.week === data.current_week){ // Add CARDS
       if(element.found){ 
-        temp = document.getElementsByClassName("template-veckans-inlagg")[0];
+        n_this_week++
+        temp = document.getElementsById("template-veckans-inlagg");
         clon = temp.content.cloneNode(true);
         clon.querySelector('.inlagg-datum').innerText = element.day;
         clon.querySelector('.inlagg-down').innerText = element.found.time_to_bed;
@@ -82,8 +73,11 @@ function draw_veckans_inlagg(data) {
         clon.querySelector('.inlagg-datum').innerText = element.day;
       }
         document.getElementById("inlagg_taget_div").appendChild(clon);
-        }
+    }
   })
+
+  // When this week is empty
+  if(n_this_week == 0) document.getElementById("inlagg_taget_div").innerHTML += '<p><strong>Inga dagboksinlägg för denna vecka</strong></p>'
 }
 
 
@@ -154,3 +148,34 @@ function validateDiary(){
   console.log("Form valid: ", form_validity);
   return form_validity;
 }
+
+
+$(document).ready( ()=>{ 
+    const user_id = document.cookie  .split('; ')  .find(row => row.startsWith('user='))  .split('=')[1];
+
+      var request = new XMLHttpRequest();
+      request.open('GET', '/posts/' + user_id + '/json', true);
+
+      request.onload = function() {
+        if (this.status >= 200 && this.status < 400) {
+          // Success!
+          var data = JSON.parse(this.response);
+          draw_veckans_inlagg(data);
+          
+          if(data.weeks.length > 0) {
+            draw_graph(data);
+            draw_veckans_tips(data);
+          }
+            
+          
+        } else {
+          // We reached our target server, but it returned an error
+        }
+      };
+
+      request.onerror = function() {
+        console.error("Error when fetching posts from user");
+      };
+
+      request.send();
+})
