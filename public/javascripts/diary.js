@@ -56,7 +56,7 @@ function draw_veckans_inlagg(data) {
     if(element.week === data.current_week){ // Add CARDS
       if(element.found){ 
         n_this_week++
-        temp = document.getElementsById("template-veckans-inlagg");
+        temp = document.getElementById("template-veckans-inlagg");
         clon = temp.content.cloneNode(true);
         clon.querySelector('.inlagg-datum').innerText = element.day;
         clon.querySelector('.inlagg-down').innerText = element.found.time_to_bed;
@@ -160,11 +160,12 @@ $(document).ready( ()=>{
         if (this.status >= 200 && this.status < 400) {
           // Success!
           var data = JSON.parse(this.response);
+          window.diaryData = data;
           draw_veckans_inlagg(data);
           
           if(data.weeks.length > 0) {
             draw_graph(data);
-            draw_veckans_tips(data);
+            // draw_veckans_tips(data);
           }
             
           

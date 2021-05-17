@@ -84,7 +84,7 @@ var data_table = (dbresults) =>{
   });
 
   let weeks_arr = [];
-  weeks.forEach((v,k)=> weeks_arr.push({w: k,val: v}) );
+  weeks.forEach((v,k)=> weeks_arr.push({w: k, val: v}) );
   
   return { 
     data_table: posts_table,
