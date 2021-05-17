@@ -39,7 +39,7 @@ function draw_veckans_inlagg(data) {
       moment.locale('sv');
       template = {'<>':'tr','html': [
         {'<>':'td', 'html': moment(element.day).format('ww') },
-        {'<>':'td', 'html': moment(element.day).format('ddd MM') },
+        {'<>':'td', 'html': moment(element.day).format('ddd Do MMMM') },
         {'<>':'td', 'html': element.found.time_to_bed},
         {'<>':'td', 'html': element.found.time_up_from_bed},
         {'<>':'td', 'html': element.found.time_awake},
@@ -82,6 +82,8 @@ function draw_veckans_inlagg(data) {
 
 
 function draw_graph(data){
+
+        document.getElementById("graphrow").classList.remove("collapse");
 
         var data = {
             labels: data.weeks.map( x => { return 'V' + x.w }),
@@ -161,9 +163,9 @@ $(document).ready( ()=>{
           // Success!
           var data = JSON.parse(this.response);
           window.diaryData = data;
-          draw_veckans_inlagg(data);
           
           if(data.weeks.length > 0) {
+            draw_veckans_inlagg(data);
             draw_graph(data);
             // draw_veckans_tips(data);
           }

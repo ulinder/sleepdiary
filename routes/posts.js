@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var db = require('../db.js');
 var moment = require('moment'); //.locale('sv');
+moment.locale('sv');
 
 var seconds_to_text = (time) => {
     var hrs = ~~(time / 3600);
