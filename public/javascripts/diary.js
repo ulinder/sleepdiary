@@ -1,10 +1,10 @@
 
 // ##### diary.js 
 // #####  gör: hämtar json-posts från användaren till --> window.diaryData
-// #####
-// #####
-// #####
-// #####
+// #####  draw_veckans_tips
+// #####  draw_veckans_inlagg
+// #####  draw_graph
+// #####  validateDiary
 // #####
 // #####
 // #####
@@ -112,50 +112,32 @@ function draw_graph(data){
                     backgroundColor: '#CD99D1',
                     pointRadius: 6,
                     borderColor: '#CD99D1',
-                    data: data.weeks.map( x => { return x.val.avg })
+                    data: data.weeks.map( x => { if(x.val.posts.length > 1) return x.val.avg })
                 }
             ]
         }
 
-        var ctx = document.getElementById('sleep-graph-canvas');
-        Chart.defaults.global.defaultFontColor='white';
-        Chart.defaults.global.defaultFontSize=14;
+        var ctx = document.getElementById('sleep-graph-canvas');        
         var chart = new Chart(ctx, {
             type: 'line',
             data: data,
             options:{
-                scales:{
-                  y:{
-                    suggestedMin: 0,
-                    suggestedMax: 100
+              responsive: true,
+              scales: {
+                y: {
+                  min: 0,
+                  max: 100,
+                  ticks: {
+                    color: 'white'
                   }
                 },
-                plugins:{
-                    legend: {
-                        // position: 'top',
-                        display: false
-                    },
-                    title: {
-                        display: true,
-                        text: 'Sömnkvalitét'
-                    },
-                },
-                animations: {
-                  tension: {
-                    duration: 1000,
-                    easing: 'linear',
-                    from: 1,
-                    to: 0,
-                    loop: true
+                x: {
+                  ticks: {
+                    color: 'white'
                   }
-                },
-                layout:{
-                    padding: {
-                        left: 20,
-                        right: 20,
-                        top: 20,
-                    }
                 }
+              }
+
             }
         });
 }
@@ -171,7 +153,10 @@ function validateDiary(){
 
 
 $(document).ready( ()=>{ 
-    const user_id = document.cookie  .split('; ')  .find(row => row.startsWith('user='))  .split('=')[1];
+    const user_id = document.cookie  
+      .split('; ')  
+      .find(row => row.startsWith('user='))  
+      .split('=')[1];
 
       var request = new XMLHttpRequest();
       request.open('GET', '/posts/' + user_id + '/json', true);
@@ -187,7 +172,6 @@ $(document).ready( ()=>{
             draw_graph(data);
             // draw_veckans_tips(data);
           }
-              
         } else {
           consol.error("No data was sent from server")
           // We reached our target server, but it returned an error
