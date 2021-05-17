@@ -17,7 +17,7 @@ function draw_veckans_tips(data) {
       clon ;
 
   prev_week_data = data.weeks.find( x => x.w == prev_week_int );
-  
+
   console.log(prev_week_data)
   temp = document.getElementById("template-veckans-tips");
   clon = temp.content.cloneNode(true);
@@ -34,7 +34,7 @@ function draw_veckans_inlagg(data) {
   data.data_table.forEach( function(element, index) {
 
     // TABLE with all posts
-    
+
     if(element.found == null) element.found = found_dummy; // catch found = null
       moment.locale('sv');
       template = {'<>':'tr','html': [
@@ -47,14 +47,14 @@ function draw_veckans_inlagg(data) {
         {'<>':'td', 'html': element.found.time_asleep},
         {'<>':'td', 'html': element.found.sleep_rate},
       ]}
-      
+
       document.getElementById('all_posts_table')
       .querySelector('tbody')
       .insertAdjacentHTML('beforeend', json2html.render({},template) );
 
 
     if(element.week === data.current_week){ // Add CARDS
-      if(element.found){ 
+      if(element.found){
         n_this_week++
         temp = document.getElementById("template-veckans-inlagg");
         clon = temp.content.cloneNode(true);
@@ -65,7 +65,7 @@ function draw_veckans_inlagg(data) {
         clon.querySelector('.inlagg-asleep').innerText = element.found.time_asleep;
         clon.querySelector('.inlagg-asleep').innerText = element.found.time_asleep;
         clon.querySelector('.inlagg-efficiency').innerText = element.found.sleep_efficiency;
-      } 
+      }
       else
       {
         temp = document.getElementsByClassName("template-veckans-inlagg-empty")[0];
@@ -106,6 +106,7 @@ function draw_graph(data){
             type: 'line',
             data: data,
             options:{
+
                 scales:{
                   y:{
                     suggestedMin: 0,
@@ -152,7 +153,7 @@ function validateDiary(){
 }
 
 
-$(document).ready( ()=>{ 
+$(document).ready( ()=>{
     const user_id = document.cookie  .split('; ')  .find(row => row.startsWith('user='))  .split('=')[1];
 
       var request = new XMLHttpRequest();
@@ -163,14 +164,14 @@ $(document).ready( ()=>{
           // Success!
           var data = JSON.parse(this.response);
           window.diaryData = data;
-          
+
           if(data.weeks.length > 0) {
             draw_veckans_inlagg(data);
             draw_graph(data);
             // draw_veckans_tips(data);
           }
-            
-          
+
+
         } else {
           // We reached our target server, but it returned an error
         }
