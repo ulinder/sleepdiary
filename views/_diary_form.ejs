@@ -1,8 +1,10 @@
-
+<% if(typeof post === 'undefined') post = null; %>
 <div class="card card-background">
     <div class="card-body">
 
-<form action="posts" class="" id="diaryform" onsubmit="return validateDiary()"  method="post">
+<form action="/posts" class="" id="diaryform" onsubmit="return validateDiary()"  method="post">
+  <% if(post){ %> <input type="hidden" name="update" value="true" > <% } %>
+  <% if(post){ %> <input type="hidden" name="id" value="<%= post.id %>" > <% } %>
 
   <div class="mb-4 row">
     <div class="col-10">
@@ -15,13 +17,13 @@
 <div class="mb-4 row">
       <div class="collapse" id="collapseDatumSang">
         <div class="card card-body infocard">
-              <i>  <b>Förtydligande:</b> Har du till exempel  precis vaknat från en natts sömn och ska göra ett inlägg så ska du skriva in gårdagens datum här.
+              <i>  <b>Förtydligande:</b> Har du till exempel precis vaknat från en natts sömn och ska göra ett inlägg så ska du skriva in gårdagens datum här.
               </i>
         </div>
       </div>
   </div>
 <div class="mb-4 row">
-      <input required=required type="date" class="form-control blue-input-frame" id="morning_date" name="down_date" onchange="check_form();" value="<%= moment().subtract(1, 'days').format("YYYY-MM-DD") %>"  class="form-control">
+      <input required=required type="date" class="form-control blue-input-frame" id="morning_date" name="down_date" onchange="check_form();" value="<%= (post) ? moment(post.down, 'X').format("YYYY-MM-DD") : moment().subtract(1, 'day').format("YYYY-MM-DD"); %>"  class="form-control">
     </div>
 
 
@@ -47,7 +49,7 @@
                   </div>
               </div>
       <div class="mb-4 clockpicker input-group row" data-autoclose="true">
-          <input type="text" pattern="^[0-9]{2}:[0-9]{2}" class="form-control blue-input-frame liten-ruta" required="1" name="down_time" id="down_time" >
+          <input type="text" pattern="^[0-9]{2}:[0-9]{2}" class="form-control blue-input-frame liten-ruta" required="1" name="down_time" id="down_time" value="<%= (post) ? moment(post.down, 'X').format("HH:MM")  : '' %>" >
           <span class="input-group-addon">
               <span class="glyphicon glyphicon-time"></span>
           </span>
@@ -81,7 +83,10 @@
               <div class="tid-dropdown">
                       <div>
                       <select class=" blue-input-frame " aria-label="Default select example" name="awake_hours">
-                        <option selected value="0">0 h</option>
+
+                      <% var hours = (post) ? post.hours_awake : 0; %>
+                        <option selected value="<%= hours %>"><%= hours %> h</option> 
+                        <option value="0">0 h</option>
                         <option value="3600">1 h</option>
                         <option value="7200">2 h</option>
                         <option value="10800">3 h</option>
@@ -96,7 +101,8 @@
                       </div>
                       <div>
                       <select class=" blue-input-frame " aria-label="Default select example"  name="awake_minutes">
-                        <option selected value="0">0 min</option>
+                      <% var minutes = (post) ? post.minutes_awake : 0; %>
+                        <option selected value="<%= minutes %>"><%= minutes %> min</option>
                         <option value="600">10 min</option>
                         <option value="1200">20 min</option>
                         <option value="1800">30 min</option>
@@ -123,13 +129,13 @@
           <div class="mb-4 row">
                 <div class="collapse" id="collapseDatumUpp">
                   <div class="card card-body infocard">
-                        <i>  <b>Förtydligande:</b> Har du till exempel  precis vaknat från en natts sömn och ska göra ett inlägg så ska du skriva in dagens datum här.
+                        <i>  <b>Förtydligande:</b> Har du till exempel precis vaknat från en natts sömn och ska göra ett inlägg så ska du skriva in dagens datum här.
                         </i>
                   </div>
                 </div>
             </div>
   <div class="mb-4 row">
-    <input required=required type="date" class="form-control blue-input-frame" id="morning_date" name="up_date" onchange="check_form();" value="<%= moment().format("YYYY-MM-DD") %>"  class="form-control">
+    <input required=required type="date" class="form-control blue-input-frame" id="morning_date" name="up_date" onchange="check_form();" value="<%= (post) ? moment(post.up, 'X').format("YYYY-MM-DD") : moment().format("YYYY-MM-DD"); %>"  class="form-control">
   </div>
 
 
@@ -154,7 +160,7 @@
         </div>
 
       <div class="mb-4 clockpicker row" data-autoclose="true">
-              <input type="text" pattern="^[0-9]{2}:[0-9]{2}" class="form-control blue-input-frame liten-ruta" required="1" name="up_time" id="up" >
+              <input type="text" pattern="^[0-9]{2}:[0-9]{2}" class="form-control blue-input-frame liten-ruta" required="1" name="up_time" id="up" value="<%= (post) ? moment(post.up, 'X').format("HH:MM") : ""; %>">
               <span class="input-group-addon">
                   <span class="glyphicon glyphicon-time"></span>
               </span>
@@ -182,16 +188,16 @@
       <div class="mb-4 row">
         <div class="col stars">
           <div class="rate">
-              <input type="radio" id="star5" name="rate" value="5" />
+              <input type="radio" id="star5" name="rate" value="5" <% if(post && post.rate == 5){ %> checked=checked <% } %>/>
               <label for="star5" title="text">5 stars</label>
-              <input type="radio" id="star4" name="rate" value="4" />
+              <input type="radio" id="star4" name="rate" value="4" <% if(post && post.rate == 4){ %> checked=checked <% } %>/>
               <label for="star4" title="text">4 stars</label>
-              <input type="radio" id="star3" name="rate" value="3" />
+              <input type="radio" id="star3" name="rate" value="3" <% if(post && post.rate == 3){ %> checked=checked <% } %>/>
               <label for="star3" title="text">3 stars</label>
-              <input type="radio" id="star2" name="rate" value="2" />
+              <input type="radio" id="star2" name="rate" value="2" <% if(post && post.rate == 2){ %> checked=checked <% } %>/>
               <label for="star2" title="text">2 stars</label>
-              <input type="radio" id="star1" name="rate" value="1" />
-              <label for="star1" title="text">1 star</label>
+              <input type="radio" id="star1" name="rate" value="1" <% if(post && post.rate == 1){ %> checked=checked <% } %>/>
+              <label for="star1" title="text">1 star</label> 
          </div>
 
         </div>
@@ -203,7 +209,14 @@
     <div class="row">
       <div class="col">
           <div class="mb-4">
-            <input type="reset" value="Avbryt" class="btn btn-primary btn-avbryt">
+            <% if(post){ %> 
+              
+                <button type="reset" value="Avbryt" class="btn btn-primary btn-avbryt" onclick="return window.history.back();">Avbryt</button>
+              
+
+            <% } else { %>
+              <input type="reset" value="Avbryt" class="btn btn-primary btn-avbryt" data-bs-toggle="collapse" data-bs-target="#form_row">
+            <% } %>
 
             <input type="submit" value="Spara" class="btn btn-primary btn-spara">
           </div>
@@ -211,7 +224,7 @@
 
         </div>
       </div>
-  </div> <!--/ Disabler -->
+   </div> <!-- Disabler -->
 
 </form>
 

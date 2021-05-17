@@ -15,6 +15,15 @@ var seconds_to_text = (time) => {
     return ret;
 }
 
+var seconds_to_block_of = (type, seconds)=>{ // type => [h/m]
+  if(type.match(/h|m/)){
+    var hrs = ~~(seconds / 3600);
+    var mins = ~~((seconds % 3600) / 60);
+    return (type == "h") ? hrs : mins;
+  } 
+  console.error('Fail in seconds to block');
+}
+
 var data_table = (dbresults) =>{
   if(!dbresults || dbresults.length == 0) return [];
   
@@ -98,35 +107,46 @@ var data_table = (dbresults) =>{
 }
 
 /* GET home page. */
-router.get('/:id/json', function(req, res, next) {
-
-    db.all("SELECT * FROM posts WHERE user_id = ? ORDER BY down ASC", [req.params.id], (error, dbresults) =>{
+router.get('/:user_id/json', function(req, res, next) {
+    db.all("SELECT * FROM posts WHERE user_id = ? ORDER BY down ASC", [req.params.user_id], (error, dbresults) =>{
       if(error) res.json({ error: error })
       res.json( data_table(dbresults) )
       });
-
 });
 
-/* CREATE diarypost */
+// EDIT POST
+router.get('/:id/edit', function(req, res, next) {
+  db.get("SELECT * FROM posts where id= ?", req.params.id, (error, dbresults) =>{
+    if(error) res.json({ error: error });
+    dbresults.minutes_awake = seconds_to_block_of("m", dbresults.awake);
+    dbresults.hours_awake = seconds_to_block_of("h", dbresults.awake);
+    res.render('edit_post', { title: 'Sömndagboken - Redigera inlägg', post: dbresults })
+    // res.json( dbresults ); 
+  });
+});
+
+/* CREATE/UPDATE diarypost */
 router.post('/', function(req, res, next) {
 
+    // if(req.body.update){ return res.json({body: req.body}) }
+    console.log(req.body); 
+
     var values = [
-        req.cookies.user, 
         moment([req.body.down_date, req.body.down_time].join(" ") ).format("X"), 
         moment([req.body.up_date, req.body.up_time].join(" ") ).format("X"), 
         ( parseInt(req.body.awake_hours) + parseInt(req.body.awake_minutes) ), 
-        req.body.rate
-      ]
+        req.body.rate,
+        req.body.id ]
 
-    var insert_diary = db.prepare(
-      `INSERT INTO posts 
-      (user_id, down, up, awake, rate) 
-      VALUES(?, ?, ?, ?, ?) `
-    );
+    if(req.body.update){
+      var insert_diary = db.prepare( `UPDATE posts SET down=?, up=?, awake=?, rate=? WHERE id=?;` );
+    } else {
+      var insert_diary = db.prepare( `INSERT INTO posts (user_id, down, up, awake, rate) VALUES(?, ?, ?, ?, ?) ` );
+    }
     
-    insert_diary.run( values, (err) =>{
+    insert_diary.run( values, (err) =>{ 
       if(err) console.warn(err);
-      res.redirect('/');
+      res.redirect('/?flash=crude');
     });
     
 });

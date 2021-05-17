@@ -1,3 +1,17 @@
+
+// ##### diary.js 
+// #####  gör: hämtar json-posts från användaren till --> window.diaryData
+// #####
+// #####
+// #####
+// #####
+// #####
+// #####
+// #####
+// ##### document.ready 
+
+
+
 var found_dummy = {
             id: "",
             date_to_bed: "",
@@ -63,14 +77,18 @@ function draw_veckans_inlagg(data) {
         clon.querySelector('.inlagg-up').innerText = element.found.time_up_from_bed;
         clon.querySelector('.inlagg-awake').innerText = element.found.time_awake;
         clon.querySelector('.inlagg-asleep').innerText = element.found.time_asleep;
-        clon.querySelector('.inlagg-asleep').innerText = element.found.time_asleep;
+        clon.querySelector('.inlagg-rate').innerText = times(element.found.sleep_rate, '★')
+        // ( for(var i=0; i<element.found.sleep_rate; i++){ return '★'} );
         clon.querySelector('.inlagg-efficiency').innerText = element.found.sleep_efficiency;
+        clon.querySelector('.edit-post-link').href = `/posts/${element.found.id}/edit`;
       } 
       else
       {
         temp = document.getElementsByClassName("template-veckans-inlagg-empty")[0];
         clon = temp.content.cloneNode(true);
         clon.querySelector('.inlagg-datum').innerText = element.day;
+        clon.querySelector('.edit-post-link').class = "hidden"
+
       }
         document.getElementById("inlagg_taget_div").appendChild(clon);
     }
@@ -169,15 +187,15 @@ $(document).ready( ()=>{
             draw_graph(data);
             // draw_veckans_tips(data);
           }
-            
-          
+              
         } else {
+          consol.error("No data was sent from server")
           // We reached our target server, but it returned an error
         }
       };
 
       request.onerror = function() {
-        console.error("Error when fetching posts from user");
+        console.error("Error when trying to fetch posts from user");
       };
 
       request.send();
