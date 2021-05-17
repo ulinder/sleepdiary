@@ -1,18 +1,449 @@
 /* Läsa in externa fonter*/
 /* EXEMPEL: */
-@font-face {
-  font-family: "Gilroy Black";
-  src: url("font/GilroyBlack.ttf") format("truetype");
+
+.linje-rubrik{
+  border-top: 2px solid #6E90C4;
+  width:65%;
+  margin:auto;
+  margin-bottom: 20px;
+  margin-top: 5px;
 }
+
+.hello {
+  font-family:"Frutiger Roman";
+  font-size: 2.2em;
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+
 @font-face {
-  font-family: "Gilroy Medium";
-  src: url("font/Gilroy-Medium_1.ttf") format("truetype");
+  font-family: "Frutiger Light";
+  src: url("../fonts/FrutigerLTStd-Light.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Frutiger Roman";
+  src: url("../fonts/FrutigerLTStd-Roman.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Frutiger Bold";
+  src: url("../fonts/FrutigerLTStd-Bold.otf") format("opentype");
 }
 
 body {
-  padding: 50px;
+  background-color: #2D333F;
+  color: #D8DEE9;
+}
+
+@media (min-width: 600px) {
+
 }
 
 a {
   color: #00B7FF;
+}
+
+h2, h3, h4, h5{ /*Huvudrubrik: MIN SÖMNDAGBOK */
+  font-family: "Frutiger Bold";
+  margin-bottom: 30px;
+  margin-top: 10px;
+}
+
+h1 {
+  color: #86BECE;
+  margin-top: 40px;
+  font-family: "Frutiger Bold";
+  margin-bottom: 0;
+  text-align: center;
+}
+
+h3 h2 {
+  font-size: 1.44em;
+
+}
+
+.medallion  {
+  animation: fadein 1s ease-in;
+
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+    fill: #ff0000;
+    /*transform: translateY(-100px);*/
+  }
+
+  to {
+    opacity: 1;
+    fill: #00ff00;
+    /*transform: translateY(0);*/
+  }
+}
+
+/* Alla cards*/
+.card{
+  border-color: #4C566A;
+  background-color: #2D333F;
+
+}
+.card-background{
+  box-shadow: 0px 3px 10px #1E2128;
+  margin-bottom: 20px;
+}
+
+.card-inlagg{
+  border-color: #4C566A;
+  background-color: #2D333F;
+  box-shadow: 0px 3px 10px #1E2128;
+  margin-bottom: 14px;
+}
+
+.infocard { /* Inforutorna */
+    width: 80%;
+    margin: 0 auto;
+}
+
+/*  Veckans-tips och streaks*/
+
+.veckans-tips {
+  font-family: Garamond;
+  color: #D8DEE9;
+  font-size: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.effektivitet{
+  font-family: Garamond;
+  color: #CD99D1;
+  text-align: center;
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.streak {
+  font-family: Garamond;
+  color: #6E90C4;
+  text-align: center;
+  font-size: 40px;
+  font-weight: bold;
+}
+.streak-text {
+  text-align: center;
+}
+
+.btn-skapa {
+  margin-top:15px;
+}
+/* Skapa nytt dagboksinlägg*/
+
+input::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+
+.question-label {
+  font-family:"Frutiger Roman" ;
+  font-size: 1.25em;
+  margin-bottom: 0px;
+}
+
+.blue-input-frame{ /* input-boxarna*/
+  font-size: 1.25em;
+  border:2px solid #86BECE;
+  border-radius: 5px;
+  border-color: #86BECE;
+  background-color:#2D333F;
+  color: #D8DEE9;
+  align-items: center;
+  margin: auto;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left:10px;
+  padding-right:20px;
+  text-align: center;
+}
+
+.info {
+  font-size:16px;
+  border:2px solid #86BECE;
+  width:30px;
+  height: 30px;
+  border-radius: 50%;
+  padding-bottom:5px;
+  border-color: #86BECE;
+  background-color:#2D333F;
+  color: #D8DEE9;
+  align-items: center;
+  text-align: center;
+  margin-right: 0px;
+}
+
+
+.info:hover {
+  background-color: #66A1B2;
+  border: none;
+  color: #ffff;
+}
+.tid-dropdown {
+    display:flex;
+    justify-content:space-evenly;
+}
+
+
+.mb-4 {
+  text-align:center;
+
+}
+#morning_date{
+  max-width: 235px;
+}
+.liten-ruta{
+  max-width: 135px;
+}
+
+option { /* Skattningsalternativ */
+  color: #D8DEE9;
+  background-color: #2D333F;
+}
+
+#awake-slider{
+  max-width: 230px;
+}
+
+
+.linje-ny-dagbok /*linjer mellan frågorna */ {
+    border-top: 2px solid #4C566A;
+    width:70%;
+    margin: auto;
+    margin-bottom: 20px;
+    margin-top: 60px;
+}
+
+.flex-column-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.btn-spara /*Spara-knappen*/{
+  background-color: #86BECE;
+  border: none;
+  color: #2F3032;
+  border-radius: 26px;
+  padding: 10px 28px;
+  margin-left: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  box-shadow: 0px 3px 10px #1E2128;
+  font-family:"Frutiger Roman";
+
+}
+.btn-spara:hover {
+  background-color: #66A1B2;
+  border: none;
+  color: #ffff;
+}
+
+.btn-avbryt { /* Avbryt-knappen*/
+  background-color: #6E90C4;
+  border: none;
+  color: #2F3032;
+  border-radius: 26px;
+  padding: 10px 28px;
+  margin-right: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  box-shadow: 0px 3px 10px #1E2128;
+  font-family:"Frutiger Roman";
+}
+
+.btn-avbryt:hover {
+  background-color: #567199;
+  border: none;
+  color: #ffff;
+}
+
+/* STJÄRTNOR RATING*/
+
+.inlagg-rate{ color: yellow; } /* Presentation of star rating */
+
+.stars {
+  display:flex;
+  flex-direction:column;
+  align-items: center;
+  color: #E0DAA0;
+  font-size:20px;
+}
+
+.rate {
+    height: 46px;
+    padding: 0 10px;
+}
+.rate:not(:checked) > input {
+  opacity: 0;
+  position: absolute;
+  left: -9999px;
+}
+.rate:not(:checked) > label {
+    float:right;
+    width:1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:50px;
+    color:#2D333F;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #E0DAA0;
+    text-shadow: 0 4px 4px #000;
+
+}
+.rate:not(:checked) > label:before {
+    content: '★ ';
+}
+.rate > input:checked ~ label {
+    color: #E0DAA0;
+    text-shadow: 0 4px 4px #000;
+}
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+    color: #E0DAA0;
+    -webkit-text-stroke-color: #E0DAA0;
+    text-shadow: 0 4px 4px #000;
+
+}
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+    color: #E0DAA0;
+    text-shadow: 0 4px 4px #000;
+
+}
+
+
+/* Veckans inlägg*/
+.btn-redigera {
+  background-color: #86BECE;
+  border: none;
+  color: #2F3032;
+  border-radius: 26px;
+  padding: 12px 18px;
+  margin-left: 0px;
+
+  font-size: 16px;
+  font-weight: bold;
+  box-shadow: 0px 3px 10px #1E2128;
+  font-family:"Frutiger Roman";
+}
+
+.btn-redigera:hover {
+  background-color: #66A1B2;
+  border: none;
+  color: #ffff;
+}
+
+.kortinnehall-knapp {
+  width:50px;
+  display: flex;
+
+}
+
+.fa-chevron-down {
+  transform: rotate(180deg);
+}
+
+
+
+.inlagg {
+    font-family:"Frutiger Light";
+    font-size: 16px;
+}
+
+.inlagg-description {
+    font-family: "Frutiger Bold";
+    font-size: 16px;
+}
+
+.flex-rad {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.flex-kolumn {
+  display: flex;
+  flex-direction: column;
+
+}
+
+.flex-kolumn-content {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom:10px;
+
+}
+
+
+.flexElement {
+  display:flex;
+  flex-direction: column;
+}
+
+.inlagg-flex {
+  font-family:"Frutiger Light";
+  font-size: 16px;
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  flex-wrap:wrap;
+}
+
+
+
+
+
+
+.btn-expand /*expand-knappen*/{
+  background-color: #86BECE;
+  border: none;
+  color: #2F3032;
+  border-radius: 26px;
+  padding: 1px 1px;
+  width: 50px;
+  height: 50px;
+
+  display:block;
+  font-size: 20px;
+  font-weight: bold;
+  box-shadow: 0px 3px 10px #1E2128;
+  font-family:"Frutiger Roman";
+
+}
+.btn-expand:hover {
+  background-color: #66A1B2;
+  border: none;
+  color: #ffff;
+}
+
+
+
+/* Tabell*/
+td {
+  color:#D8DEE9;
+}
+
+
+thead {
+  color: white;
+}
+
+#sleep-graph-canvas {
+  
 }

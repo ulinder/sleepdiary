@@ -1,19 +1,7 @@
-function getRandomArbitrary(min, max) {
-    return (Math.random() * (max - min) + min).toFixed(0) ;
-}
+const reducer = (accumulator, currentValue) => accumulator + currentValue;
 
-let i = Number("12");
+var m = {"weeks":{"map":{"14":[84],"15":[90,88],"16":[89],"17":[92,88,84,83,87,98],"18":[88],"19":[98,83]},"current_week":"19"}}
 
-var avg_quality_cal = (quality_array) => { 
-    return (quality_array.slice(-7)
-    .reduce( (accumulator, currentValue) => { return accumulator + currentValue }) / quality_array.slice(-7).length );
-}
-
-moment = require('moment');
-
-d = moment( Date.now() ).subtract(0, 'days').format("YYYY-MM-DD");
-
-var t = [1,2,3,4,5,6,7,8,9,10,11,12]
-var s = []
-
-console.log(['this'] + new Array(3));
+m["weeks"]["map"].forEach( (element, key, map)=>{
+  console.log(element.reduce(reducer));
+});

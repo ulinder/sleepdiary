@@ -1,13 +1,22 @@
-<% if (link) { -%>
-  <strong>Länk till ny dagbok: </strong>
-  <p><%= link %></p>
-  
-  <p> <a href="<%=link%>"> <%=link%> </a> </p>
-  
-  <a href="/users" class="mb-3"> Tillbaka </a>    
+<div class="container">
+  <div class="row">
+    <div class="col">
+      
+      <% if (link) { -%>
+        <strong>Länk till ny dagbok: </strong>
+        <p><%= link %></p>
+        
+        <p> <a href="<%=link%>"> <%=link%> </a> </p>
+        
+        <a href="/users" class="mb-3"> Tillbaka </a>    
 
-<% } else { -%>
-  <form method="post" action="/users">
-    <input type="submit" name="createuser" value="Skapa ny dagbok">
-  </form>
-<% } -%>
+      <% } else { -%>
+        <form method="post" action="/users">
+          <h3>Tryck här för att starta upp en tom dagbok</h3>
+          <input type="submit" name="createuser" class="btn-spara btn btn-large" value="Skapa ny dagbok">
+        </form>
+      <% } -%>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+<div class="container">
+  <p>
+    <% dbresults.forEach( function(post, index) { 
+        
+      -%>
+      <p>
+        <a href="<%=`/${post.id}/${post.hash}/`%>">
+          Användare-<%= post.id %>
+        </a>
+        ( <%= post.dpcount %> inlägg )
+      </p>
+    <% }); -%>
+  </p>
+
+</div>

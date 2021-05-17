@@ -1,16 +1,14 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-const expressLayouts = require('express-ejs-layouts')
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const expressLayouts = require('express-ejs-layouts');
+const postsRouter = require('./routes/posts');
+const usersRouter = require('./routes/users');
+const indexRouter = require('./routes/index');
 
-
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var diarypostsRouter = require('./routes/diaryposts');
-
-var app = express();
+const app = express();
 
 // view engine setup
 app.use(expressLayouts)
@@ -26,10 +24,9 @@ app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static( 'public'));
 
-app.use('/', indexRouter);
+app.use('/posts', postsRouter);
 app.use('/users', usersRouter);
-app.use('/diaryposts', diarypostsRouter);
-
+app.use('/', indexRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -44,8 +41,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render('error', {title: "Error"});
 });
-
 
 module.exports = app;

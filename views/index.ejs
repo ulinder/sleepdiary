@@ -1,32 +1,83 @@
-<h1>DIN SÖMNDAGBOK</h1>
+<div class="container">
 
-<div class="row">
-  <div class="col-sm-12 col-md-7">
-      <input type="hidden" name="postsdata" id="hidden_postdata" value="<%= JSON.stringify(posts) %>"> 
-      <%- include('_diary_form') %>    
-  </div>
-  
-  <div class="col col-md-5">
-    <canvas id="sleepcanvas" width="80" height="50"></canvas>
-    <table class="table m-3">
-      <tr>
-        <td>Datum</td>
-        <td>Sänggång</td>
-        <td>Klev upp</td>
-        <td>Skattning</td>
-      </tr>
+    <div class="row">
+      <div class="col-sm-12">
+        <h1>DIN SÖMNDAGBOK</h1>
+        <hr class="linje-rubrik">
 
-      <% table.forEach( function(date){ %>
-        <tr>
-          <td><%= date[0] %></td>
-          <td><%= date[1] %></td>
-          <td><%= date[2] %></td>
-          <td><%= date[3] %></td>
-        </tr>
-      <% }); %>
-      
-    </table>
-  </div>
-</div>
+        <p class="hello" > Hej och välkommen tillbaka </p>
+      </div>
+    </div>
 
-<script type="text/javascript" src="/javascripts/sleepgraph.js"></script>
+    <!--                      Översta raden                   -->
+    <div class="row">
+
+      <!-- Veckans Tips och Streaks-->
+      <div class="col-sm">
+        <%- include('_veckans_tips') %>
+      </div>
+
+
+      <!-- Streaks-->
+      <div class="col-sm">
+        <%- include('_streaks') %>
+      </div>
+
+    </div>
+
+
+    <div id="form_row" class="row collapse"> <!-- collapse -->
+
+      <!-- Nytt inlägg -->
+      <div class="col-md-6 offset-md-3">
+        <h3 class="mb-4">Skapa ny sömnregistrering</h3>
+        <div class="message-div"></div>
+        <%- include('_diary_form') %>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <!-- Veckans Inlägg -->
+      <div class="col" id="col-for-posts">
+      <%- include('_veckans_inlagg') %>       
+      </div>
+    </div> <!-- row -->
+
+    <div class="row collapse" id="all_posts_div">
+      <div class="col">
+        <table id="all_posts_table" class="table">
+          <legend>Samtliga poster</legend>
+          <thead>
+            <th>Vecka</th>
+            <th>dag</th>
+            <th>Tid: sänggång</th>
+            <th>Tid: klev upp</th>
+            <th>Tid: vaken</th>
+            <th>Sömneffektivitet</th>
+            <th>Sömnlängd</th>
+            <th>Självskattning</th>
+          </thead>
+          <tbody>  
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- GRAPH -->
+    <div class="row collapse" id="graphrow">
+        <div class="col"></div>
+        <div class="col-12 col-md-6" id="col-for-graph">
+            <div class="card card-inlagg inlagg-expanded">
+              <div class="card-body">
+                  <canvas id="sleep-graph-canvas"></canvas>
+              </div>
+            </div>
+        </div>
+        <div class="col"></div>     
+    </div>
+
+
+</div> <!-- / CONTAINER -->
+
+<script type="text/javascript" src="/javascripts/diary.js"></script>

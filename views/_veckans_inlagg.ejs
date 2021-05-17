@@ -1,0 +1,97 @@
+<h2>Veckans inlägg</h2>
+
+<template id="template-veckans-inlagg">
+  <div class="card card-inlagg inlagg-expanded">
+      <div class="card-body">
+
+            <div class="inlagg-flex">
+                <span class="inlagg-datum">Måndag 2 mars</span>
+
+              </div>
+
+            <div class="inlagg-flex">
+
+                <div class="flex-kolumn-content">
+                  <span class="inlagg-description"> Sänggång </span>
+                  <span class="inlagg-down">HH:MM</span>
+                </div>
+
+                <div class="flex-kolumn-content">
+                  <span class="inlagg-description"> Vaken i säng </span>
+                  <span class="inlagg-awake">Hh Mmin</span>
+                </div>
+
+                <div class="flex-kolumn-content">
+                  <span class="inlagg-description"> Skattning </span>
+                  <span class="inlagg-rate"><p class="stars">★★★</p></span>
+                </div>
+
+              <div class="flex-kolumn-content">
+                <span class="inlagg-description"> Klev upp </span>
+                <span class="inlagg-up">HH:MM</span>
+              </div>
+
+              <div class="flex-kolumn-content">
+                <span class="inlagg-description"> Sovtid </span>
+                <span class="inlagg-asleep">Hh Mmin</span>
+              </div>
+
+              <div class="flex-kolumn-content">
+                <span class="inlagg-description"> Sömneffektivitet </span>
+                <span class="inlagg-efficiency">XX%</span>
+              </div>
+
+          </div>
+
+            <div class="inlagg-flex">
+              <div class="flex-kolumn">
+                  <a class="edit-post-link" href="/">
+                  <button class="btn btn-primary btn-redigera"><i class="fa fa-pencil"></i> Redigera </button>
+                  </a>
+                </div>
+
+              <div class="kortinnehall-knapp">
+                <button class="btn btn-primary btn-expand"> <i class="fa fa-chevron-down"></i> </button>
+               </div>
+
+                </div>
+
+        </div>
+
+    </div>
+
+</template>
+
+
+<template class="template-veckans-inlagg-empty">
+  <div class="card card-inlagg inlagg-expanded">
+      <div class="card-body">
+
+            <div class="inlagg-flex">
+                <span class="inlagg-datum">Måndag 2 mars</span>
+            </div>
+
+            <div class="inlagg-flex">
+              <div class="flex-kolumn">
+                <strong>Fyll i denna dag ifall du minns dina sovtider!</strong>
+              </div>
+            </div>
+
+            <div class="inlagg-flex">
+              <div class="flex-kolumn">
+                  <button class="btn btn-primary btn-redigera"><i class="fa fa-pencil"></i> Redigera </button>
+              </div>
+            </div>
+
+       </div>
+    </div>
+</template>
+
+<template id="post-tablerow">
+  
+</template>
+
+
+<div id="inlagg_taget_div"></div>
+
+      <button class="btn btn-primary btn-avbryt" data-bs-toggle="collapse" data-bs-target="#all_posts_div"> Se mer </button>
