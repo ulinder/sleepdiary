@@ -135,7 +135,9 @@ h3 h2 {
   text-align: center;
 }
 
-
+.btn-skapa {
+  margin-top:15px;
+}
 /* Skapa nytt dagboksinlägg*/
 
 input::-webkit-calendar-picker-indicator {
