@@ -401,13 +401,22 @@ option { /* Skattningsalternativ */
 .inlagg-flex {
   font-family:"Frutiger Light";
   font-size: 16px;
-  display:flex;
+  /* display:flex;
   flex-direction: row;
   justify-content: space-between;
+  flex-wrap:wrap;*/
   margin-bottom: 10px;
-  flex-wrap:wrap;
+
 }
 
+.minBredd {
+  min-width: 100px;
+  margin-bottom:15px;
+}
+.minBreddlong{
+  min-width: 130px;
+  margin-bottom:15px;
+}
 
 
 
