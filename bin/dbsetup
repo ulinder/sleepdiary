@@ -1,16 +1,7 @@
 #!/usr/bin/env node
-// SETUP DB
-// Test if table exist
-// SELECT name FROM sqlite_master WHERE type='table' AND name='ticket';
-
-// if(!DBDONE){ // setup table if none is in place
-
-console.log("\n> Setting up sömndagbok database:");
-
 var db = require('../db.js');
 
 db.serialize( () => {
-
   console.log("> Dropping previous tables and recreating [users, posts] <");
   db.run(`DROP TABLE IF EXISTS users`,
     (err)=>{
@@ -43,23 +34,6 @@ db.serialize( () => {
     (err)=>{
     if(err)  console.log(err, this.lastID);
     });
-
-
-  // var stmt = db.prepare("INSERT INTO receptions(name) VALUES (?)");
-  // for (var i = 0; i < 5; i++) {
-  //     stmt.run(`Mottagning ${i}`);
-  // }
-  // stmt.finalize();
-  
-  // stmt = db.prepare("INSERT INTO tickets (reception, number, initials) VALUES (?,?,?)");
-  // for (var i = 0; i < 5; i++) {
-  //     stmt.run([1,i+1,`T${i}`]);
-  // }
-  // stmt.finalize();
- 
-  // db.each("SELECT id, initials FROM tickets", function(err, row) {
-  //     console.log(row.id + ": " + row.initials);
-  // });
 
   db.close(); 
   console.log("\n --- Dbsetup done ---");

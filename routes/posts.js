@@ -129,18 +129,32 @@ router.get('/:id/edit', function(req, res, next) {
 router.post('/', function(req, res, next) {
 
     // if(req.body.update){ return res.json({body: req.body}) }
-    console.log(req.body); 
-
-    var values = [
-        moment([req.body.down_date, req.body.down_time].join(" ") ).format("X"), 
-        moment([req.body.up_date, req.body.up_time].join(" ") ).format("X"), 
-        ( parseInt(req.body.awake_hours) + parseInt(req.body.awake_minutes) ), 
-        req.body.rate,
-        req.body.id ]
+    // console.log(req.body); 
 
     if(req.body.update){
-      var insert_diary = db.prepare( `UPDATE posts SET down=?, up=?, awake=?, rate=? WHERE id=?;` );
-    } else {
+
+      var values = [
+          moment([req.body.down_date, req.body.down_time].join(" ") ).format("X"), 
+          moment([req.body.up_date, req.body.up_time].join(" ") ).format("X"), 
+          ( parseInt(req.body.awake_hours) + parseInt(req.body.awake_minutes) ), 
+          req.body.rate,
+          req.body.id 
+          ]
+
+        console.log("Updating: ", values);
+        var insert_diary = db.prepare( `UPDATE posts SET down=?, up=?, awake=?, rate=? WHERE id=?;` );
+
+    } else { // CREATE POST
+
+      var values = [
+          req.cookies.user, 
+          moment([req.body.down_date, req.body.down_time].join(" ") ).format("X"), 
+          moment([req.body.up_date, req.body.up_time].join(" ") ).format("X"), 
+          ( parseInt(req.body.awake_hours) + parseInt(req.body.awake_minutes) ), 
+          req.body.rate
+          ]
+
+      console.log("Inserting new post: ", values);
       var insert_diary = db.prepare( `INSERT INTO posts (user_id, down, up, awake, rate) VALUES(?, ?, ?, ?, ?) ` );
     }
     
