@@ -148,13 +148,21 @@ function validateDiary(){
 
   // Look for rated stars 
   document.getElementsByName("rate").forEach( (el)=>{ if(el.checked) form_valid=true })
-  if(!form_valid) alert('Vänligen skatta sömnkvaliten för att spara inlägget')
+  if(!form_valid){
+    document.getElementById('rate_warning').classList.remove('collapse');
+  } else {
+    document.getElementById('rate_warning').classList.add('collapse');
+  }
   console.log("Form valid: ", form_valid);
   return form_valid;
 }
 
 function validate_sleep_date(){
-  window.diaryData.data_table.find( d => #TODO! )
+  if( window.diaryData.data_table.find( d => d.day == document.getElementById('morning_date').value ) ) { // If date was found since before
+    document.getElementById('morning_date_warning').classList.remove('collapse');
+  } else {
+    document.getElementById('morning_date_warning').classList.add('collapse');
+  }
 }
 
 

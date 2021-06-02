@@ -1,3 +1,4 @@
+
 <% if(typeof post === 'undefined') post = null; %>
 <div class="card card-background">
     <div class="card-body">
@@ -23,8 +24,12 @@
       </div>
   </div>
 <div class="mb-4 row">
-      <input required=required type="date" class="form-control blue-input-frame" id="morning_date" name="down_date" onchange="check_form();" value="<%= (post) ? moment(post.down, 'X').format("YYYY-MM-DD") : moment().subtract(1, 'day').format("YYYY-MM-DD"); %>"  class="form-control">
-    </div>
+      <input required=required type="date" class="form-control blue-input-frame"  id="morning_date" name="down_date" onchange="validate_sleep_date();" value="<%= (post) ? moment(post.down, 'X').format("YYYY-MM-DD") : moment().subtract(1, 'day').format("YYYY-MM-DD"); %>"  class="form-control">
+</div>
+<!-- WARNING FIELD - HIDDEN -->
+<div id="morning_date_warning" class="collapse alert alert-danger" role="alert">
+    Obs! Detta datum finns redan sparat sedan tidigare 
+</div>  
 
 
 <hr class="linje-ny-dagbok">
@@ -201,7 +206,12 @@
          </div>
 
         </div>
+
       </div>
+        <!-- WARNING FIELD - HIDDEN -->
+        <div id="rate_warning" class="collapse alert alert-danger" role="alert">
+            Vänligen ange skattad sömnkvalitét 
+        </div>  
 
 
 <hr class="linje-ny-dagbok">
