@@ -60,7 +60,7 @@ function draw_veckans_inlagg(data) {
         {'<>':'td', 'html': element.found.sleep_efficiency},
         {'<>':'td', 'html': element.found.time_asleep},
         {'<>':'td', 'html': element.found.sleep_rate},
-        {'<>':'td', 'html': [{'<>':'button', 'data-id': element.found.id, class:'delete-post-button' }] },
+        {'<>':'td', 'html': [{'<>':'button', 'data-id': element.found.id, class:'delete-post-button', 'html':'<i class="fa fa-trash"></i>'  }] },
       ]}
 
       document.getElementById('all_posts_table')
@@ -147,7 +147,7 @@ function validateDiary(){
   console.log("validating form");
   var form_valid = false;
 
-  // Look for rated stars 
+  // Look for rated stars
   document.getElementsByName("rate").forEach( (el)=>{ if(el.checked) form_valid=true })
   if(!form_valid){
     document.getElementById('rate_warning').classList.remove('collapse');

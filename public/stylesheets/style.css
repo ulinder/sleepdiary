@@ -456,6 +456,24 @@ thead {
   color: white;
 }
 
-#sleep-graph-canvas {
 
+.delete-post-button {
+
+    background-color: #EC9595;
+    border: none;
+    color: #2F3032;
+    border-radius: 26px;
+    padding: 12px 18px;
+    margin-left: 0px;
+
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0px 3px 10px #1E2128;
+    font-family:"Frutiger Roman";
+}
+
+.delete-post-button:hover {
+  background-color: ##A44C4C;
+  border: none;
+  color: #ffff;
 }
