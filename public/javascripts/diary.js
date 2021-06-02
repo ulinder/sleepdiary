@@ -201,6 +201,7 @@ $(document).ready( ()=>{
             // draw_veckans_tips(data);
           }
           $('.delete-post-button').on('click', (el)=>{ // add after table render
+            el.target.parentElement.parentElement.className = "collapse";
             console.log(el.target.dataset.id);
             delete_post(el.target.dataset.id);
           });
