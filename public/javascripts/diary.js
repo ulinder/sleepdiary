@@ -51,6 +51,7 @@ function draw_veckans_inlagg(data) {
 
     if(element.found == null) element.found = found_dummy; // catch found = null
       moment.locale('sv');
+      delete_button = (element.found.id) ? [{'<>':'button', 'data-id': element.found.id, class:'delete-post-button', 'html':'<i class="fa fa-trash"></i>' }]: '';
       template = {'<>':'tr','html': [
         {'<>':'td', 'html': moment(element.day).format('ww') },
         {'<>':'td', 'html': moment(element.day).format('ddd Do MMMM') },
@@ -60,7 +61,7 @@ function draw_veckans_inlagg(data) {
         {'<>':'td', 'html': element.found.sleep_efficiency},
         {'<>':'td', 'html': element.found.time_asleep},
         {'<>':'td', 'html': element.found.sleep_rate},
-        {'<>':'td', 'html': [{'<>':'button', 'data-id': element.found.id, class:'delete-post-button', 'html':'<i class="fa fa-trash"></i>'  }] },
+        {'<>':'td', 'html': delete_button },
       ]}
 
       document.getElementById('all_posts_table')
@@ -199,6 +200,10 @@ $(document).ready( ()=>{
             draw_graph(data);
             // draw_veckans_tips(data);
           }
+          $('.delete-post-button').on('click', (el)=>{ // add after table render
+            console.log(el.target.dataset.id);
+            delete_post(el.target.dataset.id);
+          });
         } else {
           consol.error("No data was sent from server")
           // We reached our target server, but it returned an error
@@ -211,10 +216,7 @@ $(document).ready( ()=>{
 
       request.send();
 
+     
 
-      document.findElementsByClassName('delete-post-button')
+});
 
-
-
-
-})
