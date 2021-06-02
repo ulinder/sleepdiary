@@ -144,11 +144,13 @@ function draw_graph(data){
 
 function validateDiary(){
   console.log("validating form");
-  var form_validity = false;
+  var form_valid = false;
+
   // Look for rated stars
-  document.getElementsByName("rate").forEach( (el)=>{ if(el.checked) form_validity=true })
-  console.log("Form valid: ", form_validity);
-  return form_validity;
+  document.getElementsByName("rate").forEach( (el)=>{ if(el.checked) form_valid=true })
+  if(!form_valid) alert('Vänligen skatta sömnkvaliten för att spara inlägget')
+  console.log("Form valid: ", form_valid);
+  return form_valid;
 }
 
 
