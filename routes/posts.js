@@ -128,6 +128,7 @@ router.get('/:id/edit', function(req, res, next) {
 /* CREATE/UPDATE diarypost */
 router.post('/', function(req, res, next) {
 
+    if(moment(req.body.up_date, 'x') > moment().format('x') ) return console.error('Future sleeper');
     // if(req.body.update){ return res.json({body: req.body}) }
     // console.log(req.body); 
 
@@ -164,5 +165,13 @@ router.post('/', function(req, res, next) {
     });
     
 });
+
+router.delete('/:id', function (req, res) {
+  res.send('Got a DELETE request at /post')
+  db.run('DELETE FROM posts WHERE id=?', req.params.id, (err, res)=>{
+    console.log(res);
+  })
+})
+
 
 module.exports = router;

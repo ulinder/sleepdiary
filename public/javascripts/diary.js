@@ -60,6 +60,7 @@ function draw_veckans_inlagg(data) {
         {'<>':'td', 'html': element.found.sleep_efficiency},
         {'<>':'td', 'html': element.found.time_asleep},
         {'<>':'td', 'html': element.found.sleep_rate},
+        {'<>':'td', 'html': [{'<>':'button', 'data-id': element.found.id, class:'delete-post-button' }] },
       ]}
 
       document.getElementById('all_posts_table')
@@ -165,6 +166,18 @@ function validate_sleep_date(){
   }
 }
 
+function delete_post(id){
+
+  var xhr1 = new XMLHttpRequest();
+  xhr1.open('DELETE', "/posts/"+ id, true);
+  xhr1.onreadystatechange = function() {
+      if (this.status == 200 && this.readyState == 4) {
+          console.log('Deleting looks good...');
+      }
+  };//end onreadystate
+   xhr1.send();
+}
+
 
 $(document).ready( ()=>{
     const user_id = document.cookie
@@ -197,4 +210,11 @@ $(document).ready( ()=>{
       };
 
       request.send();
+
+
+      document.findElementsByClassName('delete-post-button')
+
+
+
+
 })
