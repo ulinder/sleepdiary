@@ -36,7 +36,7 @@ var data_table = (dbresults) =>{
       seconds_in_bed,
       seconds_asleep;
 
-  var found_dummy = {
+  var _dummy = {
             id: "",
             date_to_bed: "",
             time_to_bed: "",
@@ -50,7 +50,7 @@ var data_table = (dbresults) =>{
   }
    
 
-  for (var i=0; i < 60; i++) {
+  for (var i=0; i < 60; i++) { 
       this_up_date = moment(first_date_str).add(i, 'days').format("YYYY-MM-DD").toString();
       
       if( moment(dbresults[0].up, "X").format("YYYY-MM-DD") == this_up_date){ // this date has a post? 
@@ -61,7 +61,8 @@ var data_table = (dbresults) =>{
         posts_table.push( {
           week: moment(this_up_date).format("ww"),
           day: this_up_date, 
-          found: {
+          found: true, 
+          data: { 
               id: found.id, 
               date_to_bed: moment(found.down, "X").format("YYYY-MM-DD"), 
               time_to_bed: moment(found.down, "X").format("HH:MM"), 
@@ -75,7 +76,7 @@ var data_table = (dbresults) =>{
             }
         } );
       } else {
-        posts_table.push( { week: moment(this_up_date).format("ww"), day: this_up_date, found: null } ); 
+        posts_table.push( { week: moment(this_up_date).format("ww"), day: this_up_date, data: _dummy, found: false } ); 
       }
     if(dbresults.length == 0) break;
   } // for 
@@ -110,6 +111,7 @@ var data_table = (dbresults) =>{
 router.get('/:user_id/json', function(req, res, next) {
     db.all("SELECT * FROM posts WHERE user_id = ? ORDER BY down ASC", [req.params.user_id], (error, dbresults) =>{
       if(error) res.json({ error: error })
+      console.table(dbresults);
       res.json( data_table(dbresults) )
       });
 });
@@ -128,9 +130,12 @@ router.get('/:id/edit', function(req, res, next) {
 /* CREATE/UPDATE diarypost */
 router.post('/', function(req, res, next) {
 
-    if(moment(req.body.up_date, 'x') > moment().format('x') ) return console.error('Future sleeper');
-    // if(req.body.update){ return res.json({body: req.body}) }
-    // console.log(req.body); 
+    // check for future sleeper
+    if( moment(req.body.up_date).format('x') > moment().format('x') || 
+        moment(req.body.down_date).format('x') > moment().format('x') ) 
+      { console.error('Future sleeper');
+        return res.json({'error': 'Future sleeper'}); 
+      }
 
     if(req.body.update){
 

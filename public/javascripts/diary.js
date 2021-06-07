@@ -12,19 +12,6 @@
 
 
 
-var found_dummy = {
-            id: "",
-            date_to_bed: "",
-            time_to_bed: "",
-            date_up_from_bed: "",
-            time_up_from_bed: "",
-            time_in_bed: "",
-            sleep_rate: "",
-            time_awake: "",
-            time_asleep: "",
-            sleep_efficiency: ""
-  }
-
 function draw_veckans_tips(data) {
   var prev_week_int = parseInt(data.current_week) - 1,
       prev_week_data,
@@ -48,19 +35,17 @@ function draw_veckans_inlagg(data) {
   data.data_table.forEach( function(element, index) {
 
     // TABLE with all posts
-
-    if(element.found == null) element.found = found_dummy; // catch found = null
       moment.locale('sv');
-      delete_button = (element.found.id) ? [{'<>':'button', 'data-id': element.found.id, class:'delete-post-button', 'html':'<i class="fa fa-trash"></i>' }]: '';
+      delete_button = (element.data.id) ? [{'<>':'button', 'data-id': element.data.id, class:'delete-post-button', 'html':'<i class="fa fa-trash"></i>' }]: '';
       template = {'<>':'tr','html': [
         {'<>':'td', 'html': moment(element.day).format('ww') },
         {'<>':'td', 'html': moment(element.day).format('ddd Do MMMM') },
-        {'<>':'td', 'html': element.found.time_to_bed},
-        {'<>':'td', 'html': element.found.time_up_from_bed},
-        {'<>':'td', 'html': element.found.time_awake},
-        {'<>':'td', 'html': element.found.sleep_efficiency},
-        {'<>':'td', 'html': element.found.time_asleep},
-        {'<>':'td', 'html': element.found.sleep_rate},
+        {'<>':'td', 'html': element.data.time_to_bed},
+        {'<>':'td', 'html': element.data.time_up_from_bed},
+        {'<>':'td', 'html': element.data.time_awake},
+        {'<>':'td', 'html': element.data.sleep_efficiency},
+        {'<>':'td', 'html': element.data.time_asleep},
+        {'<>':'td', 'html': element.data.sleep_rate},
         {'<>':'td', 'html': delete_button },
       ]}
 
@@ -70,19 +55,19 @@ function draw_veckans_inlagg(data) {
 
 
     if(element.week === data.current_week){ // Add CARDS
-      if(element.found){
+      if(element.data){
         n_this_week++
         temp = document.getElementById("template-veckans-inlagg");
         clon = temp.content.cloneNode(true);
         clon.querySelector('.inlagg-datum').innerText = element.day;
-        clon.querySelector('.inlagg-down').innerText = element.found.time_to_bed;
-        clon.querySelector('.inlagg-up').innerText = element.found.time_up_from_bed;
-        clon.querySelector('.inlagg-awake').innerText = element.found.time_awake;
-        clon.querySelector('.inlagg-asleep').innerText = element.found.time_asleep;
-        clon.querySelector('.inlagg-rate').innerText = times(element.found.sleep_rate, '★')
-        // ( for(var i=0; i<element.found.sleep_rate; i++){ return '★'} );
-        clon.querySelector('.inlagg-efficiency').innerText = element.found.sleep_efficiency;
-        clon.querySelector('.edit-post-link').href = `/posts/${element.found.id}/edit`;
+        clon.querySelector('.inlagg-down').innerText = element.data.time_to_bed;
+        clon.querySelector('.inlagg-up').innerText = element.data.time_up_from_bed;
+        clon.querySelector('.inlagg-awake').innerText = element.data.time_awake;
+        clon.querySelector('.inlagg-asleep').innerText = element.data.time_asleep;
+        clon.querySelector('.inlagg-rate').innerText = times(element.data.sleep_rate, '★')
+        // ( for(var i=0; i<element.data.sleep_rate; i++){ return '★'} );
+        clon.querySelector('.inlagg-efficiency').innerText = element.data.sleep_efficiency;
+        clon.querySelector('.edit-post-link').href = `/posts/${element.data.id}/edit`;
       }
       else
       {
@@ -160,10 +145,29 @@ function validateDiary(){
 }
 
 function validate_sleep_date(){
-  if( window.diaryData.data_table.find( d => d.day == document.getElementById('morning_date').value ) ) { // If date was found since before
-    document.getElementById('morning_date_warning').classList.remove('collapse');
+  let downDate = document.getElementById('down_date').value;
+  if( moment().format('x') < moment(downDate).format('x') ) alert('Fel: Du har anget ett datum senare än idag! Vänligen ändra detta för att gå vidare.');
+  // if( window.diaryData.data_table
+  //     .find( d => d.day == downDate ) || // if this was found before
+  //   ) 
+  // { // If date was found since before
+  //   document.getElementById('down_date_warning').classList.remove('collapse');
+  // } else {
+  //   document.getElementById('down_date_warning').classList.add('collapse');
+  // }
+}
+
+function validate_up_date(){
+  let downDate = document.getElementById('down_date').value;
+  let upDate = document.getElementById('up_date').value;
+
+  if(moment(downDate) > moment(upDate)) alert('Fel: Du har angett att du la dig i sängen efter du klev upp. Kontrollera dina datum innan du går vidare');
+
+  if( (window.diaryData.data_table.find( d => d.day == upDate )).found ) { // If date was found since before
+    document.getElementById('up_date_warning').classList.remove('collapse');
+    console.error('Found old date: ', upDate);
   } else {
-    document.getElementById('morning_date_warning').classList.add('collapse');
+    document.getElementById('up_date_warning').classList.add('collapse');
   }
 }
 

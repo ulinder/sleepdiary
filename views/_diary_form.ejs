@@ -24,12 +24,9 @@
       </div>
   </div>
 <div class="mb-4 row">
-      <input required=required type="date" class="form-control blue-input-frame"  id="morning_date" name="down_date" onchange="validate_sleep_date();" value="<%= (post) ? moment(post.down, 'X').format("YYYY-MM-DD") : moment().subtract(1, 'day').format("YYYY-MM-DD"); %>"  class="form-control">
+      <input required=required type="date" class="form-control blue-input-frame"  id="down_date" name="down_date" onchange="validate_sleep_date();" value="<%= (post) ? moment(post.down, 'X').format("YYYY-MM-DD") : moment().subtract(1, 'day').format("YYYY-MM-DD"); %>"  class="form-control">
 </div>
-<!-- WARNING FIELD - HIDDEN -->
-<div id="morning_date_warning" class="collapse alert alert-danger" role="alert">
-    Obs! Detta datum finns redan sparat sedan tidigare 
-</div>  
+
 
 
 <hr class="linje-ny-dagbok">
@@ -140,9 +137,12 @@
                 </div>
             </div>
   <div class="mb-4 row">
-    <input required=required type="date" class="form-control blue-input-frame" id="morning_date" name="up_date" onchange="check_form();" value="<%= (post) ? moment(post.up, 'X').format("YYYY-MM-DD") : moment().format("YYYY-MM-DD"); %>"  class="form-control">
+    <input required=required type="date" class="form-control blue-input-frame" id="up_date" name="up_date" onchange="validate_up_date();" value="<%= (post) ? moment(post.up, 'X').format("YYYY-MM-DD") : moment().format("YYYY-MM-DD"); %>"  class="form-control">
   </div>
-
+  <!-- WARNING FIELD - HIDDEN -->
+  <div id="up_date_warning" class="collapse alert alert-danger" role="alert">
+      Obs! Detta datum finns redan sparat sedan tidigare 
+  </div>  
 
 
 <hr class="linje-ny-dagbok">
