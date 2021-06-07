@@ -4,10 +4,6 @@
 // #####  draw_veckans_tips
 // #####  draw_veckans_inlagg
 // #####  draw_graph
-// #####  validateDiary
-// #####
-// #####
-// #####
 // ##### document.ready
 
 
@@ -55,13 +51,13 @@ function draw_veckans_inlagg(data) {
 
 
     if(element.week === data.current_week){ // Add CARDS
-      if(element.data){
+      if(element.found){
         n_this_week++
         temp = document.getElementById("template-veckans-inlagg");
         clon = temp.content.cloneNode(true);
-        clon.querySelector('.inlagg-datum').innerText = element.day;
-        clon.querySelector('.inlagg-down').innerText = element.data.time_to_bed;
-        clon.querySelector('.inlagg-up').innerText = element.data.time_up_from_bed;
+        clon.querySelector('.inlagg-datum').innerText = moment(element.day).format('ddd Do MMMM');
+        clon.querySelector('.inlagg-down').innerText = `${element.data.time_to_bed} (${moment(element.data.date_to_bed).format('ddd')})`;
+        clon.querySelector('.inlagg-up').innerText = `${element.data.time_up_from_bed} (${moment(element.data.date_up_from_bed).format('ddd')})`;
         clon.querySelector('.inlagg-awake').innerText = element.data.time_awake;
         clon.querySelector('.inlagg-asleep').innerText = element.data.time_asleep;
         clon.querySelector('.inlagg-rate').innerText = times(element.data.sleep_rate, '★')
@@ -74,7 +70,7 @@ function draw_veckans_inlagg(data) {
         temp = document.getElementsByClassName("template-veckans-inlagg-empty")[0];
         clon = temp.content.cloneNode(true);
         clon.querySelector('.inlagg-datum').innerText = element.day;
-        clon.querySelector('.edit-post-link').class = "hidden"
+        clon.querySelector('.edit-post-link').className = "collapse"
 
       }
         document.getElementById("inlagg_taget_div").appendChild(clon);
@@ -129,47 +125,6 @@ function draw_graph(data){
         });
 }
 
-function validateDiary(){
-  console.log("validating form");
-  var form_valid = false;
-
-  // Look for rated stars
-  document.getElementsByName("rate").forEach( (el)=>{ if(el.checked) form_valid=true })
-  if(!form_valid){
-    document.getElementById('rate_warning').classList.remove('collapse');
-  } else {
-    document.getElementById('rate_warning').classList.add('collapse');
-  }
-  console.log("Form valid: ", form_valid);
-  return form_valid;
-}
-
-function validate_sleep_date(){
-  let downDate = document.getElementById('down_date').value;
-  if( moment().format('x') < moment(downDate).format('x') ) alert('Fel: Du har anget ett datum senare än idag! Vänligen ändra detta för att gå vidare.');
-  // if( window.diaryData.data_table
-  //     .find( d => d.day == downDate ) || // if this was found before
-  //   ) 
-  // { // If date was found since before
-  //   document.getElementById('down_date_warning').classList.remove('collapse');
-  // } else {
-  //   document.getElementById('down_date_warning').classList.add('collapse');
-  // }
-}
-
-function validate_up_date(){
-  let downDate = document.getElementById('down_date').value;
-  let upDate = document.getElementById('up_date').value;
-
-  if(moment(downDate) > moment(upDate)) alert('Fel: Du har angett att du la dig i sängen efter du klev upp. Kontrollera dina datum innan du går vidare');
-
-  if( (window.diaryData.data_table.find( d => d.day == upDate )).found ) { // If date was found since before
-    document.getElementById('up_date_warning').classList.remove('collapse');
-    console.error('Found old date: ', upDate);
-  } else {
-    document.getElementById('up_date_warning').classList.add('collapse');
-  }
-}
 
 function delete_post(id){
 

@@ -3,7 +3,7 @@
 <div class="card card-background">
     <div class="card-body">
 
-<form action="/posts" class="" id="diaryform" onsubmit="return validateDiary()"  method="post">
+<form action="/posts" class="" id="diaryform" method="post">
   <% if(post){ %> <input type="hidden" name="update" value="true" > <% } %>
   <% if(post){ %> <input type="hidden" name="id" value="<%= post.id %>" > <% } %>
 
@@ -26,7 +26,10 @@
 <div class="mb-4 row">
       <input required=required type="date" class="form-control blue-input-frame"  id="down_date" name="down_date" onchange="validate_sleep_date();" value="<%= (post) ? moment(post.down, 'X').format("YYYY-MM-DD") : moment().subtract(1, 'day').format("YYYY-MM-DD"); %>"  class="form-control">
 </div>
-
+  <!-- WARNING FIELD - HIDDEN -->
+  <div id="down_date_5_days_warning" class="collapse alert alert-danger" role="alert">
+      Obs! Du kan inte spara datum äldre än 5 dagar 
+  </div>  
 
 
 <hr class="linje-ny-dagbok">
@@ -51,7 +54,7 @@
                   </div>
               </div>
       <div class="mb-4 clockpicker input-group row" data-autoclose="true">
-          <input type="text" pattern="^[0-9]{2}:[0-9]{2}" class="form-control blue-input-frame liten-ruta" required="1" name="down_time" id="down_time" value="<%= (post) ? moment(post.down, 'X').format("HH:MM")  : '' %>" >
+          <input type="text" placeholder="00:00" pattern="^[0-9]{2}:[0-9]{2}" class="form-control blue-input-frame liten-ruta" required="1" name="down_time" id="down_time" value="<%= (post) ? moment(post.down, 'X').format("HH:MM")  : '' %>" >
           <span class="input-group-addon">
               <span class="glyphicon glyphicon-time"></span>
           </span>
@@ -165,7 +168,7 @@
         </div>
 
       <div class="mb-4 clockpicker row" data-autoclose="true">
-              <input type="text" pattern="^[0-9]{2}:[0-9]{2}" class="form-control blue-input-frame liten-ruta" required="1" name="up_time" id="up" value="<%= (post) ? moment(post.up, 'X').format("HH:MM") : ""; %>">
+              <input type="text" placeholder="00:00" pattern="^[0-9]{2}:[0-9]{2}" class="form-control blue-input-frame liten-ruta" required="1" name="up_time" id="up" value="<%= (post) ? moment(post.up, 'X').format("HH:MM") : ""; %>">
               <span class="input-group-addon">
                   <span class="glyphicon glyphicon-time"></span>
               </span>

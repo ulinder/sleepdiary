@@ -198,7 +198,7 @@ input::-webkit-calendar-picker-indicator {
   text-align:center;
 
 }
-#morning_date{
+#up_date, #down_date{
   max-width: 235px;
 }
 .liten-ruta{

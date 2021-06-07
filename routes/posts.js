@@ -29,33 +29,26 @@ var data_table = (dbresults) =>{
   
   var first_date_str = moment( dbresults[0].up, "X" ).format("YYYY-MM-DD").toString(),
       first_week_str = moment( dbresults[0].up, "X" ).format("ww").toString(),
-      this_up_date,
+      this_up_date = first_date_str,
       posts_table = [],
       weeks = new Map(),
       found,
       seconds_in_bed,
-      seconds_asleep;
+      seconds_asleep,
+      i = 0,
+      _dummy = { id: "", date_to_bed: "", time_to_bed: "", date_up_from_bed: "", time_up_from_bed: "", time_in_bed: "", sleep_rate: "", time_awake: "", time_asleep: "", sleep_efficiency: ""};
 
-  var _dummy = {
-            id: "",
-            date_to_bed: "",
-            time_to_bed: "",
-            date_up_from_bed: "",
-            time_up_from_bed: "",
-            time_in_bed: "",
-            sleep_rate: "",
-            time_awake: "",
-            time_asleep: "",
-            sleep_efficiency: ""
-  }
-   
+  
+  while (dbresults.length > 1) { 
 
-  for (var i=0; i < 60; i++) { 
-      this_up_date = moment(first_date_str).add(i, 'days').format("YYYY-MM-DD").toString();
+      if(dbresults[0] && moment(dbresults[0].up, "X").format("YYYY-MM-DD") != this_up_date){
+        posts_table.push( { week: moment(this_up_date).format("ww"), day: this_up_date, data: _dummy, found: false } ); 
+      }
+
+      while( dbresults[0] && moment(dbresults[0].up, "X").format("YYYY-MM-DD") == this_up_date){ 
       
-      if( moment(dbresults[0].up, "X").format("YYYY-MM-DD") == this_up_date){ // this date has a post? 
-
         found = dbresults.shift();
+
         seconds_in_bed = found.up - found.down;
         seconds_asleep = seconds_in_bed - found.awake
         posts_table.push( {
@@ -74,12 +67,12 @@ var data_table = (dbresults) =>{
               time_asleep: seconds_to_text(seconds_asleep),
               sleep_efficiency: ( seconds_asleep/seconds_in_bed*100 ).toString().split(".")[0] + '%'
             }
-        } );
-      } else {
-        posts_table.push( { week: moment(this_up_date).format("ww"), day: this_up_date, data: _dummy, found: false } ); 
+        } ); // push into array
       }
-    if(dbresults.length == 0) break;
-  } // for 
+    i++;
+    this_up_date = moment(first_date_str).add(i, 'days').format("YYYY-MM-DD").toString();
+    
+  } // while 
 
   const arrAvg = (accumulator, currentValue) => accumulator + currentValue;  
 
@@ -89,7 +82,7 @@ var data_table = (dbresults) =>{
     
     if(day.found){ 
       arr = weeks.get(day.week).posts;
-      arr.push( parseInt(day.found.sleep_efficiency) );
+      arr.push( parseInt(day.data.sleep_efficiency) );
       weeks.set( day.week, { posts: arr, avg: Math.round( arr.reduce(arrAvg)/arr.length) } ); 
     } 
   });
@@ -111,7 +104,6 @@ var data_table = (dbresults) =>{
 router.get('/:user_id/json', function(req, res, next) {
     db.all("SELECT * FROM posts WHERE user_id = ? ORDER BY down ASC", [req.params.user_id], (error, dbresults) =>{
       if(error) res.json({ error: error })
-      console.table(dbresults);
       res.json( data_table(dbresults) )
       });
 });
