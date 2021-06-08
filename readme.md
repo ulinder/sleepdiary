@@ -14,7 +14,7 @@ starting app in dev-mode using nodemon
 nodemon DEBUG=myapp:* npm start
 
 # Prod
-pm2 start bin/www 
+pm2 start bin/www --name sleepdiary
 pm2 ls // list units
 
 # db cli
