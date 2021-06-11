@@ -13,7 +13,9 @@ Setting up
 starting app in dev-mode using nodemon
 nodemon DEBUG=myapp:* npm start
 
+
 # Prod
+env NODE_ENV=production
 pm2 start bin/www --name sleepdiary
 pm2 ls // list units
 
@@ -36,9 +38,9 @@ Starta dev server
 
 # describe tables
 Gives all tables
-    db > SELECT name FROM sqlite_master WHERE type='table' and tbl_name not like 'sqlite_%';
+    SELECT name FROM sqlite_master WHERE type='table' and tbl_name not like 'sqlite_%';
 Descsribe each table:
-    db > pragma table_info('posts');
+    pragma table_info('posts');
 
 
 # moment(Number);
