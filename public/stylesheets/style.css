@@ -107,7 +107,7 @@ h3 h2 {
     margin: 0 auto;
 }
 
-/*  Veckans-tips och streaks*/
+/*  Veckans-tips, sleepview och streaks*/
 
 .veckans-tips {
   font-family: Garamond;
@@ -124,13 +124,40 @@ h3 h2 {
   font-weight: bold;
 }
 
-.streak {
+.sleepview {
   font-family: Garamond;
+  color: #D8DEE9;
+  font-size: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.sleepview2 {
   color: #6E90C4;
-  text-align: center;
-  font-size: 40px;
+  font-size: 33px;
   font-weight: bold;
 }
+.sleep-row {
+  display:flex;
+  justify-content: center;
+}
+.sleep-row .veckans-tips {
+  max-width: 30ch;
+}
+
+.smiley{
+  padding-left: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.linje-smiley {
+  border-top: 2px solid #4C566A;
+  width:70%;
+  margin: auto;
+  margin-bottom: 30px;
+  margin-top: 10px;
+}
+
 .streak-text {
   text-align: center;
 }
@@ -138,6 +165,8 @@ h3 h2 {
 .btn-skapa {
   margin-top:15px;
 }
+
+
 /* Skapa nytt dagboksinlägg*/
 
 input::-webkit-calendar-picker-indicator {
@@ -473,7 +502,7 @@ thead {
 }
 
 .delete-post-button:hover {
-  background-color: ##A44C4C;
+  background-color: #A44C4C;
   border: none;
   color: #ffff;
 }
