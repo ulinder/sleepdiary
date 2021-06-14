@@ -54,7 +54,7 @@
                   </div>
               </div>
       <div class="mb-4 clockpicker input-group row" data-autoclose="true">
-          <input type="text" placeholder="00:00" pattern="^[0-9]{2}:[0-9]{2}" class="form-control blue-input-frame liten-ruta" required="1" name="down_time" id="down_time" value="<%= (post) ? moment(post.down, 'X').format("HH:MM")  : '' %>" >
+          <input type="text" placeholder="00:00" pattern="^[0-9]{2}:[0-9]{2}" class="form-control blue-input-frame liten-ruta" required="1" name="down_time" id="down_time" value="<%= (post) ? moment(post.down, 'X').format("HH:mm")  : '' %>" >
           <span class="input-group-addon">
               <span class="glyphicon glyphicon-time"></span>
           </span>
@@ -168,7 +168,7 @@
         </div>
 
       <div class="mb-4 clockpicker row" data-autoclose="true">
-              <input type="text" placeholder="00:00" pattern="^[0-9]{2}:[0-9]{2}" class="form-control blue-input-frame liten-ruta" required="1" name="up_time" id="up" value="<%= (post) ? moment(post.up, 'X').format("HH:MM") : ""; %>">
+              <input type="text" placeholder="00:00" pattern="^[0-9]{2}:[0-9]{2}" class="form-control blue-input-frame liten-ruta" required="1" name="up_time" id="up" value="<%= (post) ? moment(post.up, 'X').format("HH:mm") : ""; %>">
               <span class="input-group-addon">
                   <span class="glyphicon glyphicon-time"></span>
               </span>
