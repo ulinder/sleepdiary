@@ -8,4 +8,6 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
     }   
 });
 
+if(process.env.NODE_ENV === "development") db.on('trace', trace => console.log(trace) )
+
 module.exports = db

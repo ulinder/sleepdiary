@@ -70,7 +70,7 @@ function draw_veckans_inlagg(data) {
         temp = document.getElementsByClassName("template-veckans-inlagg-empty")[0];
         clon = temp.content.cloneNode(true);
         clon.querySelector('.inlagg-datum').innerText = element.day;
-        clon.querySelector('.edit-post-link').className = "collapse"
+        // clon.querySelector('.edit-post-link').className = "collapse" !BUG
 
       }
         document.getElementById("inlagg_taget_div").appendChild(clon);

@@ -39,7 +39,7 @@ var data_table = (dbresults) =>{
       _dummy = { id: "", date_to_bed: "", time_to_bed: "", date_up_from_bed: "", time_up_from_bed: "", time_in_bed: "", sleep_rate: "", time_awake: "", time_asleep: "", sleep_efficiency: ""};
 
   
-  while (dbresults.length > 1) { 
+  while (dbresults.length > 0) { 
 
       if(dbresults[0] && moment(dbresults[0].up, "X").format("YYYY-MM-DD") != this_up_date){
         posts_table.push( { week: moment(this_up_date).format("ww"), day: this_up_date, data: _dummy, found: false } ); 
@@ -58,9 +58,9 @@ var data_table = (dbresults) =>{
           data: { 
               id: found.id, 
               date_to_bed: moment(found.down, "X").format("YYYY-MM-DD"), 
-              time_to_bed: moment(found.down, "X").format("HH:MM"), 
+              time_to_bed: moment(found.down, "X").format("HH:mm"), 
               date_up_from_bed: moment(found.up, "X").format("YYYY-MM-DD"), 
-              time_up_from_bed: moment(found.up, "X").format("HH:MM"), 
+              time_up_from_bed: moment(found.up, "X").format("HH:mm"), 
               time_in_bed: seconds_to_text(seconds_in_bed),
               sleep_rate: found.rate,
               time_awake: seconds_to_text(found.awake),
