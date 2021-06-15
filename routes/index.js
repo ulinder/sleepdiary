@@ -7,7 +7,7 @@ var moment = require('moment'); //.locale('sv');
 /* GET home page. */
 router.get('/', (req, res, next) => {
   if(!req.cookies.user) return res.render('401')
-  res.render('index', { title: 'Sömndagboken'} );
+  res.render('index', { title: 'Sömndagboken' , flash: ''} );
 });
 
 /* HANDLE login */
@@ -22,7 +22,6 @@ router.get('/:id/:hash', (req, res, next) => {
       } else {
         res.render('401', {title: "Ej behörig"})
       }
-
     });
 });
 

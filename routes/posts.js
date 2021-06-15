@@ -136,19 +136,24 @@ router.get('/:id/edit', function(req, res, next) {
 /* CREATE/UPDATE diarypost */
 router.post('/', function(req, res, next) {
 
-    // check for future sleeper
-    if( moment(req.body.up_date).format('x') > moment().format('x') || 
-        moment(req.body.down_date).format('x') > moment().format('x') ) 
-      { console.error('Future sleeper');
-        return res.json({'error': 'Future sleeper'}); 
-      }
+  if(req.body.down_time === '' || req.body.up_time === '') return res.json({error: 'timeless'})
+  // parse times to seconds
+  var down  = moment([req.body.down_date, req.body.down_time].join(" ") ).format("X");
+  var up    = moment([req.body.up_date, req.body.up_time].join(" ") ).format("X");
+  var awake = parseInt(req.body.awake_hours) + parseInt(req.body.awake_minutes);
+
+  // BACKEND-VALIDATION
+  if( up > moment().format('x') || down > moment().format('x') ) return res.json({'error': 'Future sleeper'}); 
+  if(down > up) return res.json({'error': 'reverser'}); 
+  if(req.body.rate === null) res.status(403);
+
 
     if(req.body.update){
 
       var values = [
-          moment([req.body.down_date, req.body.down_time].join(" ") ).format("X"), 
-          moment([req.body.up_date, req.body.up_time].join(" ") ).format("X"), 
-          ( parseInt(req.body.awake_hours) + parseInt(req.body.awake_minutes) ), 
+          down, 
+          up, 
+          ( awake ), 
           req.body.rate,
           req.body.id 
           ]
@@ -160,9 +165,9 @@ router.post('/', function(req, res, next) {
 
       var values = [
           req.cookies.user, 
-          moment([req.body.down_date, req.body.down_time].join(" ") ).format("X"), 
-          moment([req.body.up_date, req.body.up_time].join(" ") ).format("X"), 
-          ( parseInt(req.body.awake_hours) + parseInt(req.body.awake_minutes) ), 
+          down, 
+          up, 
+          ( awake ), 
           req.body.rate
           ]
 
@@ -170,6 +175,7 @@ router.post('/', function(req, res, next) {
       var insert_diary = db.prepare( `INSERT INTO posts (user_id, down, up, awake, rate) VALUES(?, ?, ?, ?, ?) ` );
     }
     
+
     insert_diary.run( values, (err) =>{ 
       if(err) console.warn(err);
       res.redirect('/?flash=crude');

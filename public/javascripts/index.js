@@ -1,6 +1,7 @@
 $(document).ready( function(){
 
   $('.clockpicker').clockpicker();
+  
   document.getElementById('diaryform').onsubmit = validateForm
 
 });
