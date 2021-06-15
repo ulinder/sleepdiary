@@ -2,11 +2,16 @@
   "name": "sleepdiary",
   "version": "1.2.0",
   "private": true,
+  "author": "Johnny Ulinder johnny@ulinder.net www.ulinder.net",
+  "contributors":[
+    "Stina Vestergren Kilborn https://www.linkedin.com/in/stina-vestergren-kilborn-a443a2aa/ "
+  ],
   "scripts": {
     "dev": "nodemon ./bin/www",
     "start": "node ./bin/www",
     "dbsetup": "node ./bin/dbsetup",
-    "seed": "node ./bin/seed"
+    "seed": "node ./bin/seed",
+    "info": "node ./bin/info"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",

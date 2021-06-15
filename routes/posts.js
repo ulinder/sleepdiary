@@ -27,7 +27,7 @@ const seconds_to_block_of = (type, seconds)=>{ // type => [h/m]
 }
 
 const data_table = (dbresults) =>{
-  if(!dbresults || dbresults.length == 0) return [];
+  if(!dbresults || dbresults.length == 0) return {current_week: moment().format('ww'), first_week: moment().format('ww'), data_table: [], weeks:[]};
   
   var first_date_str = moment( dbresults[0].up, "X" ).format("YYYY-MM-DD").toString(),
       first_week_str = moment( dbresults[0].up, "X" ).format("ww").toString(),
@@ -159,7 +159,7 @@ router.post('/', function(req, res, next) {
           ]
 
         console.log("Updating: ", values);
-        var insert_diary = db.prepare( `UPDATE posts SET down=?, up=?, awake=?, rate=? WHERE id=?;` );
+        var insert_diary = db.prepare( `UPDATE posts SET down=?, up=?, awake=?, rate=?, windown=?, winup=? WHERE id=?;` );
 
     } else { // CREATE POST
 
@@ -168,11 +168,13 @@ router.post('/', function(req, res, next) {
           down, 
           up, 
           ( awake ), 
-          req.body.rate
+          req.body.rate,
+          req.body.windown,
+          req.body.winup
           ]
 
       console.log("Inserting new post: ", values);
-      var insert_diary = db.prepare( `INSERT INTO posts (user_id, down, up, awake, rate) VALUES(?, ?, ?, ?, ?) ` );
+      var insert_diary = db.prepare( `INSERT INTO posts (user_id, down, up, awake, rate, windown, winup) VALUES(?, ?, ?, ?, ?, ?, ?) ` );
     }
     
 

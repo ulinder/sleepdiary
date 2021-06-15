@@ -9,6 +9,8 @@
   <% if(post){ %> <input type="hidden" name="update" value="true" > <% } %>
   <% if(post){ %> <input type="hidden" name="id" value="<%= post.id %>" > <% } %>
 
+  <input type="hidden" name="windown" value="<%= user.windown %>">
+  <input type="hidden" name="winup" value="<%= user.winup %>">
 
 
   <!-- DATUM FÖR SÄNGGÅNG -->
@@ -30,6 +32,7 @@
         </div>
       </div>
   </div>
+  
 <div class="mb-4 row">
 
     <input  required=required 

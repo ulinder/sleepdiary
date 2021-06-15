@@ -1,0 +1,16 @@
+#!/usr/bin/env node
+var db = require('../db.js');
+
+db.serialize( function(){
+  
+  console.log('DESCRIBE ALL TABELS IN DB');
+  db.all("pragma table_info('users')",(err, res)=>{
+    console.table(res);
+  });
+
+  db.all("pragma table_info('posts')",(err, res)=>{
+    console.table(res);
+  });
+
+db.close(); 
+}); 

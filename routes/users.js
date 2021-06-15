@@ -4,7 +4,7 @@ var db = require('../db.js');
 var md5 = require('md5');
 var utils = require('../utils');
 
-/* NEW user */
+/* NEW user form */
 router.get('/', function(req, res, next) {
   res.render('new_user', {link:"", title: "Ny dagbok"} );
 });
@@ -13,8 +13,20 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next) {
   var hash = md5(Date.now()).slice(0,12);
   db.run(`INSERT INTO users (hash) VALUES (?)`,[hash], function(err){
-    res.render('new_user', { link: utils.link_to(req, `${this.lastID}/${hash}`), title: "Ny dagbok" });
+    res.render('new_user', { link: utils.link_to(req, `${this.lastID}/${hash}`), hash: hash, title: "Ny dagbok" });
   }) 
+});
+
+// UPDATE User
+router.post('/:id/update', function(req, res){
+  var params = [req.body.windown, req.body.winup, req.params.id];
+  if(params[0].length != 5 && params[1].length != 5) return res.json({error: "fails!!"});
+    
+    console.log();
+    db.run("UPDATE users SET windown=?, winup=? WHERE id=?", params, function(err){
+      if(err) return res.json({error: err});
+      res.redirect('/')
+      }); 
 });
 
 /* SUPERADMIN  */
@@ -30,20 +42,3 @@ router.get('/admin123', function(req, res, next) {
 });
 
 module.exports = router;
-
-// type,name,tbl_name,rootpage,sql
-// table,users,users,2,"CREATE TABLE users (
-//     id INTEGER PRIMARY KEY AUTOINCREMENT, 
-//     hash TEXT)"
-// table,posts,posts,4,"CREATE TABLE posts (
-//     id INTEGER PRIMARY KEY AUTOINCREMENT,
-//     user_id INTEGER,
-//     date TEXT,
-//     down TEXT, 
-//     awake REAL, 
-//     up text,
-//     rate INTEGER,
-//     status TEXT,
-//     t TIMESTAMP
-//     DEFAULT CURRENT_TIMESTAMP
-//     )"

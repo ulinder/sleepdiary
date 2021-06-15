@@ -3,25 +3,57 @@
 <div class="card-body">
 
 
-    <h2> Sömnfönster </h2>
 
-  <p class="veckans-tips">
-    Ditt sömnfönster är den tid du bestämt med din behandlare att
-      du ska stiga upp och gå och lägga dig för att få så bra sömn som möjligt.
-  </p>
 
-  <div class="sleep-row">
-      <div class="sleepview">
-        Sänggång: <span class="sleepview2"> 22:30 </span>
-      </div>
-      <div class="sleepview">
-        Kliva upp: <span class="sleepview2"> 08:30 </span>
+  <div class="row">
+    <div class="col-10">
+      <h2> Sömnfönster </h2>
+    </div>
+
+    <div class="col-2">
+      <button type="button" class="info" data-bs-toggle="collapse" data-bs-target="#collapseDatumSang" aria-expanded="false" aria-controls="collapseDatumSang">i</button>
+    </div>
+  </div>
+
+
+  <div class="row">
+      <div class="collapse" id="collapseDatumSang">
+        <div class="card card-body infocard">
+              <i>  Ditt sömnfönster är den tid du bestämt med din behandlare att du ska stiga upp och gå och lägga dig.
+              </i>
+        </div>
       </div>
   </div>
 
-<hr class="linje-smiley">
 
-<div class="sleep-row">
+  <div class="sleep-row">
+      <div class="sleepview">
+        Sänggång: <span class="sleepview2"> <%= user.windown %> </span>
+      </div>
+      <div class="sleepview">
+        Kliva upp: <span class="sleepview2"> <%= user.winup %> </span>
+      </div>
+  </div>
+
+  <hr class="linje-smiley">
+
+  <form action="/users/<%= user.id %>/update" method="POST">
+    <h4>Ändra sömnfönster</h4>
+    <input type="hidden" method="PUT">
+    <div class="clockpicker" data-autoclose="true">
+        <input type="text" name="windown" id="windown" value="<%= user.windown %>">    
+    </div>
+
+    <div class="clockpicker" data-autoclose="true">
+      <input type="text" name="winup" id="winup" value="<%= user.winup %>">    
+    </div>
+
+    <input type="submit" value="Spara" name="submitbutton">
+
+  </form>
+
+
+<div class="sleep-row collapse">
   <div class="smiley">
     <svg class="" width="108" height="108" viewBox="0 0 108 108" fill="none" xmlns="http://www.w3.org/2000/svg">
     <circle cx="54" cy="54" r="54" fill="#F1E894"/>
