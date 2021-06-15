@@ -12,7 +12,7 @@ const err_miss_rate = "Du behöver skatta din sömnkvalitét med antal stjärnor
 function show_warning(id){ document.getElementById(id).classList.remove('collapse');  }
 function hide_warning(id){ document.getElementById(id).classList.add('collapse');  }
 
-function validateForm(event){
+const validateForm = function (event){
   // event.preventDefault();
   
   console.log('staring form validation');
