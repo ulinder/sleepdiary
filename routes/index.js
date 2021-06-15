@@ -7,9 +7,10 @@ var moment = require('moment'); //.locale('sv');
 /* GET home page. */
 router.get('/', (req, res, next) => {
   if(!req.cookies.user) return res.render('401');
+  var admin = (req.cookies.admin) ? true : false ;
   db.get("SELECT * FROM users WHERE id=?", req.cookies.user, (err, user)=>{
     if(err) return console.error(err);
-    res.render('index', { title: 'Sömndagboken' , flash: req.cookies, user: user, admin: req.cookies.admin } );
+    res.render('index', { title: 'Sömndagboken', flash: req.cookies, user: user, admin: admin } );
   });
 });
 
