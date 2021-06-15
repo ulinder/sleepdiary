@@ -2,28 +2,26 @@
 var db = require('../db.js');
 
 db.serialize( () => {
+  
   console.log("> Dropping previous tables and recreating [users, posts] <");
-  db.run(`DROP TABLE IF EXISTS users`,
-    (err)=>{
-    if(err) console.log(err, this.lastID);
+  
+  db.run(`DROP TABLE IF EXISTS users`, (err)=>{
+    if(err) console.error(err);
     });
 
-  db.run(`DROP TABLE IF EXISTS posts`,
-    (err)=>{
-    if(err)  console.log(err, this.lastID);
+  db.run(`DROP TABLE IF EXISTS posts`, (err)=>{
+    if(err)  console.error(err);
     });
 
   db.run(`CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     hash TEXT,
-    mode INTEGER DEAFULT 0,
-    version INTEGER DEAFULT 0,
-    windown TEXT DEFAULT '23:00',
-    winup TEXT DEFAULT '08:00' 
-    )`,
-
-    (err)=>{
-    if(err)  console.log(err, this.lastID);
+    mode INTEGER DEFAULT 0,
+    version INTEGER DEFAULT 0,
+    windown TEXT DEFAULT "23:00",
+    winup TEXT DEFAULT "08:00")`,
+    (err)=>{ 
+    if(err) return console.error(err);
     });
 
   db.run(`CREATE TABLE IF NOT EXISTS posts (
@@ -39,8 +37,8 @@ db.serialize( () => {
     t TIMESTAMP
     DEFAULT CURRENT_TIMESTAMP
     )`,
-    (err)=>{
-    if(err)  console.log(err, this.lastID);
+    (err)=>{ 
+    if(err)  throw `${err}, this.lastID`;
     });
 
   db.close(); 

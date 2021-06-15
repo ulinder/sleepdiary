@@ -7,7 +7,13 @@
         <a href="<%=`/${post.id}/${post.hash}/`%>">
           Användare-<%= post.id %>
         </a>
+        | 
+        <a href="<%=`/${post.id}/${post.hash}?admin=${post.hash}`%>">
+          AdminInterface-<%= post.id %>
+        </a>
         ( <%= post.dpcount %> inlägg )
+        , mode: <%= post.mode %>
+        , version: <%= post.version %>
       </p>
     <% }); -%>
   </p>

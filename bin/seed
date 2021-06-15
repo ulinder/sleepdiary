@@ -46,7 +46,7 @@ db.serialize( function(){
 
 
         if(rnd(0,1) == 1) stmt.run([ // randomly skip days 
-            lastID, 
+            userID, 
             m(`${date_down} ${rnd_down_time}`).format("X"), 
             m(`${date_up} ${rnd_up_time}`).format("X"), 
             Number(rnd_awake), 

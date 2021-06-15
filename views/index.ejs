@@ -1,4 +1,6 @@
+<% if(admin.length){ %> 
 <%- include('_admin_nav') %>
+<% } %>
 <div class="container">
   <% if(flash && flash.length > 0){ %>
     <div class="alert fixed-top" role="alert">
@@ -22,8 +24,8 @@
 
       <!-- Veckans Tips and Sleepview-->
       <div class="col-sm">
-        <%- include('_veckans_tips') %>
         <%- include('_sleepview') %>
+        <%- include('_veckans_tips') %>
       </div>
 
 

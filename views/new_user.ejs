@@ -3,12 +3,20 @@
     <div class="col">
       
       <% if (link) { -%>
-        <strong>Länk till ny dagbok: </strong>
-        <p><%= link %></p>
-        
+        <div class="mt-4">
+          
+        <h1>Länkar till ny dagbok: </h1>
+        <h2>Dessa länkar ges till användaren</h2>
+        <p><%= link %></p>        
         <p> <a href="<%=link%>"> <%=link%> </a> </p>
         
-        <a href="/users" class="mb-3"> Tillbaka </a>    
+        <h2>Dessa länkar behåller admin/behandlare</h2>
+        <strong>obs! Dessa länkar visas endast en gång och kan inte återställas!</strong>
+        <p>Admin-login (ge ej ut denna till patient) </p>
+        <p><%= link %>?admin=<%=hash %></p>        
+        <p> <a href="<%=link%>?admin=<%=hash %>"> <%=link%>?admin=<%=hash %> </a> </p>
+        <a href="/users" class="btn btn-large btn-primary"> Tillbaka </a>    
+        </div>
 
       <% } else { -%>
         <form method="post" action="/users">
