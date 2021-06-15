@@ -544,3 +544,11 @@ thead {
 .dropdown-item {
   padding-left: 40px;
 }
+
+.manual{
+max-width: 100ch;
+padding-left: 20px;
+
+
+
+}
