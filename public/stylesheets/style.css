@@ -142,10 +142,14 @@ h3 h2 {
 }
 .sleep-row .veckans-tips {
   max-width: 30ch;
+  padding:5px;
+}
+.sleep-row .btn-redigera {
+  margin-bottom:10px;
+    margin-top:15px;
 }
 
 .smiley{
-  padding-left: 10px;
   padding-left: 10px;
   padding-right: 10px;
 }
