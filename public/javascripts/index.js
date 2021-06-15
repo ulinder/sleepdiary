@@ -2,7 +2,7 @@ $(document).ready( function(){
 
   $('.clockpicker').clockpicker();
   
-  document.getElementById('diaryform').onsubmit = validateForm
+  if(document.getElementById('diaryform')) document.getElementById('diaryform').onsubmit = validateForm;
 
 });
 
