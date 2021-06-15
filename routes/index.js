@@ -26,3 +26,10 @@ router.get('/:id/:hash', (req, res, next) => {
 });
 
 module.exports = router;
+
+
+/* GET manual page. */
+router.get('/manual', (req, res) => {
+  if(!req.cookies.user) return res.render('401');
+    res.render('manual', { title: 'manual - Sömndagboken'} );
+});
