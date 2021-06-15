@@ -1,4 +1,9 @@
 <div class="container">
+  <% if(flash && flash.length > 0){ %>  
+    <div class="alert fixed-top" role="alert">
+      <%= flash %>
+    </div>
+  <% } -%>
 
     <div class="row">
       <div class="col-sm-12">
@@ -52,13 +57,13 @@
           <legend>Samtliga poster</legend>
           <thead>
             <th>Vecka</th>
-            <th>dag</th>
-            <th>Tid: sänggång</th>
-            <th>Tid: klev upp</th>
-            <th>Tid: vaken</th>
+            <th>Sänggång</th>
+            <th>Klev upp</th>
+            <th>Vakentid</th>
             <th>Sömneffektivitet</th>
-            <th>Sömnlängd</th>
+            <th>Sovtid</th>
             <th>Självskattning</th>
+            <th>Registrerat</th>
             <th>Radera</th>
           </thead>
           <tbody>
@@ -73,7 +78,8 @@
         <div class="col-12 col-md-6" id="col-for-graph">
             <div class="card card-inlagg inlagg-expanded">
               <div class="card-body">
-                  <canvas id="sleep-graph-canvas"></canvas>
+                  <canvas id="sleep-efficiency-canvas"></canvas>
+                  <canvas id="avg-sleep-time-canvas"></canvas>
               </div>
             </div>
         </div>

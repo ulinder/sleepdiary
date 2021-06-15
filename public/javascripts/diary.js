@@ -6,6 +6,7 @@
 // #####  draw_graph
 // ##### document.ready
 
+moment.locale('sv');
 
 
 function draw_veckans_tips(data) {
@@ -19,29 +20,31 @@ function draw_veckans_tips(data) {
   temp = document.getElementById("template-veckans-tips");
   clon = temp.content.cloneNode(true);
   clon.querySelector('.effektivitet')
-  .innerHTML = prev_week_data.val.avg + '%';
+  .innerHTML = prev_week_data.val.avg_sleep_efficiency + '%';
 
   document.getElementById('append_veckans_tips')
     .appendChild(clon);
 }
 
 function draw_veckans_inlagg(data) {
-  var temp, clon, template, n_this_week = 0;
+  var temp, clon, template, n_this_week = 0, date_to_bed, date_up_from_bed;
 
+  
   data.data_table.forEach( function(element, index) {
 
     // TABLE with all posts
-      moment.locale('sv');
+      date_to_bed = (element.found) ? moment(element.data.date_to_bed).format('ddd') : "";
+      date_up_from_bed = (element.found) ? moment(element.data.date_up_from_bed).format('ddd') : moment(element.day).format('ddd');
       delete_button = (element.data.id) ? [{'<>':'button', 'data-id': element.data.id, class:'delete-post-button', 'html':'<i class="fa fa-trash"></i>' }]: '';
       template = {'<>':'tr','html': [
         {'<>':'td', 'html': moment(element.day).format('ww') },
-        {'<>':'td', 'html': moment(element.day).format('ddd Do MMMM') },
-        {'<>':'td', 'html': element.data.time_to_bed},
-        {'<>':'td', 'html': element.data.time_up_from_bed},
+        {'<>':'td', 'html': `${date_to_bed} ${element.data.time_to_bed}` },
+        {'<>':'td', 'html': `${date_up_from_bed} ${element.data.time_up_from_bed}` },
         {'<>':'td', 'html': element.data.time_awake},
         {'<>':'td', 'html': element.data.sleep_efficiency},
         {'<>':'td', 'html': element.data.time_asleep},
         {'<>':'td', 'html': element.data.sleep_rate},
+        {'<>':'td', 'html': element.data.t},
         {'<>':'td', 'html': delete_button },
       ]}
 
@@ -86,7 +89,7 @@ function draw_graph(data){
 
         document.getElementById("graphrow").classList.remove("collapse");
 
-        var data = {
+        var data1 = {
             labels: data.weeks.map( x => { return 'V' + x.w }),
             datasets:[
                 {
@@ -95,15 +98,30 @@ function draw_graph(data){
                     backgroundColor: '#CD99D1',
                     pointRadius: 6,
                     borderColor: '#CD99D1',
-                    data: data.weeks.map( x => { if(x.val.posts.length > 1) return x.val.avg })
+                    data: data.weeks.map( x => { if(x.val.se_arr.length > 1) return x.val.avg_sleep_efficiency })
                 }
             ]
         }
 
-        var ctx = document.getElementById('sleep-graph-canvas');
-        var chart = new Chart(ctx, {
+        var data_avg_sleptime = {
+            labels: data.weeks.map( x => { return 'V' + x.w }),
+            datasets:[
+                {
+                    label: 'Genomsnittlig sömntid',
+                    fill: false,
+                    backgroundColor: '#6E90C4',
+                    pointRadius: 6,
+                    borderColor: '#6E90C4',
+                    data: data.weeks.map( x => { if(x.val.sleep_time_arr.length > 1) return x.val.avg_sleep_time })
+                }
+            ]
+        }
+
+        console.log(data_avg_sleptime);
+
+        var se_graph = new Chart(document.getElementById('sleep-efficiency-canvas'), {
             type: 'line',
-            data: data,
+            data: data1,
             options:{
               responsive: true,
               scales: {
@@ -123,7 +141,30 @@ function draw_graph(data){
 
             }
         });
-}
+
+        var se_graph = new Chart(document.getElementById('avg-sleep-time-canvas'), {
+            type: 'line',
+            data: data_avg_sleptime,
+            options:{
+              responsive: true,
+              scales: {
+                y: {
+                  ticks: {
+                    color: 'white'
+                  }
+                },
+                x: {
+                  ticks: {
+                    color: 'white'
+                  }
+                }
+              }
+
+            }
+        });
+
+
+} // draw-graph-function
 
 
 function delete_post(id){

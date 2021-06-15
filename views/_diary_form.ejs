@@ -4,9 +4,14 @@
     <div class="card-body">
 
 <form action="/posts" class="" id="diaryform" method="post">
+
+
   <% if(post){ %> <input type="hidden" name="update" value="true" > <% } %>
   <% if(post){ %> <input type="hidden" name="id" value="<%= post.id %>" > <% } %>
 
+
+
+  <!-- DATUM FÖR SÄNGGÅNG -->
   <div class="mb-4 row">
     <div class="col-10">
       <label class="question-label" for="date">Datum när jag lade mig i sängen</label>
@@ -15,6 +20,8 @@
       <button type="button" class="info" data-bs-toggle="collapse" data-bs-target="#collapseDatumSang" aria-expanded="false" aria-controls="collapseDatumSang">i</button>
         </div>
   </div>
+
+
 <div class="mb-4 row">
       <div class="collapse" id="collapseDatumSang">
         <div class="card card-body infocard">
@@ -24,19 +31,30 @@
       </div>
   </div>
 <div class="mb-4 row">
-      <input required=required type="date" class="form-control blue-input-frame"  id="down_date" name="down_date" onchange="validate_sleep_date();" value="<%= (post) ? moment(post.down, 'X').format("YYYY-MM-DD") : moment().subtract(1, 'day').format("YYYY-MM-DD"); %>"  class="form-control">
+
+    <input  required=required 
+            type="date" 
+            class="form-control blue-input-frame"  
+            id="down_date" 
+            name="down_date" 
+            onchange="validate_sleep_date();" 
+            value="<%= (post) ? moment(post.down, 'X').format("YYYY-MM-DD") : moment().subtract(1, 'day').format("YYYY-MM-DD"); %>"  
+            class="form-control">
 </div>
   <!-- WARNING FIELD - HIDDEN -->
-  <div id="down_date_5_days_warning" class="collapse alert alert-danger" role="alert">
-      Obs! Du kan inte spara datum äldre än 5 dagar 
+  <div id="down_date_3_days_warning" class="collapse alert alert-danger" role="alert">
+      Obs! Du kan inte spara datum äldre än 3 dagar 
+  </div>  
+
+  <div id="time_travel_warning" class="collapse alert alert-danger" role="alert">
+      FEL! Du kan inte spara datum som ligger framåt i tiden 
   </div>  
 
 
 <hr class="linje-ny-dagbok">
 
 
-  <div class="disabler">
-
+  <!-- KLOCKSLAG FÖR SÄNGGÅNG -->
       <div class="mb-4  row" data-autoclose="true">
         <div class="col-10">
             <label class="question-label" for="sleep_time">Klockslag jag lade mig i sängen</label>
@@ -48,13 +66,21 @@
             <div class="mb-4 row">
                   <div class="collapse" id="collapseklockslagSang">
                     <div class="card card-body infocard">
-                          <i>  <b>Förtydligande:</b> Har du till exempel precis vaknat från en natts sömn och ska göra ett inlägg så ska du skriva in tiden du la dig i sängen igår.
+                          <i>  <b>Förtydligande:</b> Har du till exempel precis vaknat från en natts sömn och ska göra ett inlägg så ska du skriva in tiden du la dig i sängen igår. Formatet måste vara "23:30"
                           </i>
                     </div>
                   </div>
               </div>
       <div class="mb-4 clockpicker input-group row" data-autoclose="true">
-          <input type="text" placeholder="00:00" pattern="^[0-9]{2}:[0-9]{2}" class="form-control blue-input-frame liten-ruta" required="1" name="down_time" id="down_time" value="<%= (post) ? moment(post.down, 'X').format("HH:MM")  : '' %>" >
+          <input type="text" 
+                  placeholder="00:00" 
+                  pattern="^[0-9]{2}:[0-9]{2}" 
+                  class="form-control blue-input-frame liten-ruta" 
+                  name="down_time" 
+                  id="down_time" 
+                  value="<%= (post) ? moment(post.down, 'X').format("HH:mm")  : '' %>"  
+                  oninvalid="this.setCustomValidity('Ange klockslag med rätt format här')" 
+                  oninput="this.setCustomValidity('')">
           <span class="input-group-addon">
               <span class="glyphicon glyphicon-time"></span>
           </span>
@@ -64,15 +90,16 @@
 
 <hr class="linje-ny-dagbok">
 
+
+
+<!-- TOTALT TID VAKEN I SÄNGEN -->
       <div class="mb-4 row">
         <div class="col-10">
             <label class="question-label flex-column-center" for="awake">Total tid jag låg vaken i sängen</label>
         </div>
         <div class="col-2">
           <button type="button" class="info" data-bs-toggle="collapse" data-bs-target="#collapseTidVaken" aria-expanded="false" aria-controls="collapseTidVaken">i</button>
-          <!--  <input type="text" name="slider-target" class="blue-input-frame" id="awake-slider-target" value="0">
-            <input required=required type="range" min=0 max=1080 step="10" name="awake" id="awake-slider" class="form-range" value=0>
-            -->
+
           </div>
         </div>
             <div class="mb-4 row">
@@ -123,6 +150,8 @@
 <hr class="linje-ny-dagbok">
 
 
+
+<!-- DATUM KLEV UPP UR SÄNGEN -->
   <div class="mb-4 row">
     <div class="col-10">
         <label class="question-label" for="date">Datum när jag klev upp ur sängen</label>
@@ -140,7 +169,14 @@
                 </div>
             </div>
   <div class="mb-4 row">
-    <input required=required type="date" class="form-control blue-input-frame" id="up_date" name="up_date" onchange="validate_up_date();" value="<%= (post) ? moment(post.up, 'X').format("YYYY-MM-DD") : moment().format("YYYY-MM-DD"); %>"  class="form-control">
+    <input required=required 
+            type="date" 
+            class="form-control blue-input-frame" 
+            id="up_date" 
+            name="up_date" 
+            onchange="validate_up_date();" 
+            value="<%= (post) ? moment(post.up, 'X').format("YYYY-MM-DD") : moment().format("YYYY-MM-DD"); %>" 
+            class="form-control">
   </div>
   <!-- WARNING FIELD - HIDDEN -->
   <div id="up_date_warning" class="collapse alert alert-danger" role="alert">
@@ -148,8 +184,12 @@
   </div>  
 
 
+
 <hr class="linje-ny-dagbok">
 
+
+
+    <!-- KLOCKSLAG KLEV UPP UR SÄNGEN -->
       <div class="mb-4 clockpicker row" data-autoclose="true">
             <div class="col-10">
               <label class="question-label" for="sleep_time">Klockslag jag klev upp ur sängen</label>
@@ -168,14 +208,27 @@
         </div>
 
       <div class="mb-4 clockpicker row" data-autoclose="true">
-              <input type="text" placeholder="00:00" pattern="^[0-9]{2}:[0-9]{2}" class="form-control blue-input-frame liten-ruta" required="1" name="up_time" id="up" value="<%= (post) ? moment(post.up, 'X').format("HH:MM") : ""; %>">
-              <span class="input-group-addon">
-                  <span class="glyphicon glyphicon-time"></span>
-              </span>
+        <input  type="text" 
+                placeholder="00:00" 
+                pattern="^[0-9]{2}:[0-9]{2}" 
+                class="form-control blue-input-frame liten-ruta" 
+                name="up_time" 
+                id="up_time" 
+                value="<%= (post) ? moment(post.up, 'X').format("HH:mm") : ""; %>"  
+                oninvalid="this.setCustomValidity('Ange klockslag med rätt format här')" 
+                oninput="this.setCustomValidity('')"
+                onchange="test_time_diff()" >
+                
+        <span class="input-group-addon">
+            <span class="glyphicon glyphicon-time"></span>
+        </span>
       </div>
 
 <hr class="linje-ny-dagbok">
 
+
+
+  <!-- SKATTAD SÖMNKVALITÈT -->
 
       <div class="mb-4 row">
         <div class="col-10">
@@ -217,7 +270,11 @@
         </div>  
 
 
+
 <hr class="linje-ny-dagbok">
+
+    <ul id="errors-collection" class="alert-danger" role="alert">
+    </ul>
 
     <div class="row">
       <div class="col">
@@ -237,7 +294,6 @@
 
         </div>
       </div>
-   </div> <!-- Disabler -->
 
 </form>
 
