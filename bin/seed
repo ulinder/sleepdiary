@@ -28,10 +28,8 @@ db.serialize( function(){
   db.run("DELETE FROM users WHERE 1; DELETE FROM posts WHERE 1;");
 
   db.run("INSERT INTO users (hash) VALUES (?)", ["123"], function(err){
-    var lastID = this.lastID;
-    console.log("User id:", lastID);
-    console.log("User hash: 123");
-    console.log(`Login link: /${lastID}/123`);
+    var userID = this.lastID;
+
     
     stmt = db.prepare(`
     INSERT INTO posts 
@@ -58,6 +56,9 @@ db.serialize( function(){
 
     stmt.finalize();
     db.close(); 
+    console.log("User id:", userID);
+    console.log("User hash: 123");
+    console.log(`Login link: /${userID}/123`);
   });
 
 });

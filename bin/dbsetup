@@ -14,8 +14,14 @@ db.serialize( () => {
     });
 
   db.run(`CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT, 
-    hash TEXT)`,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    hash TEXT,
+    mode INTEGER DEAFULT 0,
+    version INTEGER DEAFULT 0,
+    windown TEXT DEFAULT '23:00',
+    winup TEXT DEFAULT '08:00' 
+    )`,
+
     (err)=>{
     if(err)  console.log(err, this.lastID);
     });
@@ -28,6 +34,8 @@ db.serialize( () => {
     awake INTEGER, 
     rate INTEGER,
     status INTEGER,
+    windown TEXT,
+    winup TEXT,
     t TIMESTAMP
     DEFAULT CURRENT_TIMESTAMP
     )`,
