@@ -480,6 +480,11 @@ option { /* Skattningsalternativ */
 
 
 /* Tabell*/
+.btn-see /* Se mer-knappen */{
+  margin-top:30px;
+  margin-bottom:30px;
+}
+
 td {
   color:#D8DEE9;
 }
@@ -489,7 +494,10 @@ thead {
   color: white;
 }
 
-
+.graph-distance{
+  margin-top: 50px;
+  margin-bottom: 20px;
+}
 .delete-post-button {
 
     background-color: #EC9595;

@@ -1,5 +1,5 @@
 <div class="container">
-  <% if(flash && flash.length > 0){ %>  
+  <% if(flash && flash.length > 0){ %>
     <div class="alert fixed-top" role="alert">
       <%= flash %>
     </div>
@@ -76,13 +76,21 @@
     <div class="row collapse" id="graphrow">
         <div class="col"></div>
         <div class="col-12 col-md-6" id="col-for-graph">
-            <div class="card card-inlagg inlagg-expanded">
+
+            <div class="card card-inlagg inlagg-expanded graph-distance">
               <div class="card-body">
                   <canvas id="sleep-efficiency-canvas"></canvas>
+              </div>
+            </div>
+
+            <div class="card card-inlagg inlagg-expanded graph-distance">
+              <div class="card-body">
                   <canvas id="avg-sleep-time-canvas"></canvas>
               </div>
             </div>
+
         </div>
+
         <div class="col"></div>
     </div>
 
