@@ -537,3 +537,10 @@ thead {
 .navbar-brand:hover{
     color:#1D1D1E;
 }
+
+.checkboxNav{
+  border-color: BLUE;
+}
+.dropdown-item {
+  padding-left: 40px;
+}
