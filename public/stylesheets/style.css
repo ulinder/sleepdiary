@@ -518,3 +518,22 @@ thead {
   border: none;
   color: #ffff;
 }
+
+
+/*Navbar*/
+.nav-design {
+  background-color:#6E90C4 ;
+  box-shadow: 0px 3px 10px #1E2128;
+}
+
+.nav-link,.navbar-brand{
+  color:#1D1D1E;
+}
+
+.nav-link:hover{
+  color: #ffff
+}
+
+.navbar-brand:hover{
+    color:#1D1D1E;
+}
