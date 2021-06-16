@@ -114,6 +114,13 @@ h3 h2 {
   margin-left: 10px;
   margin-right: 10px;
 }
+.streak-card > div > p {
+  font-family: Garamond;
+  color: #D8DEE9;
+  font-size: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
 .effektivitet{
   font-family: Garamond;
   color: #CD99D1;
