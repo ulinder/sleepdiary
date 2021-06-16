@@ -39,7 +39,6 @@ body {
 }
 
 @media (min-width: 600px) {
-
 }
 
 a {
@@ -67,7 +66,6 @@ h3 h2 {
 
 .medallion  {
   animation: fadein 1s ease-in;
-
 }
 
 @keyframes fadein {
@@ -84,7 +82,7 @@ h3 h2 {
   }
 }
 
-/* Alla cards*/
+/* ----Alla cards--- */
 .card{
   border-color: #4C566A;
   background-color: #2D333F;
@@ -107,7 +105,7 @@ h3 h2 {
     margin: 0 auto;
 }
 
-/*  Veckans-tips, sleepview och streaks*/
+/*----Veckans-tips, sleepview och streaks---- */
 
 .veckans-tips {
   font-family: Garamond;
@@ -148,6 +146,30 @@ h3 h2 {
   margin-bottom:10px;
     margin-top:15px;
 }
+.info-sleepview {
+  margin-top:10px;
+  margin-left:15px;
+}
+
+.sleepview-card {
+  display:flex;
+  justify-content:flex-start;
+}
+.sleepview-edit{
+  display:flex;
+  flex-direction: column;
+}
+
+.sleepview-edit .veckans-tips{
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.sleepview-edit .liten-ruta {
+margin-left: 15px;
+}
 
 .smiley{
   padding-left: 10px;
@@ -171,7 +193,7 @@ h3 h2 {
 }
 
 
-/* Skapa nytt dagboksinlägg*/
+/* ----Skapa nytt dagboksinlägg----*/
 
 input::-webkit-calendar-picker-indicator {
   filter: invert(1);
@@ -226,7 +248,6 @@ input::-webkit-calendar-picker-indicator {
     justify-content:space-evenly;
 }
 
-
 .mb-4 {
   text-align:center;
 
@@ -276,6 +297,11 @@ option { /* Skattningsalternativ */
 
 }
 .btn-spara:hover {
+  background-color: #66A1B2;
+  border: none;
+  color: #ffff;
+}
+.btn-spara:focus {
   background-color: #66A1B2;
   border: none;
   color: #ffff;
@@ -362,7 +388,7 @@ option { /* Skattningsalternativ */
 }
 
 
-/* Veckans inlägg*/
+/* -----Veckans inlägg----*/
 .btn-redigera {
   background-color: #86BECE;
   border: none;
@@ -383,17 +409,15 @@ option { /* Skattningsalternativ */
   color: #ffff;
 }
 
+
 .kortinnehall-knapp {
   width:50px;
   display: flex;
-
 }
 
 .fa-chevron-down {
   transform: rotate(180deg);
 }
-
-
 
 .inlagg {
     font-family:"Frutiger Light";
@@ -413,7 +437,6 @@ option { /* Skattningsalternativ */
 .flex-kolumn {
   display: flex;
   flex-direction: column;
-
 }
 
 .flex-kolumn-content {
@@ -422,7 +445,6 @@ option { /* Skattningsalternativ */
   margin-left: 20px;
   margin-right: 20px;
   margin-bottom:10px;
-
 }
 
 
@@ -439,7 +461,6 @@ option { /* Skattningsalternativ */
   justify-content: space-between;
   flex-wrap:wrap;*/
   margin-bottom: 10px;
-
 }
 
 .minBredd {
@@ -450,9 +471,6 @@ option { /* Skattningsalternativ */
   min-width: 130px;
   margin-bottom:15px;
 }
-
-
-
 
 
 .btn-expand /*expand-knappen*/{
@@ -469,8 +487,8 @@ option { /* Skattningsalternativ */
   font-weight: bold;
   box-shadow: 0px 3px 10px #1E2128;
   font-family:"Frutiger Roman";
-
 }
+
 .btn-expand:hover {
   background-color: #66A1B2;
   border: none;
@@ -479,7 +497,7 @@ option { /* Skattningsalternativ */
 
 
 
-/* Tabell*/
+/* ----Tabell och Graf ---- */
 .btn-see /* Se mer-knappen */{
   margin-top:30px;
   margin-bottom:30px;

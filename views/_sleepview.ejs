@@ -5,13 +5,13 @@
 
 
 
-  <div class="row">
-    <div class="col-10">
+  <div class="sleepview-card">
+    <div class="">
       <h2> Sömnfönster </h2>
     </div>
 
-    <div class="col-2">
-      <button type="button" class="info" data-bs-toggle="collapse" data-bs-target="#collapseDatumSang" aria-expanded="false" aria-controls="collapseDatumSang">i</button>
+    <div class="info-sleepview">
+      <button type="button" class="info " data-bs-toggle="collapse" data-bs-target="#collapseDatumSang" aria-expanded="false" aria-controls="collapseDatumSang">i</button>
     </div>
   </div>
 
@@ -36,27 +36,49 @@
      </div>
 
   <div class="sleep-row">
-    <a class="edit-post-link" href="/">
+    <button type="button" class=" btn btn-primary btn-redigera" data-bs-toggle="collapse"
+    data-bs-target="#collapsesleepview" aria-expanded="false"
+    aria-controls="collapsesleepview"><i class="fa fa-pencil"></i> Redigera </button>
+  <!--  <a class="edit-post-link" href="/">
     <button class="btn btn-primary btn-redigera"><i class="fa fa-pencil"></i> Redigera </button>
-    </a>
+    </a> -->
   </div>
 
-  <hr class="linje-smiley">
+  <div class="collapse" id="collapsesleepview">
+    <div class="">
+      <hr class="linje-smiley">
 
-  <form action="/users/<%= user.id %>/update" method="POST">
-    <h4>Ändra sömnfönster</h4>
-    <input type="hidden" method="PUT">
-    <div class="clockpicker" data-autoclose="true">
-        <input type="text" name="windown" id="windown" value="<%= user.windown %>">    
+      <form action="/users/<%= user.id %>/update" method="POST">
+        <h4>Ändra sömnfönster</h4>
+        <input type="hidden" method="PUT">
+        <div class="sleepview-edit">
+            <div class="veckans-tips">
+              <div class="">
+                Sänggång: 
+              </div>
+              <div class="clockpicker" data-autoclose="true">
+                  <input type="text" class= "blue-input-frame liten-ruta" name="windown" id="windown" value="<%= user.windown %>">
+              </div>
+            </div>
+
+            <div class="veckans-tips">
+              <div class="">
+                Kliva upp:
+              </div>
+              <div class="clockpicker" data-autoclose="true">
+                <input type="text" class= "blue-input-frame liten-ruta" name="winup" id="winup" value="<%= user.winup %>">
+              </div>
+            </div>
+        </div>
+
+        <br>
+
+        <input type="submit" class="btn btn-primary btn-spara" value="Spara" name="submitbutton">
+
+      </form>
     </div>
+  </div>
 
-    <div class="clockpicker" data-autoclose="true">
-      <input type="text" name="winup" id="winup" value="<%= user.winup %>">    
-    </div>
-
-    <input type="submit" value="Spara" name="submitbutton">
-
-  </form>
 
 
 <div class="sleep-row collapse">
