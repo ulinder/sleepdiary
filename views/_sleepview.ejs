@@ -36,8 +36,8 @@
      </div>
 
   <div class="sleep-row">
-    <button type="button" class=" btn btn-primary btn-redigera" data-bs-toggle="collapse"
-    data-bs-target="#collapsesleepview" aria-expanded="false"
+    <button type="button" class=" btn btn-primary btn-redigera hide-me" data-bs-toggle="collapse"
+    data-bs-target="#collapsesleepview" data-target="#search" aria-expanded="false"
     aria-controls="collapsesleepview"><i class="fa fa-pencil"></i> Redigera </button>
   <!--  <a class="edit-post-link" href="/">
     <button class="btn btn-primary btn-redigera"><i class="fa fa-pencil"></i> Redigera </button>
@@ -54,7 +54,7 @@
         <div class="sleepview-edit">
             <div class="veckans-tips">
               <div class="">
-                Sänggång: 
+                Sänggång:
               </div>
               <div class="clockpicker" data-autoclose="true">
                   <input type="text" class= "blue-input-frame liten-ruta" name="windown" id="windown" value="<%= user.windown %>">
