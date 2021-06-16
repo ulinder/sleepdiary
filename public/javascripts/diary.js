@@ -9,21 +9,34 @@
 moment.locale('sv');
 
 
-function draw_veckans_tips(data) {
-  var prev_week_int = parseInt(data.current_week) - 1,
-      prev_week_data,
-      clon ;
+// function draw_veckans_tips(data) {
+//   var prev_week_int = parseInt(data.current_week) - 1,
+//       prev_week_data,
+//       clon,
+//       last_post_index = data.length-1;
 
-  prev_week_data = data.weeks.find( x => x.w == prev_week_int );
+//   prev_week_data = data.weeks.find( x => x.w == prev_week_int );
 
-  console.log(prev_week_data)
-  temp = document.getElementById("template-veckans-tips");
-  clon = temp.content.cloneNode(true);
-  clon.querySelector('.effektivitet')
-  .innerHTML = prev_week_data.val.avg_sleep_efficiency + '%';
+//   console.log(prev_week_data)
+//   temp = document.getElementById("template-veckans-tips");
+//   clon = temp.content.cloneNode(true);
+//   clon.querySelector('.effektivitet')
+//   .innerHTML = prev_week_data.val.avg_sleep_efficiency + '%';
 
-  document.getElementById('append_veckans_tips')
-    .appendChild(clon);
+//   document.getElementById('append_veckans_tips')
+//     .appendChild(clon);
+// }
+
+function draw_streaks(data){
+  var last_post = data.data_table[data.data_table.length-1];
+
+  for( element of document.getElementsByClassName('streak-partial') ){ element.classList.add('collapse'); }
+
+  if( last_post.data.window_hit ){
+    document.getElementById('streak-1').classList.remove('collapse');
+  } else {
+    document.getElementById('streak-2').classList.remove('collapse');
+  }
 }
 
 function draw_veckans_inlagg(data) {
@@ -195,9 +208,10 @@ $(document).ready( ()=>{
           var data = JSON.parse(this.response);
           window.diaryData = data;
 
-          if(data.weeks.length > 0) {
+          if(data.data_table.length > 0) {
             draw_veckans_inlagg(data);
             draw_graph(data);
+            draw_streaks(data);
             // draw_veckans_tips(data);
           }
           $('.delete-post-button').on('click', (el)=>{ // add after table render

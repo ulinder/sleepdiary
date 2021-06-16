@@ -38,10 +38,13 @@ const data_table = (dbresults) =>{
       found,
       seconds_in_bed,
       seconds_asleep,
+      time_to_bed,
+      time_up_from_bed,
       se,
+      window_hit,
       week_arr = [],
       i = 0,
-      _dummy = { id: "", date_to_bed: "", time_to_bed: "", date_up_from_bed: "", time_up_from_bed: "", time_in_bed: "", sleep_rate: "", time_awake: "", time_asleep: "", sleep_efficiency: ""};
+      _dummy = { id: "", date_to_bed: "", time_to_bed: "", date_up_from_bed: "", time_up_from_bed: "", time_in_bed: "", sleep_rate: "", time_awake: "", time_asleep: "", sleep_efficiency: "", windown:"", winup:""};
 
   
   while (dbresults.length > 0) { 
@@ -57,7 +60,13 @@ const data_table = (dbresults) =>{
         seconds_in_bed = found.up - found.down;
         seconds_asleep = seconds_in_bed - found.awake;
         week_num = moment(this_up_date).format("ww");
-        se = seconds_asleep/seconds_in_bed*100
+        se = seconds_asleep/seconds_in_bed*100;
+        time_to_bed = moment(found.down, "X").format("HH:mm");
+        time_up_from_bed = moment(found.up, "X").format("HH:mm");
+        window_hit = (
+            moment(time_to_bed, "HH:mm").diff( moment(found.windown,"HH:mm"), "minutes") +
+            moment(time_up_from_bed, "HH:mm").diff( moment(found.winup,"HH:mm"), "minutes") < 15
+          )
 
         posts_table.push( {
           week: week_num,
@@ -66,14 +75,17 @@ const data_table = (dbresults) =>{
           data: { 
               id: found.id, 
               date_to_bed: moment(found.down, "X").format("YYYY-MM-DD"), 
-              time_to_bed: moment(found.down, "X").format("HH:mm"), 
+              time_to_bed: time_to_bed, 
               date_up_from_bed: moment(found.up, "X").format("YYYY-MM-DD"), 
-              time_up_from_bed: moment(found.up, "X").format("HH:mm"), 
+              time_up_from_bed: time_up_from_bed, 
               time_in_bed: seconds_to_text(seconds_in_bed), 
               sleep_rate: found.rate, 
               time_awake: seconds_to_text(found.awake), 
               time_asleep: seconds_to_text(seconds_asleep), 
               seconds_asleep: seconds_asleep, 
+              windown: found.windown, 
+              window_hit: window_hit,
+              winup: found.winup,
               t: found.t, 
               sleep_efficiency: ( se ).toString().split(".")[0] + '%'
             }
@@ -124,7 +136,7 @@ router.get('/:user_id/json', function(req, res, next) {
 
 // EDIT POST
 router.get('/:id/edit', function(req, res, next) {
-  db.get("SELECT * FROM posts where id= ?", req.params.id, (error, dbresults) =>{
+  db.get("SELECT * FROM posts left join users where posts.id= ?", req.params.id, (error, dbresults) =>{
     if(error) res.json({ error: error });
     dbresults.minutes_awake = seconds_to_block_of("m", dbresults.awake);
     dbresults.hours_awake = seconds_to_block_of("h", dbresults.awake);
@@ -142,7 +154,7 @@ router.post('/', function(req, res, next) {
   var up    = moment([req.body.up_date, req.body.up_time].join(" ") ).format("X");
   var awake = parseInt(req.body.awake_hours) + parseInt(req.body.awake_minutes);
 
-  // BACKEND-VALIDATION
+  // BACKEND-VALIDATION 
   if( up > moment().format('x') || down > moment().format('x') ) return res.json({'error': 'Future sleeper'}); 
   if(down > up) return res.json({'error': 'reverser'}); 
   if(req.body.rate === null) res.status(403);
