@@ -1,7 +1,7 @@
 # Sömndagbok
 
 ## Om 
-Denna sömndagbok skapades av Epsykiatrienheten.se (Sahlgrenska) med syfte att vara ett anpassat formulär för att hämta in sömnregistreringar i sömnbehandlingar.
+Denna sömndagbok skapades av Epsykiatrienheten på Sahlgrenska, med syfte att vara ett anpassat formulär för att hämta in sömnregistreringar i sömnbehandlingar.
 Alla komponenter i denna, från tekniska beroenden (läs package.json för detaljer) till innehållsmässiga delar är fri att använda. 
 
 ## Börja använda
