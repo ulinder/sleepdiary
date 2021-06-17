@@ -1,8 +1,12 @@
 # Sömndagbok
 
 ## Om 
-Denna sömndagbok skapades av Epsykiatrienheten på Sahlgrenska, med syfte att vara ett anpassat formulär för att hämta in sömnregistreringar i sömnbehandlingar.
+Sömndagbok skapades av Epsykiatrienheten på Sahlgrenska Universitetssjukhuset med syfte att vara ett anpassat formulär för att hämta in sömnregistreringar i sömnbehandlingar.
 Alla komponenter i denna, från tekniska beroenden (läs package.json för detaljer) till innehållsmässiga delar är fri att använda. 
+
+**GDPR/Personuppgifter**
+
+Sömndagboken spar inga personuppgifter (namn, personnummer, epostadresser, kön, ålder mm) eller referenser som kan kopplas till en individ - varken behandlare eller användare/patienter. Sömndagboken använder anonyma cookies för att behålla sessioner till användare över tid, samt för att särskilja på en admin och en slutanvändare.
 
 ## Börja använda
 Det finns en ingång för en användare till sömndagboken om inget annat gjorts:
@@ -16,16 +20,18 @@ Nodejs/Express/SQLITE3
 För daemonisering av appen i prod är en rekommendation att använda pm2 
 
 ### Setup
-> npm install
-> npm install pm2 
-> npm run dbsetup
+```
+npm install
+npm install pm2 
+npm run dbsetup
+```
 
 development eller production ? NODE_ENV=production/development
-*dev:*
-> nodemon DEBUG=myapp:* npm start
-*prod:*
+**dev:**
+`nodemon DEBUG=myapp:* npm start` 
+**prod:**
 
-pm2 start bin/www --name sleepdiary
+`pm2 start bin/www --name sleepdiary`
 
 
 ### SuperAdmin
