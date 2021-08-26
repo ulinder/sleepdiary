@@ -1,4 +1,4 @@
-<% if(admin){ %> 
+<% if(admin){ %>
 <%- include('_admin_nav') %>
 <% } %>
 <div class="container">
@@ -85,12 +85,24 @@
             <div class="card card-inlagg inlagg-expanded graph-distance">
               <div class="card-body">
                   <canvas id="sleep-efficiency-canvas"></canvas>
+                  <p class="graph-text">
+                    Genomsnittlig sömneffektivitet beräknas när du har
+                    registrerat din sömn vid minst fyra tillfällen under en kalendervecka
+                     (mån-sön). För att se din exakta sömneffektivitet kan du hålla musen över en punkt på linjen.
+                     Tittar du via en mobiltelefon kan du istället klicka på en punkt.
+                  </p>
               </div>
             </div>
 
             <div class="card card-inlagg inlagg-expanded graph-distance">
               <div class="card-body">
                   <canvas id="avg-sleep-time-canvas"></canvas>
+                  <p class="graph-text">
+                    Genomsnittlig sömntid beräknas när du har
+                    registrerat din sömn vid minst fyra tillfällen under en kalendervecka
+                     (mån-sön). För att se din exakta sömntid kan du hålla musen över en punkt på linjen.
+                     Tittar du via en mobiltelefon kan du istället klicka på en punkt.
+                  </p>
               </div>
             </div>
 

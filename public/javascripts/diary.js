@@ -42,7 +42,7 @@ function draw_streaks(data){
 function draw_veckans_inlagg(data) {
   var temp, clon, template, n_this_week = 0, date_to_bed, date_up_from_bed;
 
-  
+
   data.data_table.forEach( function(element, index) {
 
     // TABLE with all posts
@@ -112,9 +112,10 @@ function draw_graph(data){
                     pointRadius: 6,
                     borderColor: '#CD99D1',
                     data: data.weeks.map( x => { if(x.val.se_arr.length > 1) return x.val.avg_sleep_efficiency })
-                }
+                },
             ]
         }
+
 
         var data_avg_sleptime = {
             labels: data.weeks.map( x => { return 'V' + x.w }),
@@ -231,7 +232,6 @@ $(document).ready( ()=>{
 
       request.send();
 
-     
+
 
 });
-

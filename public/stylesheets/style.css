@@ -518,7 +518,15 @@ option { /* Skattningsalternativ */
 td {
   color:#D8DEE9;
 }
+.graph-text {
+  font-family: Garamond;
+  color: #D8DEE9;
+  font-size: 16px;
 
+  margin-top: 15px;
+  margin-left: 15px;
+  margin-right: 15px;
+}
 
 thead {
   color: white;
@@ -528,6 +536,8 @@ thead {
   margin-top: 50px;
   margin-bottom: 20px;
 }
+
+
 .delete-post-button {
 
     background-color: #EC9595;
