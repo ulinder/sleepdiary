@@ -22,13 +22,13 @@ För daemonisering av appen i prod är en rekommendation att använda pm2
 
 development eller production ? NODE_ENV=production/development
 *dev:*
-> nodemon DEBUG=myapp:* npm start
+nodemon DEBUG=myapp:* npm start
 *prod:*
-
-pm2 start bin/www --name sleepdiary
+NODE_ENV=production pm2 start bin/www --name sleepdiary
 
 
 ### SuperAdmin
 För att nå en överblick av alla dagböcker som ligger uppe
 Lokalt
 http://localhost:3001/users/admin123
+
