@@ -48,7 +48,7 @@ function draw_veckans_inlagg(data) {
     // TABLE with all posts
       date_to_bed = (element.found) ? moment(element.data.date_to_bed).format('ddd') : "";
       date_up_from_bed = (element.found) ? moment(element.data.date_up_from_bed).format('ddd') : moment(element.day).format('ddd');
-      delete_button = (element.data.id) ? [{'<>':'button', 'value': element.data.id, 'class':'delete-post-button', 'html':'<i class="fa fa-trash"></i>' }]: '';
+      delete_button = (element.data.id) ? [{'<>':'button', 'value': element.data.id, 'class':'delete-post-button delete-me', 'html':'<i class="fa fa-trash"></i>' }]: '';
       template = {'<>':'tr','id': `row-for-${element.data.id}` ,'html': [
         {'<>':'td', 'html': moment(element.day).format('ww') },
         {'<>':'td', 'html': `${date_to_bed} ${element.data.time_to_bed}` },
@@ -98,98 +98,16 @@ function draw_veckans_inlagg(data) {
 }
 
 
-function draw_graph(data){
 
-        document.getElementById("graphrow").classList.remove("collapse");
-
-        var data1 = {
-            labels: data.weeks.map( x => { return 'V' + x.w }),
-            datasets:[
-                {
-                    label: 'Genomsnittlig sömneffektivitet',
-                    fill: false,
-                    backgroundColor: '#CD99D1',
-                    pointRadius: 6,
-                    borderColor: '#CD99D1',
-                    data: data.weeks.map( x => { if(x.val.se_arr.length > 1) return x.val.avg_sleep_efficiency })
-                }
-            ]
-        }
-
-        var data_avg_sleptime = {
-            labels: data.weeks.map( x => { return 'V' + x.w }),
-            datasets:[
-                {
-                    label: 'Genomsnittlig sömntid',
-                    fill: false,
-                    backgroundColor: '#6E90C4',
-                    pointRadius: 6,
-                    borderColor: '#6E90C4',
-                    data: data.weeks.map( x => { if(x.val.sleep_time_arr.length > 1) return x.val.avg_sleep_time })
-                }
-            ]
-        }
-
-        console.log(data_avg_sleptime);
-
-        var se_graph = new Chart(document.getElementById('sleep-efficiency-canvas'), {
-            type: 'line',
-            data: data1,
-            options:{
-              responsive: true,
-              scales: {
-                y: {
-                  min: 30,
-                  max: 100,
-                  ticks: {
-                    color: 'white'
-                  }
-                },
-                x: {
-                  ticks: {
-                    color: 'white'
-                  }
-                }
-              }
-
-            }
-        });
-
-        var se_graph = new Chart(document.getElementById('avg-sleep-time-canvas'), {
-            type: 'line',
-            data: data_avg_sleptime,
-            options:{
-              responsive: true,
-              scales: {
-                y: {
-                  ticks: {
-                    color: 'white'
-                  }
-                },
-                x: {
-                  ticks: {
-                    color: 'white'
-                  }
-                }
-              }
-
-            }
-        });
-
-
-} // draw-graph-function
-
-
-function delete_post(id, target_element_id){
+function delete_post(id, target_element_id, redirect = false){
   var target_element = document.getElementById(target_element_id);
-  console.log(target_element);
   var xhr1 = new XMLHttpRequest();
   xhr1.open('DELETE', "/posts/"+ id, true);
   xhr1.onreadystatechange = function() {
       if (this.status == 200 && this.readyState == 4) {
-          console.log('Deleting looks good...');
           console.log(target_element);
-          target_element.className = target_element.className + "collapse";
+          if(target_element) target_element.className = target_element.className + "collapse";
+          if(redirect) window.location = "/"; 
       }
   };//end onreadystate
   xhr1.send();
@@ -218,14 +136,17 @@ $(document).ready( ()=>{
             // draw_veckans_tips(data);
           }
 
-          $('.delete-post-button').on('click', (el)=>{ // add after table render
+          $('.delete-me').on('click', (el)=>{ // add after table render
             var target_id = el.currentTarget.value;
             if(target_id){
-              if(confirm('Är du säker att du vill radera denna dag?'))  delete_post(target_id, `row-for-${target_id}` );
+              if(confirm('Är du säker att du vill radera denna dag?')) {
+                delete_post(target_id, `row-for-${target_id}` );
+              }
             } else {
               console.error(`No id for delete: ${target_id}`)
             } 
           });
+          
         } 
           else 
         {
@@ -233,6 +154,7 @@ $(document).ready( ()=>{
           // We reached our target server, but it returned an error
         }
       };
+
 
       request.onerror = function() {
         console.error("Error when trying to fetch posts from user");

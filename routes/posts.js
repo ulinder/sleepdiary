@@ -123,7 +123,6 @@ const data_table = (dbresults) =>{
     first_week: first_week_str,
     weeks: week_arr 
   }
-  
 }
 
 /* GET home page. */
@@ -137,12 +136,13 @@ router.get('/:user_id/json', function(req, res, next) {
 // EDIT POST
 router.get('/:id/edit', function(req, res, next) {
   db.get("SELECT * FROM users WHERE id=?", req.cookies.user, (err, user)=>{
-    db.get("SELECT * FROM posts left join users where posts.id= ?", req.params.id, (error, dbresults) =>{
+    db.get("SELECT * FROM posts left join users where posts.id=?", req.params.id, (error, dbresults) =>{
       if(error) res.json({ error: error });
       dbresults.minutes_awake = seconds_to_block_of("m", dbresults.awake);
       dbresults.hours_awake = seconds_to_block_of("h", dbresults.awake);
-      res.render('edit_post', { title: 'Sömndagboken - Redigera inlägg', post: dbresults, user: user })
-      // res.json( dbresults ); 
+      console.log(dbresults);
+      res.render('edit_post', { title: 'Sömndagboken - Redigera inlägg', post: dbresults, user: user, post_id: req.params.id })
+      // res.json( dbresults );
     });
   });
 });
@@ -150,16 +150,16 @@ router.get('/:id/edit', function(req, res, next) {
 /* CREATE/UPDATE diarypost */
 router.post('/', function(req, res, next) {
 
-  if(req.body.down_time === '' || req.body.up_time === '') return res.json({error: 'timeless'})
-  // parse times to seconds
-  var down  = moment([req.body.down_date, req.body.down_time].join(" ") ).format("X");
-  var up    = moment([req.body.up_date, req.body.up_time].join(" ") ).format("X");
-  var awake = parseInt(req.body.awake_hours) + parseInt(req.body.awake_minutes);
+    if(req.body.down_time === '' || req.body.up_time === '') return res.json({error: 'timeless'})
+    // parse times to seconds
+    var down  = moment([req.body.down_date, req.body.down_time].join(" ") ).format("X");
+    var up    = moment([req.body.up_date, req.body.up_time].join(" ") ).format("X");
+    var awake = parseInt(req.body.awake_hours) + parseInt(req.body.awake_minutes);
 
-  // BACKEND-VALIDATION 
-  if( up > moment().format('x') || down > moment().format('x') ) return res.json({'error': 'Future sleeper'}); 
-  if(down > up) return res.json({'error': 'reverser'}); 
-  if(req.body.rate === null) res.status(403);
+    // BACKEND-VALIDATION 
+    if( up > moment().format('x') || down > moment().format('x') ) return res.json({'error': 'Future sleeper'}); 
+    if(down > up) return res.json({'error': 'reverser'}); 
+    if(req.body.rate === null) res.status(403);
 
 
     if(req.body.update){ // UPDATE POST
