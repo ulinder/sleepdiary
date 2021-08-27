@@ -32,3 +32,7 @@ För att nå en överblick av alla dagböcker som ligger uppe
 Lokalt
 http://localhost:3001/users/admin123
 
+### inställningar databasnivå
+mode = universal switch
+0 = default
+1 = sömnrestriktion aktiv
