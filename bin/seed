@@ -52,7 +52,7 @@ db.serialize( function(){
             Number(rnd_awake), 
             Number(rnd_rate) 
           ]);
-        }
+    }
 
     stmt.finalize();
     db.close(); 

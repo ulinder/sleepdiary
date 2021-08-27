@@ -48,8 +48,8 @@ function draw_veckans_inlagg(data) {
     // TABLE with all posts
       date_to_bed = (element.found) ? moment(element.data.date_to_bed).format('ddd') : "";
       date_up_from_bed = (element.found) ? moment(element.data.date_up_from_bed).format('ddd') : moment(element.day).format('ddd');
-      delete_button = (element.data.id) ? [{'<>':'button', 'data-id': element.data.id, class:'delete-post-button', 'html':'<i class="fa fa-trash"></i>' }]: '';
-      template = {'<>':'tr','html': [
+      delete_button = (element.data.id) ? [{'<>':'button', 'value': element.data.id, 'class':'delete-post-button', 'html':'<i class="fa fa-trash"></i>' }]: '';
+      template = {'<>':'tr','id': `row-for-${element.data.id}` ,'html': [
         {'<>':'td', 'html': moment(element.day).format('ww') },
         {'<>':'td', 'html': `${date_to_bed} ${element.data.time_to_bed}` },
         {'<>':'td', 'html': `${date_up_from_bed} ${element.data.time_up_from_bed}` },
@@ -58,7 +58,7 @@ function draw_veckans_inlagg(data) {
         {'<>':'td', 'html': element.data.time_asleep},
         {'<>':'td', 'html': element.data.sleep_rate},
         {'<>':'td', 'html': element.data.t},
-        {'<>':'td', 'html': delete_button },
+        {'<>':'td', 'html': delete_button }
       ]}
 
       document.getElementById('all_posts_table')
@@ -181,16 +181,19 @@ function draw_graph(data){
 } // draw-graph-function
 
 
-function delete_post(id){
-
+function delete_post(id, target_element_id){
+  var target_element = document.getElementById(target_element_id);
+  console.log(target_element);
   var xhr1 = new XMLHttpRequest();
   xhr1.open('DELETE', "/posts/"+ id, true);
   xhr1.onreadystatechange = function() {
       if (this.status == 200 && this.readyState == 4) {
           console.log('Deleting looks good...');
+          console.log(target_element);
+          target_element.className = target_element.className + "collapse";
       }
   };//end onreadystate
-   xhr1.send();
+  xhr1.send();
 }
 
 
@@ -215,12 +218,18 @@ $(document).ready( ()=>{
             draw_streaks(data);
             // draw_veckans_tips(data);
           }
+
           $('.delete-post-button').on('click', (el)=>{ // add after table render
-            el.target.parentElement.parentElement.className = "collapse";
-            console.log(el.target.dataset.id);
-            delete_post(el.target.dataset.id);
+            var target_id = el.currentTarget.value;
+            if(target_id){
+              if(confirm('Är du säker att du vill radera denna dag?'))  delete_post(target_id, `row-for-${target_id}` );
+            } else {
+              console.error(`No id for delete: ${target_id}`)
+            } 
           });
-        } else {
+        } 
+          else 
+        {
           consol.error("No data was sent from server")
           // We reached our target server, but it returned an error
         }

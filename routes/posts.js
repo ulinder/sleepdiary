@@ -136,12 +136,14 @@ router.get('/:user_id/json', function(req, res, next) {
 
 // EDIT POST
 router.get('/:id/edit', function(req, res, next) {
-  db.get("SELECT * FROM posts left join users where posts.id= ?", req.params.id, (error, dbresults) =>{
-    if(error) res.json({ error: error });
-    dbresults.minutes_awake = seconds_to_block_of("m", dbresults.awake);
-    dbresults.hours_awake = seconds_to_block_of("h", dbresults.awake);
-    res.render('edit_post', { title: 'Sömndagboken - Redigera inlägg', post: dbresults })
-    // res.json( dbresults ); 
+  db.get("SELECT * FROM users WHERE id=?", req.cookies.user, (err, user)=>{
+    db.get("SELECT * FROM posts left join users where posts.id= ?", req.params.id, (error, dbresults) =>{
+      if(error) res.json({ error: error });
+      dbresults.minutes_awake = seconds_to_block_of("m", dbresults.awake);
+      dbresults.hours_awake = seconds_to_block_of("h", dbresults.awake);
+      res.render('edit_post', { title: 'Sömndagboken - Redigera inlägg', post: dbresults, user: user })
+      // res.json( dbresults ); 
+    });
   });
 });
 
@@ -160,21 +162,21 @@ router.post('/', function(req, res, next) {
   if(req.body.rate === null) res.status(403);
 
 
-    if(req.body.update){
-
+    if(req.body.update){ // UPDATE POST
       var values = [
           down, 
           up, 
           ( awake ), 
           req.body.rate,
+          req.body.windown,
+          req.body.winup,
           req.body.id 
           ]
 
         console.log("Updating: ", values);
         var insert_diary = db.prepare( `UPDATE posts SET down=?, up=?, awake=?, rate=?, windown=?, winup=? WHERE id=?;` );
 
-    } else { // CREATE POST
-
+    } else { // CREATE NEW POST
       var values = [
           req.cookies.user, 
           down, 
@@ -185,11 +187,10 @@ router.post('/', function(req, res, next) {
           req.body.winup
           ]
 
-      console.log("Inserting new post: ", values);
+      console.log("Create new post: ", values);
       var insert_diary = db.prepare( `INSERT INTO posts (user_id, down, up, awake, rate, windown, winup) VALUES(?, ?, ?, ?, ?, ?, ?) ` );
-    }
-    
-
+    }  
+    // Common DB execution
     insert_diary.run( values, (err) =>{ 
       if(err) console.warn(err);
       res.redirect('/?flash=crude');
@@ -198,11 +199,12 @@ router.post('/', function(req, res, next) {
 });
 
 router.delete('/:id', function (req, res) {
-  res.send('Got a DELETE request at /post')
-  db.run('DELETE FROM posts WHERE id=?', req.params.id, (err, res)=>{
-    console.log(res);
-  })
-})
+    db.run('DELETE FROM posts WHERE id=?', req.params.id, (err)=>{
+      if(err) console.log(err);
+      res.send('DELETED post ' + req.params.id)
+      console.log(this);
+    });
+});
 
 
 module.exports = router;
