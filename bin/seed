@@ -25,7 +25,7 @@ db.serialize( function(){
       rnd_rate;
 
   // Clear previous data:
-  db.run("DELETE FROM users WHERE 1; DELETE FROM posts WHERE 1;");
+  // db.run("DELETE FROM users WHERE 1; DELETE FROM posts WHERE 1;");
 
   db.run("INSERT INTO users (hash) VALUES (?)", ["123"], function(err){
     var userID = this.lastID;

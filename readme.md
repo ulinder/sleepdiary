@@ -36,3 +36,6 @@ http://localhost:3001/users/admin123
 mode = universal switch
 0 = default
 1 = sömnrestriktion aktiv
+
+## https cerifikat
+sudo certbot certonly --manual -d somndagbok.vgregion.se
