@@ -1,5 +1,6 @@
-function draw_graph(data){
 
+function draw_graph(data){
+        Chart.register('chartjs-plugin-annotation');
         document.getElementById("graphrow").classList.remove("collapse");
 
         var data1 = {
@@ -11,8 +12,8 @@ function draw_graph(data){
                     backgroundColor: '#CD99D1',
                     pointRadius: 6,
                     borderColor: '#CD99D1',
-                    data: data.weeks.map( x => { if(x.val.se_arr.length > 1) return x.val.avg_sleep_efficiency })
-                },
+                    data: data.weeks.map( x => { if(x.val.se_arr.length > 3) return x.val.avg_sleep_efficiency })
+                }
             ]
         }
 
@@ -31,16 +32,32 @@ function draw_graph(data){
             ]
         }
 
-        console.log(data_avg_sleptime);
 
         var se_graph = new Chart(document.getElementById('sleep-efficiency-canvas'), {
             type: 'line',
             data: data1,
             options:{
+              plugins: {
+                autocolors: false,
+                annotation: {
+                  annotations: {
+                    box1: {
+                      // Indicates the type of annotation
+                      drawTime: 'beforeDraw',
+                      type: 'box',
+                      xMin: 0,
+                      xMax: 100,
+                      yMin: 80,
+                      yMax: 85,
+                      backgroundColor: '#99D1A9'
+                    }
+                  }
+                }
+              },
               responsive: true,
               scales: {
                 y: {
-                  min: 30,
+                  min: 40,
                   max: 100,
                   ticks: {
                     color: 'white'

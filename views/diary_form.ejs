@@ -1,5 +1,43 @@
+<%
+var WAKE_TIME_HOURS = [
+      [0,     '0'],
+      [3600,  '1'],
+      [7200,  '2'],
+      [10800, '3'],
+      [14400, '4'],
+      [18000, '5'],
+      [21600, '6'],
+      [25200, '7'],
+      [28800, '8'],
+      [32400, '9'],
+      [36000, '10']
+    ];
 
-<% if(typeof post === 'undefined') post = null; %>
+var WAKE_TIME_MINUTES = [
+      [0,  '0'],
+      [600,  '10'],
+      [1200, '20'],
+      [1800, '30'],
+      [2400, '40'],
+      [3000, '50']
+    ];
+ 
+if(typeof post === 'undefined') post = null; 
+
+%>
+
+
+<div class="container">
+  <div class="row">
+
+    <div class="col-md-3"></div>
+    <div class="col-md-6 col-12 align-self-center">
+      <h3>
+        <%= (post) ? "Redigera inlägg" : "Skapa nytt inlägg"; %> 
+      </h3>
+
+
+<!--  Reset indenting-->
 <div class="card card-background">
     <div class="card-body">
 
@@ -7,7 +45,7 @@
 
 
   <% if(post){ %> <input type="hidden" name="update" value="true" > <% } %>
-  <% if(post){ %> <input type="hidden" name="id" value="<%= post.id %>" > <% } %>
+  <% if(post){ %> <input type="hidden" name="id" value="<%= post_id %>" > <% } %>
 
   <input type="hidden" name="windown" value="<%= user.windown %>">
   <input type="hidden" name="winup" value="<%= user.winup %>">
@@ -119,32 +157,22 @@
         <div class="mb-4 row">
               <div class="tid-dropdown">
                       <div>
-                      <select class=" blue-input-frame " aria-label="Default select example" name="awake_hours">
-
-                      <% var hours = (post) ? post.hours_awake : 0; %>
-                        <option selected value="<%= hours %>"><%= hours %> h</option>
-                        <option value="0">0 h</option>
-                        <option value="3600">1 h</option>
-                        <option value="7200">2 h</option>
-                        <option value="10800">3 h</option>
-                        <option value="14400">4 h</option>
-                        <option value="18000">5 h</option>
-                        <option value="21600">6 h</option>
-                        <option value="25200">7 h</option>
-                        <option value="28800">8 h</option>
-                        <option value="32400">9 h</option>
-                        <option value="36000">10+ h</option>
-                      </select>
+                        <select class=" blue-input-frame " aria-label="Default select example" name="awake_hours">
+                          <% var selected_var;
+                             for(var pair of WAKE_TIME_HOURS){ 
+                             if(post) selected_var = (pair[1] == post.hours_awake) ? "selected" : "";
+                          %>
+                            <option <%= selected_var %> value="<%= pair[0] %>"><%= pair[1] %> h</option> 
+                          <% } %> 
+                        </select>
                       </div>
                       <div>
                       <select class=" blue-input-frame " aria-label="Default select example"  name="awake_minutes">
-                      <% var minutes = (post) ? post.minutes_awake : 0; %>
-                        <option selected value="<%= minutes %>"><%= minutes %> min</option>
-                        <option value="600">10 min</option>
-                        <option value="1200">20 min</option>
-                        <option value="1800">30 min</option>
-                        <option value="2400">40 min</option>
-                        <option value="3000">50 min</option>
+                        <% for(var pair of WAKE_TIME_MINUTES){ 
+                            if(post) selected_var = (pair[1] == post.minutes_awake) ? "selected" : "";
+                          %>
+                            <option <%= selected_var %> value="<%= pair[0] %>"><%= pair[1] %> minuter</option> 
+                          <% } %> 
                       </select>
                       </div>
 
@@ -284,14 +312,9 @@
     <div class="row">
       <div class="col">
           <div class="mb-4">
-            <% if(post){ %>
+            
+                <a href="/" class="btn btn-primary btn-avbryt" >Avbryt</a>
 
-                <button type="reset" value="Avbryt" class="btn btn-primary btn-avbryt" onclick="return window.history.back();">Avbryt</button>
-
-
-            <% } else { %>
-              <input type="reset" value="Avbryt" class="btn btn-primary btn-avbryt" data-bs-toggle="collapse" data-bs-target="#form_row">
-            <% } %>
 
             <input type="submit" value="Spara" class="btn btn-primary btn-spara">
           </div>
@@ -304,3 +327,18 @@
 
 </div>
 </div>
+
+
+    <% if(post){ %>
+      <button onclick="delete_post(<%= post_id %>, null, true)" 
+              class="mb-4 mt-3 delete-post-button" 
+              value="<%= post_id %>">Radera inlägg
+      </button>
+    <% } %>
+    </div>  
+  </div>
+</div>
+
+<script type="text/javascript" src="/javascripts/diary.js"></script>
+<script type="text/javascript" src="/javascripts/formvalidation.js"></script>
+

@@ -112,8 +112,8 @@ const data_table = (dbresults) =>{
     week_arr.push({w: n, val: {
       sleep_time_arr: weeks[n].sleep_time_arr, 
       se_arr: weeks[n].se_arr,
-      avg_sleep_time: ((weeks[n].sleep_time_arr.reduce(arrSum) / weeks[n].sleep_time_arr.length)/60/60),
-      avg_sleep_efficiency: (weeks[n].se_arr.reduce(arrSum) / weeks[n].se_arr.length),
+      avg_sleep_time: Math.round( ((weeks[n].sleep_time_arr.reduce(arrSum) / weeks[n].sleep_time_arr.length)/60/60) ),
+      avg_sleep_efficiency: Math.round( (weeks[n].se_arr.reduce(arrSum) / weeks[n].se_arr.length) ),
     } });
   });
   
@@ -133,6 +133,17 @@ router.get('/:user_id/json', function(req, res, next) {
       });
 });
 
+// NEW POST
+router.get('/new', function(req, res, next) {
+
+  db.get("SELECT * FROM users WHERE id=?", req.cookies.user, (error, user)=>{
+      if(error) res.json({ error: error });
+      res.render('diary_form', { title: 'Sömndagboken - Skapa nytt inlägg', user: user })
+  });
+
+});
+
+
 // EDIT POST
 router.get('/:id/edit', function(req, res, next) {
   db.get("SELECT * FROM users WHERE id=?", req.cookies.user, (err, user)=>{
@@ -141,7 +152,7 @@ router.get('/:id/edit', function(req, res, next) {
       dbresults.minutes_awake = seconds_to_block_of("m", dbresults.awake);
       dbresults.hours_awake = seconds_to_block_of("h", dbresults.awake);
       console.log(dbresults);
-      res.render('edit_post', { title: 'Sömndagboken - Redigera inlägg', post: dbresults, user: user, post_id: req.params.id })
+      res.render('diary_form', { title: 'Sömndagboken - Redigera inlägg', post: dbresults, user: user, post_id: req.params.id })
       // res.json( dbresults );
     });
   });

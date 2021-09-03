@@ -41,7 +41,6 @@ function draw_streaks(data){
 
 function draw_veckans_inlagg(data) {
   var temp, clon, template, n_this_week = 0, date_to_bed, date_up_from_bed;
-
   
   data.data_table.forEach( function(element, index) {
 
@@ -96,7 +95,6 @@ function draw_veckans_inlagg(data) {
   // When this week is empty
   if(n_this_week == 0) document.getElementById("inlagg_taget_div").innerHTML += '<p><strong>Inga dagboksinlägg för denna vecka</strong></p>'
 }
-
 
 
 function delete_post(id, target_element_id, redirect = false){
