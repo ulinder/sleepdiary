@@ -368,7 +368,7 @@ option { /* Skattningsalternativ */
     overflow:hidden;
     white-space:nowrap;
     cursor:pointer;
-    font-size:50px;
+    font-size:45px;
     color:#2D333F;
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: #E0DAA0;

@@ -32,3 +32,24 @@ För att nå en överblick av alla dagböcker som ligger uppe
 Lokalt
 http://localhost:3001/users/admin123
 
+### inställningar databasnivå
+mode = universal switch
+0 = default
+1 = sömnrestriktion aktiv
+
+## https cerifikat
+sudo certbot certonly --manual -d somndagbok.vgregion.se
+
+IMPORTANT NOTES:
+ - Congratulations! Your certificate and chain have been saved at:
+   /etc/letsencrypt/live/somndagbok.vgregion.se/fullchain.pem
+   Your key file has been saved at:
+   /etc/letsencrypt/live/somndagbok.vgregion.se/privkey.pem
+   Your cert will expire on 2021-11-30. To obtain a new or tweaked
+   version of this certificate in the future, simply run certbot
+   again. To non-interactively renew *all* of your certificates, run
+   "certbot renew"
+ - If you like Certbot, please consider supporting our work by:
+
+   Donating to ISRG / Let's Encrypt:   https://letsencrypt.org/donate
+   Donating to EFF:                    https://eff.org/donate-le

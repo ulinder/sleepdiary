@@ -21,7 +21,7 @@ const validateForm = function (event){
   (document.getElementById("down_time").value.length != 5) ? fe.add(err_downtime_invalid) : fe.delete(err_downtime_invalid);
   (document.getElementById("up_time").value.length != 5) ? fe.add(err_uptime_invalid) : fe.delete(err_uptime_invalid);
 
-  // Look for rated stars
+  // Look for rated stars, by taking all stars, convert to array and see if more than 0 are checked
   if(Array.from(document.getElementsByName("rate")).filter( el => el.checked === true).length == 0){
     fe.add(err_miss_rate);
     show_warning('rate_warning');

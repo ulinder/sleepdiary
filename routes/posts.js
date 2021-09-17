@@ -29,6 +29,7 @@ const seconds_to_block_of = (type, seconds)=>{ // type => [h/m]
 const data_table = (dbresults) =>{
   if(!dbresults || dbresults.length == 0) return {current_week: moment().format('ww'), first_week: moment().format('ww'), data_table: [], weeks:[]};
   
+  // Define all variables that will be sent in the json-payload
   var first_date_str = moment( dbresults[0].up, "X" ).format("YYYY-MM-DD").toString(),
       first_week_str = moment( dbresults[0].up, "X" ).format("ww").toString(),
       this_up_date = first_date_str,
@@ -42,12 +43,15 @@ const data_table = (dbresults) =>{
       time_up_from_bed,
       se,
       window_hit,
+      unix_down,
+      unix_up,      
       week_arr = [],
       i = 0,
       _dummy = { id: "", date_to_bed: "", time_to_bed: "", date_up_from_bed: "", time_up_from_bed: "", time_in_bed: "", sleep_rate: "", time_awake: "", time_asleep: "", sleep_efficiency: "", windown:"", winup:""};
 
   
   while (dbresults.length > 0) { 
+
 
       if(dbresults[0] && moment(dbresults[0].up, "X").format("YYYY-MM-DD") != this_up_date){
         posts_table.push( { week: moment(this_up_date).format("ww"), day: this_up_date, data: _dummy, found: false } ); 
@@ -74,6 +78,8 @@ const data_table = (dbresults) =>{
           found: true, 
           data: { 
               id: found.id, 
+              unix_down: found.down,
+              unix_up: found.up,
               date_to_bed: moment(found.down, "X").format("YYYY-MM-DD"), 
               time_to_bed: time_to_bed, 
               date_up_from_bed: moment(found.up, "X").format("YYYY-MM-DD"), 
@@ -104,16 +110,16 @@ const data_table = (dbresults) =>{
       } // WHILE inner same day
     i++;
     this_up_date = moment(first_date_str).add(i, 'days').format("YYYY-MM-DD").toString();
-    
-  } // while 
+      
+  } // while - dbresults
 
   // Finish Weeks avg calculations
   Object.keys(weeks).forEach( (n) => { 
     week_arr.push({w: n, val: {
       sleep_time_arr: weeks[n].sleep_time_arr, 
       se_arr: weeks[n].se_arr,
-      avg_sleep_time: ((weeks[n].sleep_time_arr.reduce(arrSum) / weeks[n].sleep_time_arr.length)/60/60),
-      avg_sleep_efficiency: (weeks[n].se_arr.reduce(arrSum) / weeks[n].se_arr.length),
+      avg_sleep_time: Math.round( ((weeks[n].sleep_time_arr.reduce(arrSum) / weeks[n].sleep_time_arr.length)/60/60) ),
+      avg_sleep_efficiency: Math.round( (weeks[n].se_arr.reduce(arrSum) / weeks[n].se_arr.length) ),
     } });
   });
   
@@ -123,43 +129,56 @@ const data_table = (dbresults) =>{
     first_week: first_week_str,
     weeks: week_arr 
   }
-  
 }
 
-/* GET home page. */
+/* GET data_table */
 router.get('/:user_id/json', function(req, res, next) {
-    db.all("SELECT * FROM posts WHERE user_id = ? ORDER BY down ASC", [req.params.user_id], (error, dbresults) =>{
-      if(error) res.json({ error: error })
-      res.json( data_table(dbresults) )
-      });
+  db.all("SELECT * FROM posts WHERE user_id = ? ORDER BY down ASC", [req.params.user_id], (error, dbresults) =>{
+    if(error) res.json({ error: error })
+    res.json( data_table(dbresults) )
+  });
 });
+
+// NEW POST
+router.get('/new', function(req, res, next) {
+
+  db.get("SELECT * FROM users WHERE id=?", req.cookies.user, (error, user)=>{
+      if(error) res.json({ error: error });
+      res.render('diary_form', { title: 'Sömndagboken - Skapa nytt inlägg', user: user })
+  });
+
+});
+
 
 // EDIT POST
 router.get('/:id/edit', function(req, res, next) {
   db.get("SELECT * FROM users WHERE id=?", req.cookies.user, (err, user)=>{
-    db.get("SELECT * FROM posts left join users where posts.id= ?", req.params.id, (error, dbresults) =>{
+    db.get("SELECT * FROM posts left join users where posts.id=?", req.params.id, (error, dbresults) =>{
       if(error) res.json({ error: error });
       dbresults.minutes_awake = seconds_to_block_of("m", dbresults.awake);
       dbresults.hours_awake = seconds_to_block_of("h", dbresults.awake);
-      res.render('edit_post', { title: 'Sömndagboken - Redigera inlägg', post: dbresults, user: user })
-      // res.json( dbresults ); 
+      console.log(dbresults);
+      res.render('diary_form', { title: 'Sömndagboken - Redigera inlägg', post: dbresults, user: user, post_id: req.params.id })
+      // res.json( dbresults );
     });
   });
 });
 
+
+
 /* CREATE/UPDATE diarypost */
 router.post('/', function(req, res, next) {
 
-  if(req.body.down_time === '' || req.body.up_time === '') return res.json({error: 'timeless'})
-  // parse times to seconds
-  var down  = moment([req.body.down_date, req.body.down_time].join(" ") ).format("X");
-  var up    = moment([req.body.up_date, req.body.up_time].join(" ") ).format("X");
-  var awake = parseInt(req.body.awake_hours) + parseInt(req.body.awake_minutes);
+    if(req.body.down_time === '' || req.body.up_time === '') return res.json({error: 'timeless'})
+    // parse times to seconds
+    var down  = moment([req.body.down_date, req.body.down_time].join(" ") ).format("X");
+    var up    = moment([req.body.up_date, req.body.up_time].join(" ") ).format("X");
+    var awake = parseInt(req.body.awake_hours) + parseInt(req.body.awake_minutes);
 
-  // BACKEND-VALIDATION 
-  if( up > moment().format('x') || down > moment().format('x') ) return res.json({'error': 'Future sleeper'}); 
-  if(down > up) return res.json({'error': 'reverser'}); 
-  if(req.body.rate === null) res.status(403);
+    // BACKEND-VALIDATION 
+    if( up > moment().format('x') || down > moment().format('x') ) return res.json({'error': 'Future sleeper'}); 
+    if(down > up) return res.json({'error': 'reverser'}); 
+    if(req.body.rate === null) res.status(403);
 
 
     if(req.body.update){ // UPDATE POST
@@ -197,6 +216,8 @@ router.post('/', function(req, res, next) {
     });
     
 });
+
+
 
 router.delete('/:id', function (req, res) {
     db.run('DELETE FROM posts WHERE id=?', req.params.id, (err)=>{
