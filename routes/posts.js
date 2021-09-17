@@ -29,6 +29,7 @@ const seconds_to_block_of = (type, seconds)=>{ // type => [h/m]
 const data_table = (dbresults) =>{
   if(!dbresults || dbresults.length == 0) return {current_week: moment().format('ww'), first_week: moment().format('ww'), data_table: [], weeks:[]};
   
+  // Define all variables that will be sent in the json-payload
   var first_date_str = moment( dbresults[0].up, "X" ).format("YYYY-MM-DD").toString(),
       first_week_str = moment( dbresults[0].up, "X" ).format("ww").toString(),
       this_up_date = first_date_str,
@@ -42,12 +43,15 @@ const data_table = (dbresults) =>{
       time_up_from_bed,
       se,
       window_hit,
+      unix_down,
+      unix_up,      
       week_arr = [],
       i = 0,
       _dummy = { id: "", date_to_bed: "", time_to_bed: "", date_up_from_bed: "", time_up_from_bed: "", time_in_bed: "", sleep_rate: "", time_awake: "", time_asleep: "", sleep_efficiency: "", windown:"", winup:""};
 
   
   while (dbresults.length > 0) { 
+
 
       if(dbresults[0] && moment(dbresults[0].up, "X").format("YYYY-MM-DD") != this_up_date){
         posts_table.push( { week: moment(this_up_date).format("ww"), day: this_up_date, data: _dummy, found: false } ); 
@@ -74,6 +78,8 @@ const data_table = (dbresults) =>{
           found: true, 
           data: { 
               id: found.id, 
+              unix_down: found.down,
+              unix_up: found.up,
               date_to_bed: moment(found.down, "X").format("YYYY-MM-DD"), 
               time_to_bed: time_to_bed, 
               date_up_from_bed: moment(found.up, "X").format("YYYY-MM-DD"), 
@@ -104,8 +110,8 @@ const data_table = (dbresults) =>{
       } // WHILE inner same day
     i++;
     this_up_date = moment(first_date_str).add(i, 'days').format("YYYY-MM-DD").toString();
-    
-  } // while 
+      
+  } // while - dbresults
 
   // Finish Weeks avg calculations
   Object.keys(weeks).forEach( (n) => { 
@@ -125,12 +131,12 @@ const data_table = (dbresults) =>{
   }
 }
 
-/* GET home page. */
+/* GET data_table */
 router.get('/:user_id/json', function(req, res, next) {
-    db.all("SELECT * FROM posts WHERE user_id = ? ORDER BY down ASC", [req.params.user_id], (error, dbresults) =>{
-      if(error) res.json({ error: error })
-      res.json( data_table(dbresults) )
-      });
+  db.all("SELECT * FROM posts WHERE user_id = ? ORDER BY down ASC", [req.params.user_id], (error, dbresults) =>{
+    if(error) res.json({ error: error })
+    res.json( data_table(dbresults) )
+  });
 });
 
 // NEW POST
@@ -157,6 +163,8 @@ router.get('/:id/edit', function(req, res, next) {
     });
   });
 });
+
+
 
 /* CREATE/UPDATE diarypost */
 router.post('/', function(req, res, next) {
@@ -208,6 +216,8 @@ router.post('/', function(req, res, next) {
     });
     
 });
+
+
 
 router.delete('/:id', function (req, res) {
     db.run('DELETE FROM posts WHERE id=?', req.params.id, (err)=>{
