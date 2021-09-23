@@ -1,5 +1,5 @@
 
-function draw_graph(data){
+function draw_graphs(data){
         Chart.register('chartjs-plugin-annotation');
         document.getElementById("graphrow").classList.remove("collapse");
 

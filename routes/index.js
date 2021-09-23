@@ -1,17 +1,29 @@
 var express = require('express');
 var router = express.Router();
 var db = require('../db.js');
-// var moment = require('../utils/moment')
 var moment = require('moment'); //.locale('sv');
+const data_table = require('../utils/data_table');
 
-/* GET home page. */
-router.get('/', (req, res, next) => {
-  if(!req.cookies.user) return res.render('401');
-  var admin = (req.cookies.admin) ? true : false ;
-  db.get("SELECT * FROM users WHERE id=?", req.cookies.user, (err, user)=>{
-    if(err) return console.error(err);
-    res.render('index', { title: 'Sömndagboken', flash: req.cookies, user: user, admin: admin } );
-  });
+/* index start page. */
+router.get('/', async(req, res, next) => {
+  try{
+    if(!req.cookies.user) return res.render('401');
+    var admin = (req.cookies.admin) ? true : false ;
+    const user = await db.query("SELECT * FROM users WHERE id=?", req.cookies.user);
+    var posts = await db.query("SELECT * FROM posts WHERE user_id = ? ORDER BY down ASC", [req.cookies.user]);
+    posts = data_table.bake(posts);
+    res.render('index', { 
+      title: 'Sömndagboken', 
+      flash: req.cookies, 
+      notice: {what: 'default'},
+      user: user[0], 
+      admin: admin,
+      posts: posts,
+      this_week: posts.data_table.filter( p => p.week === posts.current_week)
+    });
+
+  } catch(e) { console.error(e); res.render('error'); }
+  
 });
 
 /* HANDLE login */

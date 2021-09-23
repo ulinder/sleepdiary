@@ -1,7 +1,8 @@
 window.formErrors = new Set();
 const fe = window.formErrors;
+const formFields = [down_date, down_time, awake_hours, awake_minutes, up_date, up_time, rate];
 
-const err_miss_rate = "Glöm inte att du behöver skatta din sömnkvalitét med antal stjärnor.",
+const err_miss_rate = "Du behöver skatta din sömnkvalitét med antal stjärnor.",
       err_down_3_day = "Du kan inte göra en sömnregistrering av ett datum som ligger mer än 3 dagar bakåt i tiden.",
       err_reverse_time = "Du kan inte ange att du gått och lagt dig ett senare datum än det datum du angett att du klev upp.",
       err_time_travel = "Du kan inte ange att du lagt dig eller klivit upp på ett datum som ligger framåt i tiden"

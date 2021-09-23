@@ -8,6 +8,18 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
     }   
 });
 
+db.query = function (sql, params) {
+  var that = this;
+  return new Promise(function (resolve, reject) {
+    that.all(sql, params, function (error, rows) {
+      if (error)
+        reject(error);
+      else
+        resolve(rows);
+    });
+  });
+};
+
 if(process.env.NODE_ENV === "development") db.on('trace', trace => console.log(trace) )
 
 module.exports = db
