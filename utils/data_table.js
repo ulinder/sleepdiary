@@ -68,7 +68,8 @@ function bake(dbresults){
               time_asleep: helpers.seconds_to_text(seconds_asleep), 
               seconds_asleep: seconds_asleep, 
               windown: found.windown, 
-              window_hit: window_hit,
+              window_down_hit: window_down_hit,
+              window_up_hit: window_up_hit,
               winup: found.winup,
               t: found.t, 
               sleep_efficiency: ( se ).toString().split(".")[0] + '%'
