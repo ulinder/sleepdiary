@@ -37,6 +37,9 @@ mode = universal switch
 0 = default
 1 = sömnrestriktion aktiv
 
+### moment 
+litet x = milisekunder, stort X sekunder. 
+
 ## https cerifikat
 sudo certbot certonly --manual -d somndagbok.vgregion.se
 

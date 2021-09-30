@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../db.js');
+const helpers = require('../utils/helpers');
 const data_table = require('../utils/data_table');
 const moment = require('moment'); //.locale('sv');
       moment.locale('sv');
@@ -30,8 +31,8 @@ router.get('/:id/edit', function(req, res, next) {
   db.get("SELECT * FROM users WHERE id=?", req.cookies.user, (err, user)=>{
     db.get("SELECT * FROM posts left join users where posts.id=?", req.params.id, (error, dbresults) =>{
       if(error) res.json({ error: error });
-      dbresults.minutes_awake = seconds_to_block_of("m", dbresults.awake);
-      dbresults.hours_awake = seconds_to_block_of("h", dbresults.awake);
+      dbresults.minutes_awake = helpers.seconds_to_block_of("m", dbresults.awake);
+      dbresults.hours_awake = helpers.seconds_to_block_of("h", dbresults.awake);
       console.log(dbresults);
       res.render('diary_form', { title: 'Sömndagboken - Redigera inlägg', post: dbresults, user: user, post_id: req.params.id })
       // res.json( dbresults );

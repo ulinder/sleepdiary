@@ -22,7 +22,7 @@ router.get('/', async(req, res, next) => {
       this_week: posts.data_table.filter( p => p.week === posts.current_week)
     });
 
-  } catch(e) { console.error(e); res.render('error'); }
+  } catch(e) { console.error(e); res.render('error',{ message: e, error: {status: e.message}  }); }
   
 });
 
