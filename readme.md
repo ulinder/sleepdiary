@@ -37,8 +37,15 @@ mode = universal switch
 0 = default
 1 = sömnrestriktion aktiv
 
-### moment 
+Tid sparas som unix-tid i milisekunder. Appen använder moment.js för att hantera datum och tid. 
 litet x = milisekunder, stort X sekunder. 
+
+### Test
+Starta tester med ``npm test``
+Testerna kör:
+- Rootsidan
+- Secret admin path
+- Skapa ny dagbok
 
 ## https cerifikat
 sudo certbot certonly --manual -d somndagbok.vgregion.se

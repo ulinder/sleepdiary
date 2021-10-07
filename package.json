@@ -13,7 +13,7 @@
     "dbsetup": "node ./bin/dbsetup",
     "seed": "node ./bin/seed",
     "info": "node ./bin/info",
-    "test": "jest --detectOpenHandles --forceExit",
+    "test": "jest --detectOpenHandles",
     "test:watch": "jest --watch"
   },
   "dependencies": {

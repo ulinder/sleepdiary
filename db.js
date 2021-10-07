@@ -1,11 +1,11 @@
 var sqlite3 = require('sqlite3').verbose()
-const DBSOURCE = __dirname + "/sleepdiary.sqlite"
+const DBSOURCE = `${__dirname}/${process.env.NODE_ENV}.sleepdiary.sqlite`
 
 let db = new sqlite3.Database(DBSOURCE, (err) => {
     if (err) { // Cannot open database
       console.error(err.message)
       throw err
-    }   
+    }
 });
 
 db.query = function (sql, params) {
@@ -19,6 +19,18 @@ db.query = function (sql, params) {
     });
   });
 };
+
+db.firstUser = function () {
+  var that = this;
+  return new Promise(function (resolve, reject) {
+    that.get("SELECT * FROM users LIMIT 1", function(error, row){
+      if (error)
+        reject(error);
+      else
+        resolve(row);
+    });
+  })
+}
 
 if(process.env.NODE_ENV === "development") db.on('trace', trace => console.log(trace) )
 
