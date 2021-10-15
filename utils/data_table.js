@@ -103,7 +103,7 @@ function bake(dbresults){
   });
   
   return { 
-    data_table: posts_table,
+    data_table: posts_table.reverse(),
     current_week: moment().format('ww'),
     first_week: first_week_str,
     weeks: week_arr 

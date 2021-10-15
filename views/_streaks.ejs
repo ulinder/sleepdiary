@@ -1,28 +1,32 @@
 <% 
 switch(notice.what){  
-case 'window-hit':
+case 'sleep-window-results':
+  var body_down = (notice.data.window_down_hit) ? 
+    { mess: "Prickade du att lägga dig i tid!", img: 'images/smileyHappy.svg' } : 
+    { mess: "Missade du att lägga dig i tid.", img: 'images/smileySad.svg' };  
+  var body_up = (notice.data.window_up_hit) ? 
+    { mess: "Prickade du att kliva upp i tid!", img: 'images/smileyHappy.svg' } : 
+    { mess: "Missade du att kliva upp i tid.", img: 'images/smileySad.svg' };
 %> 
-
-    <p>Du prickade ditt sömnfönster i ditt senaste inlägg!</p>
-
-    <div class="smiley">
-      <img src="images/smileyHappy.svg">
+  <h4>I ditt senaste inlägg</h4>
+  <div class="row">
+    <div class="col">
+        <p><%= body_down.mess %></p>
+        <div class="smiley"> <img src="<%= body_down.img %>"> </div>
     </div>
+    <div class="col">
+        <p><%= body_up.mess %></p>
+        <div class="smiley"> <img src="<%= body_up.img %>"> </div>
+    </div>
+  </div>
+    
 
 <% 
 break; 
-case 'window-miss':
-%>
-    <p>       Du missade tyvärr ditt sömnfönster i ditt senaste inlägg!       </p>
-
-    <div class="smiley">
-        <img src="images/smileySad.svg">
-    </div>
-<%
-break;
 default: 
 %>
-  <p>    Du har loggat in i sömndagboken - ett steg i riktning mot bättre sömn!  </p>
+
+  <p>Du har loggat in i sömndagboken - ett steg i riktning mot bättre sömn!  </p>
 
   <div class="row">
     <svg class="medallion" width="61" height="55" viewBox="0 0 61 55" fill="none" xmlns="http://www.w3.org/2000/svg">

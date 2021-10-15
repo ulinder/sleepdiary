@@ -2,20 +2,21 @@ var express = require('express');
 var router = express.Router();
 var db = require('../db.js');
 var moment = require('moment'); //.locale('sv');
+const helpers = require('../utils/helpers');
 const data_table = require('../utils/data_table');
 
 /* index start page. */
 router.get('/', async(req, res, next) => {
   try{
     if(!req.cookies.user) return res.render('401');
-    var admin = (req.cookies.admin) ? true : false ;
+    const admin = (req.cookies.admin) ? true : false ;
     const user = await db.query("SELECT * FROM users WHERE id=?", req.cookies.user);
     var posts = await db.query("SELECT * FROM posts WHERE user_id = ? ORDER BY down ASC", [req.cookies.user]);
     posts = data_table.bake(posts);
     res.render('index', { 
       title: 'Sömndagboken', 
       flash: req.cookies, 
-      notice: {what: 'default'},
+      notice: helpers.notice_mess(posts, user[0]),
       user: user[0], 
       admin: admin,
       posts: posts,
