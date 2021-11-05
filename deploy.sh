@@ -14,17 +14,17 @@ if (($OK)); then
     pre-prod)
       echo "copy files to pre-prod"
       git checkout dev 
-      if (("$(git branch --show-current)"=="dev")); then
+      # if (("$(git branch --show-current)"=="dev")); then
       rsync -av --exclude '.git' --exclude 'deploy.sh' "$SCRIPT_DIR/" "$PREPROD_DIR/"
-      fi 
+      #fi 
       ;;
 
     prod)
       echo "copy files to prod"
       git checkout master 
-      if (("$(git branch --show-current)"=="master")); then
+      # if (("$(git branch --show-current)"=="master")); then
       rsync -av --exclude '.git' --exclude 'deploy.sh' "$SCRIPT_DIR/" "$PROD_DIR/"
-      fi 
+      # fi 
       ;;
 
     *)
