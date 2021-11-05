@@ -11,6 +11,11 @@ Det finns en ingång för en användare till sömndagboken om inget annat gjorts
 
 Länken bör sparas för att senare återaktivera sessionen. Och för behandlare behöver man använda länken för att växla mellan flera klienter.
 
+### SuperAdmin
+För att nå en överblick av alla dagböcker som ligger uppe
+Lokalt
+http://localhost:3001/users/admin123
+
 ## Teknik
 Nodejs/Express/SQLITE3
 För daemonisering av appen i prod är en rekommendation att använda pm2 
@@ -24,13 +29,8 @@ development eller production ? NODE_ENV=production/development
 *dev:*
 nodemon DEBUG=myapp:* npm start
 *prod:*
-NODE_ENV=production pm2 start bin/www --name sleepdiary
+NODE_ENV=production pm2 start pre-prod/bin/www --name sleepdiary-pre-prod
 
-
-### SuperAdmin
-För att nå en överblick av alla dagböcker som ligger uppe
-Lokalt
-http://localhost:3001/users/admin123
 
 ### inställningar databasnivå
 mode = universal switch
@@ -46,6 +46,13 @@ Testerna kör:
 - Rootsidan
 - Secret admin path
 - Skapa ny dagbok
+
+## Lokal struktur
+./gitrepo
+  /prod
+  /preprod
+
+rsync -av --progress repo/* pre-prod/ --exclude .git --exclude tests
 
 ## https cerifikat
 sudo certbot certonly --manual -d somndagbok.vgregion.se
