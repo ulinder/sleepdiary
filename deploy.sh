@@ -18,7 +18,7 @@ if (($OK)); then
       rsync -av --exclude '.git' --exclude 'deploy.sh' "$SCRIPT_DIR/" "$PREPROD_DIR/"
       echo -e "
       BRANCH=dev
-      PORT=3001
+      PORT=3002
       NODE_ENV=production" > "$PREPROD_DIR/.env"
       npm install
       pm2 reload sleepdiary-pre-prod
