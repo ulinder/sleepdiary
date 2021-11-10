@@ -1,3 +1,4 @@
+require('dotenv').config()
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -7,6 +8,7 @@ const expressLayouts = require('express-ejs-layouts');
 const postsRouter = require('./routes/posts');
 const usersRouter = require('./routes/users');
 const indexRouter = require('./routes/index');
+
 
 const app = express();
 
@@ -32,6 +34,12 @@ app.use('/', indexRouter);
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
+// catch admin for all pages
+app.use(function (req, res, next) {
+  res.locals.admin = (req.cookies.admin) ? true : false ;  
+  next()
+})
 
 // error handler
 app.use(function(err, req, res, next) {

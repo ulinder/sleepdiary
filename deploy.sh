@@ -16,6 +16,9 @@ if (($OK)); then
       git checkout dev 
       # if (("$(git branch --show-current)"=="dev")); then
       rsync -av --exclude '.git' --exclude 'deploy.sh' "$SCRIPT_DIR/" "$PREPROD_DIR/"
+      echo "BRANCH=dev" > "$PREPROD_DIR/.env"
+      npm install
+      pm2 reload sleepdiary-pre-prod
       #fi 
       ;;
 
@@ -24,6 +27,9 @@ if (($OK)); then
       git checkout master 
       # if (("$(git branch --show-current)"=="master")); then
       rsync -av --exclude '.git' --exclude 'deploy.sh' "$SCRIPT_DIR/" "$PROD_DIR/"
+      echo "BRANCH=master" > "$PROD_DIR/.env"
+      npm install
+      pm2 reload sleepdiary-pre-prod
       # fi 
       ;;
 
