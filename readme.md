@@ -29,7 +29,10 @@ development eller production ? NODE_ENV=production/development
 *dev:*
 nodemon DEBUG=myapp:* npm start
 *prod:*
-NODE_ENV=production pm2 start pre-prod/bin/www --name sleepdiary-pre-prod
+NODE_ENV=production pm2 start pre-prod/bin/www --name sleepdiary-prod
+
+*pre-prod:*
+NODE_ENV=production PORT=3002 pm2 start pre-prod/bin/www --name sleepdiary-pre-prod
 
 
 ### inställningar databasnivå
