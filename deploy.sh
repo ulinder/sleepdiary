@@ -28,7 +28,7 @@ if (($OK)); then
       ;;
 
     *)
-      echo "unknown argument / argument missing. "
+      echo "Version missing: pre-prod / prod "
       ;;
   esac
 
