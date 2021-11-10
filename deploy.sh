@@ -16,7 +16,10 @@ if (($OK)); then
       git checkout dev 
       # if (("$(git branch --show-current)"=="dev")); then
       rsync -av --exclude '.git' --exclude 'deploy.sh' "$SCRIPT_DIR/" "$PREPROD_DIR/"
-      echo -e "BRANCH=dev\nPORT=3001\nNODE_ENV=production" > "$PREPROD_DIR/.env"
+      echo -e "
+      BRANCH=dev
+      PORT=3001
+      NODE_ENV=production" > "$PREPROD_DIR/.env"
       npm install
       pm2 reload sleepdiary-pre-prod
       #fi 
@@ -27,9 +30,12 @@ if (($OK)); then
       git checkout master 
       # if (("$(git branch --show-current)"=="master")); then
       rsync -av --exclude '.git' --exclude 'deploy.sh' "$SCRIPT_DIR/" "$PROD_DIR/"
-      echo -e "BRANCH=master\nPORT=3001\nNODE_ENV=production" > "$PROD_DIR/.env"
+      echo -e "
+      BRANCH=master
+      PORT=3001
+      NODE_ENV=production" > "$PROD_DIR/.env"
       npm install
-      pm2 reload sleepdiary-pre-prod
+      pm2 reload sleepdiary-prod
       # fi 
       ;;
 
