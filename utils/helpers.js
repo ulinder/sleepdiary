@@ -82,6 +82,10 @@ function notice_mess(posts_table, user){
     return {what: 'none'};
 }
 
+function is_admin(req){
+    return  (req.cookies.admin) ? true : false;
+}
+
 
 module.exports = { 
     arrSum, 
@@ -89,5 +93,6 @@ module.exports = {
     seconds_to_block_of, 
     seconds_to_text, 
     times, 
-    notice_mess 
+    notice_mess,
+    is_admin
 }

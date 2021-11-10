@@ -9,16 +9,16 @@ const data_table = require('../utils/data_table');
 router.get('/', async(req, res, next) => {
   try{
     if(!req.cookies.user) return res.render('401');
-    const admin = (req.cookies.admin) ? true : false ;
+    
     const user = await db.query("SELECT * FROM users WHERE id=?", req.cookies.user);
     var posts = await db.query("SELECT * FROM posts WHERE user_id = ? ORDER BY down ASC", [req.cookies.user]);
     posts = data_table.bake(posts);
     res.render('index', { 
       title: 'Sömndagboken', 
-      flash: req.cookies, 
       notice: helpers.notice_mess(posts, user[0]),
+      flash:'',
       user: user[0], 
-      admin: admin,
+      admin: helpers.is_admin(req),
       posts: posts,
       this_week: posts.data_table.filter( p => p.week === posts.current_week)
     });
@@ -50,7 +50,26 @@ router.get('/:id/:hash', (req, res, next) => {
 /* GET manual page. */
 router.get('/manual', (req, res) => {
   if(!req.cookies.user) return res.render('401');
-    res.render('manual', { title: 'manual - Sömndagboken'} );
+    res.render('manual', { 
+      title: 'manual - Sömndagboken', 
+      admin: helpers.is_admin(req),
+    } );
+});
+
+/* SUPERADMIN  */
+router.get('/admin123', function(req, res, next) {
+  db.all(`SELECT U.*, count(D.id) as dpcount FROM users as U
+          LEFT JOIN posts as D ON U.id = D.user_id
+          GROUP BY D.user_id
+          ORDER BY t DESC`, (error, dbresults) =>{
+    if(error) return res.json({error: error})
+    res.render('admin', { 
+      title: 'Admin', 
+      dbresults: dbresults, 
+      admin: helpers.is_admin(req),
+    });
+  });
+
 });
 
 module.exports = router;

@@ -6,7 +6,11 @@ const helpers = require('../utils/helpers');
 
 /* NEW user form */
 router.get('/', function(req, res, next) {
-  res.render('new_user', {link:"", title: "Ny dagbok"} );
+  res.render('new_user', {
+    link:"", 
+    title: "Ny dagbok", 
+    admin: helpers.is_admin(req),
+  } );
 });
 
 /* GET users listing. */
@@ -15,7 +19,12 @@ router.post('/', function(req, res, next) {
   db.run(`INSERT INTO users (hash) VALUES (?)`,[hash], function(err){
     var newlink = helpers.link_to(req, `${this.lastID}/${hash}`)
     res.set('X-diary-url', newlink)
-    res.render('new_user', { link: newlink, hash: hash, title: "Ny dagbok" });
+    res.render('new_user', { 
+      link: newlink, 
+      hash: hash, 
+      title: "Ny dagbok", 
+      admin: helpers.is_admin(req),
+    });
   })
 });
 
@@ -23,24 +32,10 @@ router.post('/', function(req, res, next) {
 router.post('/:id/update', function(req, res){
   var params = [req.body.windown, req.body.winup, req.params.id];
   if(params[0].length != 5 && params[1].length != 5) return res.json({error: "fails!!"});
-
-    console.log();
     db.run("UPDATE users SET windown=?, winup=? WHERE id=?", params, function(err){
       if(err) return res.json({error: err});
       res.redirect('/')
       });
-});
-
-/* SUPERADMIN  */
-router.get('/admin123', function(req, res, next) {
-  db.all(`SELECT U.*, count(D.id) as dpcount FROM users as U
-          LEFT JOIN posts as D ON U.id = D.user_id
-          GROUP BY D.user_id
-          ORDER BY t DESC`, (error, dbresults) =>{
-    if(error) return res.json({error: error})
-    res.render('admin', { title: 'Admin', dbresults: dbresults });
-  });
-
 });
 
 module.exports = router;

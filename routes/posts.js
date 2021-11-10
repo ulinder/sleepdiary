@@ -17,10 +17,13 @@ router.get('/:user_id/json', function(req, res, next) {
 
 // NEW POST
 router.get('/new', function(req, res, next) {
-
   db.get("SELECT * FROM users WHERE id=?", req.cookies.user, (error, user)=>{
       if(error) res.json({ error: error });
-      res.render('diary_form', { title: 'Sömndagboken - Skapa nytt inlägg', user: user })
+      res.render('diary_form', { 
+        title: 'Sömndagboken - Skapa nytt inlägg', 
+        user: user, 
+        admin: helpers.is_admin(req),
+      })
   });
 
 });
@@ -34,8 +37,14 @@ router.get('/:id/edit', function(req, res, next) {
       dbresults.minutes_awake = helpers.seconds_to_block_of("m", dbresults.awake);
       dbresults.hours_awake = helpers.seconds_to_block_of("h", dbresults.awake);
       console.log(dbresults);
-      res.render('diary_form', { title: 'Sömndagboken - Redigera inlägg', post: dbresults, user: user, post_id: req.params.id })
-      // res.json( dbresults );
+      res.render('diary_form', { 
+        title: 'Sömndagboken - Redigera inlägg', 
+        post: dbresults, 
+        user: user, 
+        post_id: req.params.id, 
+        admin: helpers.is_admin(req),
+      })
+
     });
   });
 });

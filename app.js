@@ -13,18 +13,18 @@ const indexRouter = require('./routes/index');
 const app = express();
 
 // view engine setup
-app.use(expressLayouts)
-app.set('layout', 'layout')
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.locals.moment = require('moment');
+app.locals.branch = process.env.BRANCH || "dotenv-fail"
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static( 'public'));
+
 
 app.use('/posts', postsRouter);
 app.use('/users', usersRouter);
@@ -34,12 +34,6 @@ app.use('/', indexRouter);
 app.use(function(req, res, next) {
   next(createError(404));
 });
-
-// catch admin for all pages
-app.use(function (req, res, next) {
-  res.locals.admin = (req.cookies.admin) ? true : false ;  
-  next()
-})
 
 // error handler
 app.use(function(err, req, res, next) {
