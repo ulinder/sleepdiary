@@ -44,9 +44,8 @@ function bake(dbresults){
         se = seconds_asleep/seconds_in_bed*100;
         time_to_bed = moment(found.down, "X").format("HH:mm");
         time_up_from_bed = moment(found.up, "X").format("HH:mm");
-        window_down_hit = (moment(time_to_bed, "HH:mm").diff( moment(found.windown,"HH:mm"), "minutes") < 10);
-        window_up_hit =   (moment(time_up_from_bed, "HH:mm").diff( moment(found.winup,"HH:mm"), "minutes") < 10);
-
+        window_down_hit = ( Math.abs(moment(time_to_bed, "HH:mm").diff( moment(found.windown,"HH:mm"), "minutes") )     < 10);
+        window_up_hit =   ( Math.abs(moment(time_up_from_bed, "HH:mm").diff( moment(found.winup,"HH:mm"), "minutes") )  < 10);
 
         posts_table.push( {
           week: week_num,

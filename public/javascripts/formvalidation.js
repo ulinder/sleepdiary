@@ -112,4 +112,6 @@ const catch_change = (e)=>{
 }
 
 formFields.forEach( (name)=>{ ge(name).addEventListener('change', catch_change ) });
-
+if( ge('update') ){ console.log('Edit post') } else { console.log('New post') }
+ge('down_time').addEventListener('click', catch_change );
+ge('up_time').addEventListener('click', catch_change );
