@@ -8,8 +8,8 @@ const moment = require('moment'); //.locale('sv');
 
 
 /* GET data_table */
-router.get('/:user_id/json', function(req, res, next) {
-  db.all("SELECT * FROM posts WHERE user_id = ? ORDER BY down ASC", [req.params.user_id], (error, dbresults) =>{
+router.get('/json', function(req, res, next) {
+  db.all("SELECT * FROM posts WHERE user_id = ? ORDER BY down ASC", [req.cookies.user], (error, dbresults) =>{
     if(error) res.json({ error: error })
     res.json( data_table.bake(dbresults) )
   });

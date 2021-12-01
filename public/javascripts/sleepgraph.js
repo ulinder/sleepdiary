@@ -1,4 +1,3 @@
-
 function draw_graphs(data){
         Chart.register('chartjs-plugin-annotation');
         document.getElementById("graphrow").classList.remove("collapse");
@@ -96,3 +95,9 @@ function draw_graphs(data){
 
 
 } // draw-graph-function
+
+if( document.getElementById('graphrow') ){
+  fetch('/posts/json?async=true', {headers: {'Content-Type': 'application/json' }})
+    .then( response => response.json() )
+    .then( data => draw_graphs(data) )
+}
