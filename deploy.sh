@@ -21,7 +21,7 @@ if (($OK)); then
       BRANCH=dev
       PORT=3002
       NODE_ENV=production" > "$PREPROD_DIR/.env"
-      npm install
+      npm install --only=prod
       pm2 reload sleepdiary-pre-prod
       #fi 
       ;;
@@ -36,7 +36,7 @@ if (($OK)); then
       BRANCH=master
       PORT=3001
       NODE_ENV=production" > "$PROD_DIR/.env"
-      npm install
+      npm install --only=prod
       pm2 reload sleepdiary-prod
       # fi 
       ;;
