@@ -45,7 +45,7 @@ if(typeof post === 'undefined') post = null;
 <form action="/posts" class="" id="diaryform" method="post">
 
 
-  <% if(post){ %> <input type="hidden" name="update" value="true" > <% } %>
+  <% if(post){ %> <input type="hidden" name="update" value="true" id="update"> <% } %>
   <% if(post){ %> <input type="hidden" name="id" value="<%= post_id %>" > <% } %>
 
   <input type="hidden" name="windown" value="<%= user.windown %>">
@@ -339,5 +339,5 @@ if(typeof post === 'undefined') post = null;
 </div>
 
 <script type="text/javascript" src="/javascripts/diary.js"></script>
-<script type="text/javascript" src="/javascripts/formvalidation.js"></script>
+<script type="text/javascript" src="/javascripts/formvalidation.js?v=2"></script>
 

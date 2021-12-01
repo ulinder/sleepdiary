@@ -10,22 +10,16 @@
     max: can't be after now -I
     min: can't be older than 3 days -I
     dep: can't be after up_date
-
   down_time
     belongs to down_date
-
   up_date
     max: can't be after now -I
     min: can't be before down_date -I
-
   up_time
     belongs to up_date
-
   awake_hours 
   awake_minutes
     dep: can't be more than Time In Bed -I
-
-
   rate
     should be set -I
 
@@ -35,6 +29,7 @@
 
 window.formErrors = new Set();
 const fe = window.formErrors;
+const is_update = ( ge('update') ) ? true : false;
 const formFields = ['down_date', 'down_time', 'awake_hours', 'awake_minutes', 'up_date', 'up_time', 'star1', 'star2', 'star3', 'star4', 'star5'];
 
 const err_miss_rate = "Du behöver skatta din sömnkvalitét med antal stjärnor.",
@@ -112,6 +107,5 @@ const catch_change = (e)=>{
 }
 
 formFields.forEach( (name)=>{ ge(name).addEventListener('change', catch_change ) });
-if( ge('update') ){ console.log('Edit post') } else { console.log('New post') }
 ge('down_time').addEventListener('click', catch_change );
 ge('up_time').addEventListener('click', catch_change );

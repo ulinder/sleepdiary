@@ -75,7 +75,7 @@ function notice_mess(posts_table, user){
     // Värdera meddelanden 
     
     // Är senaste inlägget från idag? 
-    if( moment().format('Y-M-DD') == posts_table.data_table[0].day ){
+    if( posts_table.data_table.length && moment().format('Y-M-DD') == posts_table.data_table[0].day ){
         var p = posts_table.data_table[0].data;
         return {what: 'sleep-window-results', data: p};
     }
