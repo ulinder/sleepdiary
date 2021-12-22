@@ -1,6 +1,7 @@
+require('dotenv').config()
 var sqlite3 = require('sqlite3').verbose()
-var _env = (process.env.NODE_ENV) ? process.env.NODE_ENV : "development";
-const DBSOURCE = `${__dirname}/${_env}.sleepdiary.sqlite`
+if(process.env.NODE_ENV == 'undefined') throw('process.env.NODE_ENV is undefined');
+const DBSOURCE = `${__dirname}/${process.env.NODE_ENV}.sleepdiary.sqlite`;
 
 let db = new sqlite3.Database(DBSOURCE, (err) => {
     if (err) { // Cannot open database
