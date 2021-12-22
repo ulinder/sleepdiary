@@ -16,7 +16,8 @@ router.get('/', function(req, res, next) {
 /* GET users listing. */
 router.post('/', function(req, res, next) {
   var hash = md5(Date.now()).slice(0,12);
-  db.run(`INSERT INTO users (hash) VALUES (?)`,[hash], function(err){
+  var settings = JSON.stringify({sleepwindow: false});
+  db.run(`INSERT INTO users (hash, settings) VALUES (?,?)`,[hash, settings], function(err){
     var newlink = helpers.link_to(req, `${this.lastID}/${hash}`)
     res.set('X-diary-url', newlink)
     res.render('new_user', { 

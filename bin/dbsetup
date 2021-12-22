@@ -19,7 +19,8 @@ db.serialize( () => {
     mode INTEGER DEFAULT 0,
     version INTEGER DEFAULT 0,
     windown TEXT DEFAULT "23:00",
-    winup TEXT DEFAULT "08:00")`,
+    winup TEXT DEFAULT "08:00"),
+    settings TEXT DEFAULT "{}"`,
     (err)=>{ 
     if(err) return console.error(err);
     });

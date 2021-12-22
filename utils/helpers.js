@@ -21,7 +21,8 @@ var quality_calc = (down, up, awake) => {
 
 var avg_quality_cal = (quality_array) => { 
     return ( quality_array.slice(-7)
-    .reduce( (accumulator, currentValue) => { return accumulator + currentValue }) / quality_array.slice(-7).length ).toFixed(0);
+    .reduce( (accumulator, currentValue) => { return accumulator + currentValue }) / quality_array.slice(-7).length 
+    ).toFixed(0);
 }
 
 const seconds_to_text = (time) => {
@@ -71,11 +72,11 @@ function times(count, callbackOrScalar) {
     return sum
 }
 
-function notice_mess(posts_table, user){ 
+function notice_mess(posts_table, settings){ 
     // Värdera meddelanden 
     
     // Är senaste inlägget från idag? 
-    if( posts_table.data_table.length && moment().format('Y-M-DD') == posts_table.data_table[0].day ){
+    if( settings.sleepwindow && posts_table.data_table.length && moment().format('Y-M-DD') == posts_table.data_table[0].day  ){
         var p = posts_table.data_table[0].data;
         return {what: 'sleep-window-results', data: p};
     }

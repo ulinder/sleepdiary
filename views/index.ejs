@@ -19,41 +19,50 @@
       </div>
     </div>
 
-    <!--                      Översta raden: Sömnfönster | Notiser                   -->
+    <!-- Översta raden: Sömnfönster | Notiser -->
     <div class="row">
-
-      <!-- Veckans Tips and Sleepview-->
-      <div class="col-sm">
-        <%- include('_sleepview') %>
-      </div>
-
-
-
-      <!-- Streaks-->
-      <div class="col-sm">
-        <div id="streaks_div" class="card card-background">
-          <div class="card-body streak-card">
-
-            <h2> Notiser </h2>
-
-            <%- include('_streaks') %>
-
-            <div class="row">
-              <div class="col">
+       
+        <div class="col-sm">
+          <div id="streaks_div" class="card card-background">
+            <div class="card-body streak-card">
+              
+              <h2> Registrera nytt inlägg </h2>
+                          
+              <div class="row">
+                <div class="col">
                   <div class="mb-4">
                     <a href="/posts/new" class="btn btn-primary btn-skapa btn-spara">
                       <i class="fa fa-plus"></i> Registrera sömn 
                     </a>
                   </div>
                 </div>
+              </div>
+              
             </div>
-
           </div>
         </div>
+
+        <div class="col-sm">
+            <div id="streaks_div" class="card card-background">
+              <div class="card-body streak-card">
+                <h2> Notiser </h2>
+                <%- include('_streaks') %>
+              </div>
+            </div>
+          </div>
+    </div>
+
+
+    <div class="row collapse">
+      <div class="col-sm-6">
+        <%- include('_sleep_window') %>
       </div>
     </div>
 
 
+
+
+    
 
     <div class="row">
       <!-- Veckans Inlägg -->

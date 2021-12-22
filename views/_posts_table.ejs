@@ -15,7 +15,7 @@
   <tbody>
   <% for(var post of posts.data_table){ %>
     <tr id=<%= `row-for-${post.data.id}` %> >
-      <td>  <%= post.day %> </td>
+      <td>  <%= post.week %> </td>
       <td>  <%= post.date_to_bed %>  <%= post.data.time_to_bed %>  </td>
       <td>  <%= post.date_up_from_bed %> <%= post.data.time_up_from_bed %> </td>
       <td> <%= post.data.time_awake %> </td>

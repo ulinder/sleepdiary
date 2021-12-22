@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 var db = require('../db.js');
-
+console.log(db);
 db.serialize( function(){
   
   console.log('DESCRIBE ALL TABELS IN DB');
+
   db.all("pragma table_info('users')",(err, res)=>{
     console.table(res);
   });
@@ -12,5 +13,6 @@ db.serialize( function(){
     console.table(res);
   });
 
-db.close(); 
+  db.close(); 
+  
 }); 

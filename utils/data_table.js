@@ -50,7 +50,7 @@ function bake(dbresults){
         posts_table.push( {
           week: week_num,
           day: this_up_date, 
-          day_name: moment(found.this_up_date).format("ddd Do MMMM"),
+          day_name: moment(this_up_date).format("ddd Do MMMM"),
           found: true, 
           data: { 
               id: found.id, 
@@ -72,7 +72,7 @@ function bake(dbresults){
               winup: found.winup,
               t: found.t, 
               sleep_efficiency: ( se ).toString().split(".")[0] + '%'
-            }
+            } 
         } ); // push into array 
 
         // SET/TEST this_week:

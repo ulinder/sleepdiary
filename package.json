@@ -13,8 +13,7 @@
     "dbsetup": "node ./bin/dbsetup",
     "seed": "node ./bin/seed",
     "info": "node ./bin/info",
-    "test": "jest --detectOpenHandles",
-    "test:watch": "jest --watch"
+    "migrate": "node ./bin/migrate"
   },
   "dependencies": {
     "chartjs-plugin-annotation": "^1.0.2",
@@ -34,7 +33,6 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
-    "jest": "^27.1.1",
     "superagent": "^6.1.0",
     "supertest": "^6.1.6",
     "webpack": "^5.51.2",

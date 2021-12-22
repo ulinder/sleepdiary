@@ -1,0 +1,17 @@
+#!/usr/bin/env node
+const { argv } = require('process');
+const fs = require('fs');
+const db = require('../db.js');
+console.log('Migration on: ', db.filename);
+const dataSql = fs.readFileSync(`./config/migrations/${argv[2]}.sql`).toString(); // argv[2] => attribute
+
+fs.copyFileSync(db.filename, 'db_clone.sqlite');
+
+db.serialize( function(){
+  console.log('Migrate');
+  db.all(dataSql,(err, res)=>{
+    if(err) console.log(err);
+    if(res) console.table(res);
+  });
+  db.close();   
+}); 
