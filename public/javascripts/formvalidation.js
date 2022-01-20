@@ -36,16 +36,19 @@ const err_miss_rate = "Du behöver skatta din sömnkvalitét med antal stjärnor
       err_down_3_day = "Du kan inte göra en sömnregistrering av ett datum som ligger mer än 3 dagar bakåt i tiden.",
       err_reverse_time = "Datum och tid du klev upp behöver vara efter du gick i säng.",
       err_time_travel_down = "Du kan inte ange datum för sänggång framåt i tiden.",
-      err_time_travel_up = "Du kan inte ange datum för uppstigning framåt i tiden.",
+      err_time_travel_up = "Du kan inte ange tid eller datum för uppstigning som ligger framåt i tiden.",
       err_awake_overflow = "Du har angett att du låg vaken längre tid än du spenderat i sängen.",
       err_downtime_invalid = "Vänligen fyll i det klockslag du gick i säng.",
-      err_uptime_invalid = "Vänligen fyll i det klockslag du klev upp från sängen."
+      err_uptime_invalid = "Vänligen fyll i det klockslag du klev upp från sängen.",
+      err_test = "Allt är korrekt"
 
 const down_unix = () => { return new Date( `${ge('down_date').value} ${ge('down_time').value}`).getTime()/1000  }
 const up_unix = () => { return new Date( `${ge('up_date').value} ${ge('up_time').value}`).getTime()/1000      }
+
 const seconds_in_bed = () => {  return ( up_unix() - down_unix() ) }
 const awake_seconds = () => { return ( Number(gev('awake_hours')) + Number(gev('awake_minutes' )) )  } 
 const n_valid = () => { return (Array.from(document.querySelectorAll('[required=required]'))).filter( el => el.value.length > 0).length }
+
 const append_to_error_collection = (str) => { 
   let li = document.createElement('li');
   li.innerHTML = str;
@@ -64,14 +67,18 @@ const catch_change = (e)=>{
       break;
     
     case 'down_time':
-      
+      console.log('Eval down time');
       break;
     
     case 'up_date':
       ( moment().diff( gev(id), 'seconds') < 0 )  ? fe.add(err_time_travel_up) : fe.delete(err_time_travel_up); // after today
+      ( down_unix() > up_unix() ) ? fe.add(err_reverse_time) : fe.delete(err_reverse_time);
+
       break;
 
     case 'up_time':
+      console.log('Eval up time');
+      (up_unix() > (new Date().getTime()/1000) ) ? fe.add(err_time_travel_up) : fe.delete(err_time_travel_up); // after now in seconds
       break;
 
     case 'awake_hours':
@@ -107,5 +114,5 @@ const catch_change = (e)=>{
 }
 
 formFields.forEach( (name)=>{ ge(name).addEventListener('change', catch_change ) });
-ge('down_time').addEventListener('click', catch_change );
-ge('up_time').addEventListener('click', catch_change );
+ge('down_time').addEventListener('focusout', catch_change );
+ge('up_time').addEventListener('focusout', catch_change );
