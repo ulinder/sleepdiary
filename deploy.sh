@@ -1,5 +1,7 @@
 #!/bin/bash
 ###############################################################################
+# example 
+# . deploy.sh pre-prod
 SCRIPT_DIR="$(cd -P "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 OUTER_DIR="$(cd -P "$(dirname "${BASH_SOURCE[0]}")" && cd .. && pwd)"
 PREPROD_DIR="$OUTER_DIR/pre-prod"

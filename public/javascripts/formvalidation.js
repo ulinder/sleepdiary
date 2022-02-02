@@ -39,8 +39,7 @@ const err_miss_rate = "Du behöver skatta din sömnkvalitét med antal stjärnor
       err_time_travel_up = "Du kan inte ange tid eller datum för uppstigning som ligger framåt i tiden.",
       err_awake_overflow = "Du har angett att du låg vaken längre tid än du spenderat i sängen.",
       err_downtime_invalid = "Vänligen fyll i det klockslag du gick i säng.",
-      err_uptime_invalid = "Vänligen fyll i det klockslag du klev upp från sängen.",
-      err_test = "Allt är korrekt"
+      err_uptime_invalid = "Vänligen fyll i det klockslag du klev upp från sängen."
 
 const down_unix = () => { return new Date( `${ge('down_date').value} ${ge('down_time').value}`).getTime()/1000  }
 const up_unix = () => { return new Date( `${ge('up_date').value} ${ge('up_time').value}`).getTime()/1000      }
@@ -106,9 +105,11 @@ const catch_change = (e)=>{
     ge('save_diary_button').className = "btn btn-primary btn-spara collapse";
     fe.forEach( ent => append_to_error_collection(ent) ) ;
   } else if(fe.size === 0 && document.querySelector(' [name=rate]:checked') && n_valid() >= 4 ){
-    ge('save_diary_button').className = "btn btn-primary btn-spara";
+    ge('save_diary_button').removeAttribute('disabled');
+    ge('remaining_true').className = "row collapse";
   } else {
-    ge('save_diary_button').className = "btn btn-primary btn-spara collapse";
+    ge('save_diary_button').setAttribute('disabled','');
+    ge('remaining_true').className = "row";
   }
 
 }
