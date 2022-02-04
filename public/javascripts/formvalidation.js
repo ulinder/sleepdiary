@@ -102,7 +102,8 @@ const catch_change = (e)=>{
   ge('errors_collection_warning').innerHTML = "";
 
   if(fe.size > 0) {
-    ge('save_diary_button').className = "btn btn-primary btn-spara collapse";
+    ge('save_diary_button').setAttribute('disabled','');
+    // ge('save_diary_button').className = "btn btn-primary btn-spara collapse";
     fe.forEach( ent => append_to_error_collection(ent) ) ;
   } else if(fe.size === 0 && document.querySelector(' [name=rate]:checked') && n_valid() >= 4 ){
     ge('save_diary_button').removeAttribute('disabled');
