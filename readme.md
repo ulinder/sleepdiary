@@ -14,7 +14,7 @@ Länken bör sparas för att senare återaktivera sessionen. Och för behandlare
 ### SuperAdmin
 För att nå en överblick av alla dagböcker som ligger uppe
 Lokalt
-http://localhost:3001/users/admin123
+http://localhost:3001/admin123
 
 ## Teknik
 Nodejs/Express/SQLITE3
