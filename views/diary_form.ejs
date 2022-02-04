@@ -26,6 +26,7 @@ if(typeof post === 'undefined') post = null;
 
 %>
 
+<%- include('_head') %>
 
 <div class="container">
   <div class="row">
@@ -44,7 +45,7 @@ if(typeof post === 'undefined') post = null;
 <form action="/posts" class="" id="diaryform" method="post">
 
 
-  <% if(post){ %> <input type="hidden" name="update" value="true" > <% } %>
+  <% if(post){ %> <input type="hidden" name="update" value="true" id="update"> <% } %>
   <% if(post){ %> <input type="hidden" name="id" value="<%= post_id %>" > <% } %>
 
   <input type="hidden" name="windown" value="<%= user.windown %>">
@@ -78,18 +79,11 @@ if(typeof post === 'undefined') post = null;
             class="form-control blue-input-frame"
             id="down_date"
             name="down_date"
-            onchange="validate_sleep_date();"
             value="<%= (post) ? moment(post.down, 'X').format("YYYY-MM-DD") : moment().subtract(1, 'day').format("YYYY-MM-DD"); %>"
             class="form-control">
 </div>
-  <!-- WARNING FIELD - HIDDEN -->
-  <div id="down_date_3_days_warning" class="collapse alert alert-danger" role="alert">
-      Obs! Du kan inte spara ett datum som är äldre än 3 dagar
-  </div>
 
-  <div id="time_travel_warning" class="collapse alert alert-danger" role="alert">
-      Obs! Du kan inte ange ett datum som ligger framåt i tiden
-  </div>
+<div id="down_date_warning" class="alert alert-danger collapse" role="alert"></div>
 
 
 <hr class="linje-ny-dagbok">
@@ -104,17 +98,19 @@ if(typeof post === 'undefined') post = null;
             <button type="button" class="info" data-bs-toggle="collapse" data-bs-target="#collapseklockslagSang" aria-expanded="false" aria-controls="collapseklockslagSang" >i</button>
         </div>
       </div>
-            <div class="mb-4 row">
-                  <div class="collapse" id="collapseklockslagSang">
-                    <div class="card card-body infocard">
-                          <i>  <b>Förtydligande:</b> Har du till exempel precis vaknat från en natts sömn och ska göra ett inlägg så ska du skriva in tiden du la dig i sängen igår. Formatet måste vara "23:30"
-                          </i>
-                    </div>
-                  </div>
+      <div class="mb-4 row">
+            <div class="collapse" id="collapseklockslagSang">
+              <div class="card card-body infocard">
+                    <i>  <b>Förtydligande:</b> Har du till exempel precis vaknat från en natts sömn och ska göra ett inlägg så ska du skriva in tiden du la dig i sängen igår. Formatet måste vara "23:30"
+                    </i>
               </div>
+            </div>
+        </div>
+
       <div class="mb-4 clockpicker input-group row" data-autoclose="true">
           <input type="text"
                   placeholder="00:00"
+                  required=required
                   pattern="^[0-9]{2}:[0-9]{2}"
                   class="form-control blue-input-frame liten-ruta"
                   name="down_time"
@@ -127,60 +123,11 @@ if(typeof post === 'undefined') post = null;
           </span>
       </div>
 
+<div id="down_time_warning" class="alert alert-danger collapse" role="alert"></div>
 
 
 <hr class="linje-ny-dagbok">
 
-
-
-<!-- TOTALT TID VAKEN I SÄNGEN -->
-      <div class="mb-4 row">
-        <div class="col-10">
-            <label class="question-label flex-column-center" for="awake">Total tid jag låg vaken i sängen</label>
-        </div>
-        <div class="col-2">
-          <button type="button" class="info" data-bs-toggle="collapse" data-bs-target="#collapseTidVaken" aria-expanded="false" aria-controls="collapseTidVaken">i</button>
-
-          </div>
-        </div>
-            <div class="mb-4 row">
-                  <div class="collapse" id="collapseTidVaken">
-                    <div class="card card-body infocard">
-                          <i>  <b>Förtydligande:</b> Hur länge uppskattar du att du legat vaken i sängen?
-                            Du ska räkna in tiden du låg vaken i sängen innan du somnade + tiden du legat vaken under natten om du vaknat vid något tillfälle +
-                            tiden du låg kvar i sängen efter du vaknat på morgonen.
-                          </i>
-                    </div>
-                  </div>
-              </div>
-
-        <div class="mb-4 row">
-              <div class="tid-dropdown">
-                      <div>
-                        <select class=" blue-input-frame " aria-label="Default select example" name="awake_hours">
-                          <% var selected_var;
-                             for(var pair of WAKE_TIME_HOURS){ 
-                             if(post) selected_var = (pair[1] == post.hours_awake) ? "selected" : "";
-                          %>
-                            <option <%= selected_var %> value="<%= pair[0] %>"><%= pair[1] %> h</option> 
-                          <% } %> 
-                        </select>
-                      </div>
-                      <div>
-                      <select class=" blue-input-frame " aria-label="Default select example"  name="awake_minutes">
-                        <% for(var pair of WAKE_TIME_MINUTES){ 
-                            if(post) selected_var = (pair[1] == post.minutes_awake) ? "selected" : "";
-                          %>
-                            <option <%= selected_var %> value="<%= pair[0] %>"><%= pair[1] %> minuter</option> 
-                          <% } %> 
-                      </select>
-                      </div>
-
-                </div>
-        </div>
-
-
-<hr class="linje-ny-dagbok">
 
 
 
@@ -207,7 +154,6 @@ if(typeof post === 'undefined') post = null;
             class="form-control blue-input-frame"
             id="up_date"
             name="up_date"
-            onchange="validate_up_date();"
             value="<%= (post) ? moment(post.up, 'X').format("YYYY-MM-DD") : moment().format("YYYY-MM-DD"); %>"
             class="form-control">
   </div>
@@ -216,6 +162,7 @@ if(typeof post === 'undefined') post = null;
       Obs! Detta datum finns redan sparat sedan tidigare, är det säkert att du vill ange detta datum?
   </div>
 
+<div id="up_date_warning" class="alert alert-danger collapse" role="alert"></div>
 
 
 <hr class="linje-ny-dagbok">
@@ -242,22 +189,79 @@ if(typeof post === 'undefined') post = null;
 
       <div class="mb-4 clockpicker row" data-autoclose="true">
         <input  type="text"
+                required=required
                 placeholder="00:00"
                 pattern="^[0-9]{2}:[0-9]{2}"
                 class="form-control blue-input-frame liten-ruta"
                 name="up_time"
                 id="up_time"
-                value="<%= (post) ? moment(post.up, 'X').format("HH:mm") : ""; %>"
-                oninvalid="this.setCustomValidity('Ange klockslag med rätt format här')"
-                oninput="this.setCustomValidity('')"
-                onchange="test_time_diff()" >
+                value="<%= (post) ? moment(post.up, 'X').format("HH:mm") : ""; %>" >
 
         <span class="input-group-addon">
             <span class="glyphicon glyphicon-time"></span>
         </span>
       </div>
 
+<div id="up_time_warning" class="alert alert-danger collapse" role="alert"></div>
+
 <hr class="linje-ny-dagbok">
+
+
+
+
+<!-- TOTALT TID VAKEN I SÄNGEN -->
+      <div class="mb-4 row">
+        <div class="col-10">
+            <label class="question-label flex-column-center" for="awake">Total tid vaken under önskad sömntid.</label>
+        </div>
+        <div class="col-2">
+          <button type="button" class="info" data-bs-toggle="collapse" data-bs-target="#collapseTidVaken" aria-expanded="false" aria-controls="collapseTidVaken">i</button>
+
+          </div>
+        </div>
+            <div class="mb-4 row">
+                  <div class="collapse" id="collapseTidVaken">
+                    <div class="card card-body infocard">
+                          <i>  <b>Förtydligande:</b> Hur länge tror du att du legat vaken i sängen?
+                            Du ska räkna in tiden du låg vaken i sängen innan du somnade + tiden du legat vaken under natten om du vaknat vid något tillfälle +
+                            tiden du låg kvar i sängen efter du vaknat på morgonen.
+                          </i>
+                    </div>
+                  </div>
+              </div>
+
+        <div class="mb-4 row">
+              <div class="tid-dropdown">
+                      <div>
+                        <select class=" blue-input-frame " aria-label="Default select example" id="awake_hours" name="awake_hours">
+                          <% var selected_var;
+                             for(var pair of WAKE_TIME_HOURS){ 
+                             if(post) selected_var = (pair[1] == post.hours_awake) ? "selected" : "";
+                          %>
+                            <option <%= selected_var %> value="<%= pair[0] %>"><%= pair[1] %> h</option> 
+                          <% } %> 
+                        </select>
+                      </div>
+                      <div>
+                      <select class=" blue-input-frame " aria-label="Default select example"  name="awake_minutes" id="awake_minutes">
+                        <% for(var pair of WAKE_TIME_MINUTES){ 
+                            if(post) selected_var = (pair[1] == post.minutes_awake) ? "selected" : "";
+                          %>
+                            <option <%= selected_var %> value="<%= pair[0] %>"><%= pair[1] %> minuter</option> 
+                          <% } %> 
+                      </select>
+                      </div>
+
+                </div>
+        </div>
+
+<div id="awake_time_warning" class="alert alert-danger collapse" role="alert"></div>
+
+
+<hr class="linje-ny-dagbok">
+
+
+
 
 
 
@@ -297,17 +301,13 @@ if(typeof post === 'undefined') post = null;
         </div>
 
       </div>
-        <!-- WARNING FIELD - HIDDEN -->
-        <div id="rate_warning" class="collapse alert alert-danger" role="alert">
-            Obs! Vänligen ange skattad sömnkvalitét
-        </div>
 
+<div id="rate_warning" class="alert alert-danger collapse" role="alert"></div>
 
 
 <hr class="linje-ny-dagbok">
 
-    <ul id="errors-collection" class="alert-danger" role="alert">
-    </ul>
+<ul id="errors_collection_warning" class="alert-danger" role="alert"></ul>
 
     <div class="row">
       <div class="col">
@@ -316,12 +316,17 @@ if(typeof post === 'undefined') post = null;
                 <a href="/" class="btn btn-primary btn-avbryt" >Avbryt</a>
 
 
-            <input type="submit" value="Spara" class="btn btn-primary btn-spara">
+            <input type="submit" value="Spara" id="save_diary_button" class="btn btn-primary btn-spara" disabled>
           </div>
 
 
         </div>
       </div>
+    <div class="row" id="remaining_true">
+      <div class="col">
+          <i>Det återstår frågor att besvara</i>
+        </div>
+    </div>  
 
 </form>
 
@@ -330,9 +335,8 @@ if(typeof post === 'undefined') post = null;
 
 
     <% if(post){ %>
-      <button onclick="delete_post(<%= post_id %>, null, true)" 
-              class="mb-4 mt-3 delete-post-button" 
-              value="<%= post_id %>">Radera inlägg
+      <button class="mb-4 mt-3 delete-post-button delete-me" value="<%= post_id %>">
+        Radera inlägg
       </button>
     <% } %>
     </div>  
@@ -340,5 +344,5 @@ if(typeof post === 'undefined') post = null;
 </div>
 
 <script type="text/javascript" src="/javascripts/diary.js"></script>
-<script type="text/javascript" src="/javascripts/formvalidation.js"></script>
+<script type="text/javascript" src="/javascripts/formvalidation.js?v=3"></script>
 

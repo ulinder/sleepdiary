@@ -1,21 +1,27 @@
+<%- include('_head') %>
 <div class="container">
-  <p>
-    <% dbresults.forEach( function(post, index) { 
-        
-      -%>
-      <p>
-        <a href="<%=`/${post.id}/${post.hash}/`%>">
-          Användare-<%= post.id %>
-        </a>
-        | 
-        <a href="<%=`/${post.id}/${post.hash}?admin=${post.hash}`%>">
-          AdminInterface-<%= post.id %>
-        </a>
-        ( <%= post.dpcount %> inlägg )
-        , mode: <%= post.mode %>
-        , version: <%= post.version %>
-      </p>
-    <% }); -%>
-  </p>
+  <div class="row">
+    <div class="col">
+        <h3>Befintliga dagböcker</h3>
+        <p>
+          <% dbresults.forEach( function(post, index) { 
+              
+            -%>
+            <p>
+              <a href="<%=`/${post.id}/${post.hash}/`%>">
+                Användare-<%= post.id %>
+              </a>
+              | 
+              <a href="<%=`/${post.id}/${post.hash}?admin=${post.hash}`%>">
+                AdminInterface-<%= post.id %>
+              </a>
+              ( <%= post.dpcount %> inlägg )
+              , mode: <%= post.mode %>
+              , version: <%= post.version %>
+            </p>
+          <% }); -%>
+        </p>
+    </div>
+  </div>
 
 </div>

@@ -1,121 +1,120 @@
+/* ###  Rules for all fields ###
+
+  Common: 
+    all fields should have right format
+    sleep-times should not overlap others, except when editing and saving and old one. 
+
+
+  flags: I = instant, d = dependant, 
+  down_date 
+    max: can't be after now -I
+    min: can't be older than 3 days -I
+    dep: can't be after up_date
+  down_time
+    belongs to down_date
+  up_date
+    max: can't be after now -I
+    min: can't be before down_date -I
+  up_time
+    belongs to up_date
+  awake_hours 
+  awake_minutes
+    dep: can't be more than Time In Bed -I
+  rate
+    should be set -I
+
+*/
+
+
+
 window.formErrors = new Set();
 const fe = window.formErrors;
+const is_update = ( ge('update') ) ? true : false;
+const formFields = ['down_date', 'down_time', 'awake_hours', 'awake_minutes', 'up_date', 'up_time', 'star1', 'star2', 'star3', 'star4', 'star5'];
 
-const err_miss_rate = "Glöm inte att du behöver skatta din sömnkvalitét med antal stjärnor.",
+const err_miss_rate = "Du behöver skatta din sömnkvalitét med antal stjärnor.",
       err_down_3_day = "Du kan inte göra en sömnregistrering av ett datum som ligger mer än 3 dagar bakåt i tiden.",
-      err_reverse_time = "Du kan inte ange att du gått och lagt dig ett senare datum än det datum du angett att du klev upp.",
-      err_time_travel = "Du kan inte ange att du lagt dig eller klivit upp på ett datum som ligger framåt i tiden"
-      err_downtime_invalid = "Vänligen fyll i det klockslag du gick i säng."
+      err_reverse_time = "Datum och tid du klev upp behöver vara efter du gick i säng.",
+      err_time_travel_down = "Du kan inte ange datum för sänggång framåt i tiden.",
+      err_time_travel_up = "Du kan inte ange tid eller datum för uppstigning som ligger framåt i tiden.",
+      err_awake_overflow = "Du har angett att du låg vaken längre tid än du spenderat i sängen.",
+      err_downtime_invalid = "Vänligen fyll i det klockslag du gick i säng.",
       err_uptime_invalid = "Vänligen fyll i det klockslag du klev upp från sängen."
 
+const down_unix = () => { return new Date( `${ge('down_date').value} ${ge('down_time').value}`).getTime()/1000  }
+const up_unix = () => { return new Date( `${ge('up_date').value} ${ge('up_time').value}`).getTime()/1000      }
 
-function show_warning(id){ document.getElementById(id).classList.remove('collapse');  }
-function hide_warning(id){ document.getElementById(id).classList.add('collapse');  }
+const seconds_in_bed = () => {  return ( up_unix() - down_unix() ) }
+const awake_seconds = () => { return ( Number(gev('awake_hours')) + Number(gev('awake_minutes' )) )  } 
+const n_valid = () => { return (Array.from(document.querySelectorAll('[required=required]'))).filter( el => el.value.length > 0).length }
 
-const validateForm = function (event){
-  // event.preventDefault();
+const append_to_error_collection = (str) => { 
+  let li = document.createElement('li');
+  li.innerHTML = str;
+  ge('errors_collection_warning').appendChild(li);
+}
 
-  console.log('staring form validation');
+const catch_change = (e)=>{ 
+// Every time values change - a common and a specific action is taken.
+// moment().diff('bakåt_i_tiden') = positivt nummer. Distans i sekunder från NU till diff(datum).
+// moment().diff('farmåt_i_tiden') = negativt nummer
+  var id = e.target.id;
+  switch (id) {
+    case 'down_date':
+      ( moment().diff( gev(id), 'seconds') < 0 )  ? fe.add(err_time_travel_down) : fe.delete(err_time_travel_down);
+      ( moment().diff( gev(id), 'days') > 3 ) ? fe.add(err_down_3_day) : fe.delete(err_down_3_day);
+      break;
+    
+    case 'down_time':
+      console.log('Eval down time');
+      break;
+    
+    case 'up_date':
+      ( moment().diff( gev(id), 'seconds') < 0 )  ? fe.add(err_time_travel_up) : fe.delete(err_time_travel_up); // after today
+      ( down_unix() > up_unix() ) ? fe.add(err_reverse_time) : fe.delete(err_reverse_time);
 
-  // Check down / up times
-  (document.getElementById("down_time").value.length != 5) ? fe.add(err_downtime_invalid) : fe.delete(err_downtime_invalid);
-  (document.getElementById("up_time").value.length != 5) ? fe.add(err_uptime_invalid) : fe.delete(err_uptime_invalid);
+      break;
 
-  // Look for rated stars, by taking all stars, convert to array and see if more than 0 are checked
-  if(Array.from(document.getElementsByName("rate")).filter( el => el.checked === true).length == 0){
-    fe.add(err_miss_rate);
-    show_warning('rate_warning');
+    case 'up_time':
+      console.log('Eval up time');
+      (up_unix() > (new Date().getTime()/1000) ) ? fe.add(err_time_travel_up) : fe.delete(err_time_travel_up); // after now in seconds
+      break;
+
+    case 'awake_hours':
+    case 'awake_minutes':
+      console.log('Sekunder i sängen: ', seconds_in_bed(), 'Sekunder vaken: ', awake_seconds() );
+      ( seconds_in_bed() < awake_seconds() ) ? fe.add(err_awake_overflow) : fe.delete(err_awake_overflow);
+      break;
+    
+    case 'star1':
+    case 'star2':
+    case 'star3':
+    case 'star4':
+    case 'star5':
+      ( down_unix() > up_unix() ) ? fe.add(err_reverse_time) : fe.delete(err_reverse_time);
+      break;
+    
+    default:
+      console.error('no match')
+      break;
+  }
+
+  ge('errors_collection_warning').innerHTML = "";
+
+  if(fe.size > 0) {
+    ge('save_diary_button').setAttribute('disabled','');
+    // ge('save_diary_button').className = "btn btn-primary btn-spara collapse";
+    fe.forEach( ent => append_to_error_collection(ent) ) ;
+  } else if(fe.size === 0 && document.querySelector(' [name=rate]:checked') && n_valid() >= 4 ){
+    ge('save_diary_button').removeAttribute('disabled');
+    ge('remaining_true').className = "row collapse";
   } else {
-    hide_warning('rate_warning');
-    fe.delete(err_miss_rate);
-  }
-  validate_sleep_date();
-  validate_up_date();
-
-  // Test distances
-
-
-  if(fe.size > 0){
-    event.preventDefault();
-    console.error(fe);
-    document.getElementById('errors-collection').innerHTML = ""
-    fe.forEach( (x) => {
-      li = document.createElement('li');
-      li.appendChild(document.createTextNode(x));
-      document.getElementById('errors-collection').appendChild(li);
-    });
-  } else {
-    return true;
-  }
-}
-
-
-function validate_sleep_date(){
-
-  let downDate = document.getElementById('down_date').value;
-  if(moment().diff(downDate, 'days') < 0){
-    show_warning('time_travel_warning');
-    fe.add(err_time_travel);
-  }else {
-    hide_warning('time_travel_warning');
-    fe.delete(err_time_travel);
-  }
-
-
-  if(moment().diff(downDate, 'days') > 3){
-    fe.add(err_down_3_day);
-    show_warning('down_date_3_days_warning');
-  } else {
-    fe.delete(err_down_3_day);
-    hide_warning('down_date_3_days_warning');
-  }
-
-  if( moment().format('x') < moment(downDate).format('x') )
-  {
-    fe.add( err_time_travel );
-    // alert('Fel: Du har angett ett datum framåt i tiden! Vänligen ändra detta för att gå vidare.');
-  } else{
-    fe.delete( err_time_travel );
+    ge('save_diary_button').setAttribute('disabled','');
+    ge('remaining_true').className = "row";
   }
 
 }
 
-function validate_up_date(){
-
-    downDate = document.getElementById('down_date').value,
-    up_date = document.getElementById('up_date').value;
-
-    if( moment(up_date) > moment() ) return fe.add( err_time_travel );
-    fe.delete( err_time_travel );
-
-    if(moment(downDate) > moment(up_date)) {
-      fe.add(err_reverse_time)
-    } else {
-      fe.delete(err_reverse_time)
-    }
-
-    if( window.diaryData.data_table.find( d => d.day === up_date  ) ){ // If date was found since before
-      show_warning('up_date_warning');
-      console.error('Found old date: ', up_date);
-    } else {
-      hide_warning('up_date_warning');
-    }
-}
-
-function test_time_diff(){
-    var down_date = document.getElementById('down_date').value,
-        up_date = document.getElementById('up_date').value,
-        up_time = document.getElementById('up_time').value,
-        down_time = document.getElementById('down_time').value,
-        up,
-        down,
-        h20 = 3600*12;
-
-    console.log('Time diff: ', down_date, up_date, up_time, down_time);
-
-    down = moment([down_date, down_time].join(" ") ).format("X");
-    up = moment([up_date, up_time].join(" ") ).format("X");
-    console.log('Time diff: ', (up - down) );
-    if( (up - down) > h20 ) alert('Det verkar som du sovit längre än 12 timmar, om det inte stämmer, kontrollera dina angivna datum.')
-
-}
+formFields.forEach( (name)=>{ ge(name).addEventListener('change', catch_change ) });
+ge('down_time').addEventListener('focusout', catch_change );
+ge('up_time').addEventListener('focusout', catch_change );

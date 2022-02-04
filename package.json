@@ -13,13 +13,13 @@
     "dbsetup": "node ./bin/dbsetup",
     "seed": "node ./bin/seed",
     "info": "node ./bin/info",
-    "test": "jest --detectOpenHandles --forceExit",
-    "test:watch": "jest --watch"
+    "migrate": "node ./bin/migrate"
   },
   "dependencies": {
     "chartjs-plugin-annotation": "^1.0.2",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
+    "dotenv": "^10.0.0",
     "ejs": "~2.6.1",
     "express": "~4.16.1",
     "express-ejs-layouts": "^2.5.0",
@@ -33,7 +33,6 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
-    "jest": "^27.1.1",
     "superagent": "^6.1.0",
     "supertest": "^6.1.6",
     "webpack": "^5.51.2",

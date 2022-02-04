@@ -22,13 +22,10 @@
     <link rel="manifest" href="/site.webmanifest">
   </head>
   <body>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-5">
-          <h1>Sömndagboken</h1> 
-          <h2>401</h2>      
-        </div>
-      </div>
-    </div>
 
-</body>
+<% if(branch == "dev"){ %>
+  <span class="badge bg-warning">DEV version - ej lanserad</span>
+<% } %> 
+<% if(admin){ %> 
+<%- include('_admin_nav') %>
+<% } %> 

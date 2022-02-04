@@ -1,0 +1,36 @@
+<table id="all_posts_table" class="table">
+  <legend>Samtliga poster</legend>
+  <thead>
+    <th>Vecka</th>
+    <th>Sänggång</th>
+    <th>Klev upp</th>
+    <th>Vakentid</th>
+    <th>Sömneffektivitet</th>
+    <th>Sovtid</th>
+    <th>Självskattning</th>
+    <th>Registrerat</th>
+    <th>Radera</th>
+  </thead>
+
+  <tbody>
+  <% for(var post of posts.data_table){ %>
+    <tr id=<%= `row-for-${post.data.id}` %> >
+      <td>  <%= post.week %> </td>
+      <td>  <%= post.date_to_bed %>  <%= post.data.time_to_bed %>  </td>
+      <td>  <%= post.date_up_from_bed %> <%= post.data.time_up_from_bed %> </td>
+      <td> <%= post.data.time_awake %> </td>
+      <td> <%= post.data.sleep_efficiency %> </td>
+      <td> <%= post.data.time_asleep %> </td>
+      <td> <%= post.data.sleep_rate %> </td>
+      <td> <%= post.data.t %> </td>
+      <td>
+        <button value="<%= post.data.id %>" class="delete-post-button delete-me">
+          <i class="fa fa-trash"></i>
+        </button>
+      </td>
+    </tr>
+  <% } %>
+  </tbody>
+
+</table>
+

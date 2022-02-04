@@ -1,90 +1,81 @@
 <h2>Veckans inlägg</h2>
+<% 
+this_week.forEach((day)=>{ 
+  if(day.found){
+%>
+    <div class="card card-inlagg inlagg-expanded">
+        <div class="card-body">
 
-<template id="template-veckans-inlagg">
-  <div class="card card-inlagg inlagg-expanded">
-      <div class="card-body">
-
-            <div class="inlagg-flex">
-                <span class="inlagg-datum">Måndag 2 mars</span>
-              </div>
-
-            <div class="inlagg-flex row">
-
-                <div class="col-4 col-sm-3 col-md-3 col-lg-2 minBredd">
-                  <span class="inlagg-description"> Sänggång </span> <br />
-                  <span class="inlagg-down">HH:MM</span>
+              <div class="inlagg-flex">
+                  <span class="inlagg-datum"><%= day.day_name %></span>
                 </div>
 
-                <div class="col col-sm-3 col-md-2 col-lg-2 minBredd">
-                  <span class="inlagg-description"> Klev upp </span> <br>
-                  <span class="inlagg-up">HH:MM</span>
+              <div class="inlagg-flex row">
+
+                  <div class="col-4 col-sm-3 col-md-3 col-lg-2 minBredd">
+                    <span class="inlagg-description"> Sänggång </span> <br />
+                    <span class="inlagg-down"><%= day.data.time_to_bed %></span>
+                  </div>
+
+                  <div class="col col-sm-3 col-md-2 col-lg-2 minBredd">
+                    <span class="inlagg-description"> Klev upp </span> <br>
+                    <span class="inlagg-up"><%= day.data.time_up_from_bed %></span>
+                  </div>
+
+                  <div class="col col-sm-3 col-md-2 col-lg-2 minBredd">
+                    <span class="inlagg-description"> Skattning </span> <br>
+                    <span class="inlagg-rate"><p class="stars"><%= day.data.sleep_rate_stars %></p></span>
+                  </div>
+
+                  <div class="col-4 col-sm-2 col-md-2 col-lg-2 minBredd">
+                    <span class="inlagg-description"> Sovtid </span> <br>
+                    <span class="inlagg-asleep"><%= day.data.time_asleep %></span>
+                  </div>
+
+                  <div class="col col-sm-3 col-md-2 col-lg-2 minBreddlong">
+                    <span class="inlagg-description"> Vaken i säng </span> <br>
+                    <span class="inlagg-awake"><%= day.data.time_awake %></span>
+                  </div>
+
+                <div class="col-8 col-sm-8 col-md-8 col-lg-2 minBredd">
+                  <span class="inlagg-description">Sömneffektivitet </span> <br>
+                  <span class="inlagg-efficiency"><%= day.data.sleep_efficiency %></span>
                 </div>
+          </div>
 
-                <div class="col col-sm-3 col-md-2 col-lg-2 minBredd">
-                  <span class="inlagg-description"> Skattning </span> <br>
-                  <span class="inlagg-rate"><p class="stars">★★★</p></span>
-                </div>
+              <div class="inlagg-flex">
+                <div class="flex-kolumn">
+                    <a class="edit-post-link" href="/posts/<%= day.data.id %>/edit">
+                    <button class="btn btn-primary btn-redigera"><i class="fa fa-pencil"></i> Redigera </button>
+                    </a>
+                  </div>
 
-                <div class="col-4 col-sm-2 col-md-2 col-lg-2 minBredd">
-                  <span class="inlagg-description"> Sovtid </span> <br>
-                  <span class="inlagg-asleep">Hh Mmin</span>
-                </div>
+            <!--    <div class="kortinnehall-knapp">
+                  <button class="btn btn-primary btn-expand"> <i class="fa fa-chevron-down"></i> </button>
+                 </div>
+             -->
+                  </div>
 
-                <div class="col col-sm-3 col-md-2 col-lg-2 minBreddlong">
-                  <span class="inlagg-description"> Vaken i säng </span> <br>
-                  <span class="inlagg-awake">Hh Mmin</span>
-                </div>
-
-              <div class="col-8 col-sm-8 col-md-8 col-lg-2 minBredd">
-                <span class="inlagg-description">Sömneffektivitet </span> <br>
-                <span class="inlagg-efficiency">XX%</span>
-              </div>
-        </div>
-
-            <div class="inlagg-flex">
-              <div class="flex-kolumn">
-                  <a class="edit-post-link" href="/">
-                  <button class="btn btn-primary btn-redigera"><i class="fa fa-pencil"></i> Redigera </button>
-                  </a>
-                </div>
-
-          <!--    <div class="kortinnehall-knapp">
-                <button class="btn btn-primary btn-expand"> <i class="fa fa-chevron-down"></i> </button>
-               </div>
-           -->
-                </div>
-
-        </div>
+          </div>
 
     </div>
-
-</template>
-
-
-<template class="template-veckans-inlagg-empty">
+<% } else { %>  
   <div class="card card-inlagg inlagg-expanded">
       <div class="card-body">
 
             <div class="inlagg-flex">
-                <span class="inlagg-datum">Måndag 2 mars</span>
+                <span class="inlagg-datum"><%= day.day_name %></span>
             </div>
 
             <div class="inlagg-flex">
               <div class="flex-kolumn">
-                <strong>Fyll i denna dag ifall du minns dina sovtider!</strong>
+                <strong>Fyll i denna dag ifall du minns dina sovtider</strong>
               </div>
             </div>
 
        </div>
     </div>
-</template>
-
-<template id="post-tablerow">
-
-</template>
-
-
-<div id="inlagg_taget_div"></div>
-<div class="btn-see">
-  <button class="btn btn-primary btn-avbryt" data-bs-toggle="collapse" data-bs-target="#all_posts_div"> Se mer </button>
-</div>
+<%
+  } // end if
+}); // forEach
+%>

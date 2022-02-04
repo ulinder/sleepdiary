@@ -1,10 +1,7 @@
-$(document).ready( function(){
+// General functions
 
-  $('.clockpicker').clockpicker();
-  
-  if(document.getElementById('diaryform')) document.getElementById('diaryform').onsubmit = validateForm;
-
-});
+const ge = (id)=>{ return document.getElementById(id) }
+const gev = (id)=>{ return document.getElementById(id).value }
 
 function times(count, callbackOrScalar) {
     let type = typeof callbackOrScalar
@@ -26,3 +23,19 @@ function times(count, callbackOrScalar) {
     }
     return sum
 }
+
+
+function delete_post(id, target_element_id, redirect = false){
+  var target_element = document.getElementById(target_element_id);
+  var xhr1 = new XMLHttpRequest();
+  xhr1.open('DELETE', "/posts/"+ id, true);
+  xhr1.onreadystatechange = function() {
+      if (this.status == 200 && this.readyState == 4) {
+          console.log(target_element);
+          if(target_element) target_element.className = target_element.className + "collapse";
+          if(redirect) window.location = "/"; 
+      }
+  };//end onreadystate
+  xhr1.send();
+}
+
