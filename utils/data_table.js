@@ -5,7 +5,7 @@ const helpers = require('../utils/helpers');
 function bake(dbresults){
   if(!dbresults || dbresults.length == 0) return {current_week: moment().format('ww'), first_week: moment().format('ww'), data_table: [], weeks:[]};
   
-  // Define all variables that will be sent in the json-payload
+  // Utgå från datum för uppstigning
   var first_date_str = moment( dbresults[0].up, "X" ).format("YYYY-MM-DD").toString(),
       first_week_str = moment( dbresults[0].up, "X" ).format("ww").toString(),
       this_up_date = first_date_str,
@@ -29,13 +29,13 @@ function bake(dbresults){
   
   while (dbresults.length > 0) { 
 
-
-      if(dbresults[0] && moment(dbresults[0].up, "X").format("YYYY-MM-DD") != this_up_date){
+    if(dbresults[0] && moment(dbresults[0].up, "X").format("YYYY-MM-DD") != this_up_date){
         posts_table.push( { week: moment(this_up_date).format("ww"), day: this_up_date, day_name: moment(this_up_date).format("ddd Do MMMM"), data: _dummy, found: false } ); 
       }
 
-      while( dbresults[0] && moment(dbresults[0].up, "X").format("YYYY-MM-DD") == this_up_date){ 
-      
+      // Räkna inlägg inom samma dag 
+      do { 
+
         found = dbresults.shift();
 
         seconds_in_bed = found.up - found.down;
@@ -84,8 +84,7 @@ function bake(dbresults){
           weeks[week_num] = { se_arr: [se], sleep_time_arr: [seconds_asleep] };
         } 
 
-
-      } // WHILE inner same day
+      } while( dbresults[0] && moment(dbresults[0].up, "X").format("YYYY-MM-DD") === this_up_date) // WHILE inner same day
     i++;
     this_up_date = moment(first_date_str).add(i, 'days').format("YYYY-MM-DD").toString();
       
