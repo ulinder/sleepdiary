@@ -2,10 +2,12 @@
 const { argv } = require('process');
 const fs = require('fs');
 const db = require('../db.js');
+
+fs.copyFileSync(db.filename, 'backups/' + db.filename + Date.now()+ '.sqlite'); // start by backing up current db into backups-dir
+
 console.log('Migration on: ', db.filename);
 const dataSql = fs.readFileSync(`./config/migrations/${argv[2]}.sql`).toString(); // argv[2] => attribute
 
-fs.copyFileSync(db.filename, 'db_clone.sqlite');
 
 db.serialize( function(){
   console.log('Migrate');
