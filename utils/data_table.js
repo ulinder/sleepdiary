@@ -21,7 +21,7 @@ function bake(dbresults){
       window_down_hit,
       window_up_hit,
       unix_down,
-      unix_up,      
+      unix_up,
       week_arr = [],
       i = 0,
       _dummy = { id: "", date_to_bed: "", time_to_bed: "", date_up_from_bed: "", time_up_from_bed: "", time_in_bed: "", sleep_rate: "", time_awake: "", time_asleep: "", sleep_efficiency: "", windown:"", winup:""};
@@ -29,7 +29,7 @@ function bake(dbresults){
   
   while (dbresults.length > 0) { 
 
-    if(dbresults[0] && moment(dbresults[0].up, "X").format("YYYY-MM-DD") != this_up_date){
+      if(dbresults[0] && moment(dbresults[0].up, "X").format("YYYY-MM-DD") != this_up_date){
         posts_table.push( { week: moment(this_up_date).format("ww"), day: this_up_date, day_name: moment(this_up_date).format("ddd Do MMMM"), data: _dummy, found: false } ); 
       }
 
@@ -80,8 +80,9 @@ function bake(dbresults){
         if( weeks[week_num] ){ 
           weeks[week_num].sleep_time_arr.push(seconds_asleep);
           weeks[week_num].se_arr.push(se);
-        } else {
-          weeks[week_num] = { se_arr: [se], sleep_time_arr: [seconds_asleep] };
+          weeks[week_num].seconds_in_bed_arr.push(seconds_in_bed);
+        } else { 
+          weeks[week_num] = { se_arr: [se], sleep_time_arr: [seconds_asleep], seconds_in_bed_arr: [seconds_in_bed] };
         } 
 
       } while( dbresults[0] && moment(dbresults[0].up, "X").format("YYYY-MM-DD") === this_up_date) // WHILE inner same day
@@ -97,6 +98,7 @@ function bake(dbresults){
       se_arr: weeks[n].se_arr,
       avg_sleep_time: Math.round( ((weeks[n].sleep_time_arr.reduce(helpers.arrSum) / weeks[n].sleep_time_arr.length)/60/60) ),
       avg_sleep_efficiency: Math.round( (weeks[n].se_arr.reduce(helpers.arrSum) / weeks[n].se_arr.length) ),
+      avg_seconds_in_bed: Math.round( (weeks[n].seconds_in_bed_arr.reduce(helpers.arrSum) / weeks[n].seconds_in_bed_arr.length) ) 
     } });
   });
   

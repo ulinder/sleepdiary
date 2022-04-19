@@ -17,7 +17,7 @@ function draw_graphs(data){
         }
 
 
-        var data_avg_sleptime = {
+        var dataset_second_graph = {
             labels: data.weeks.map( x => { return 'V' + x.w }),
             datasets:[
                 {
@@ -27,9 +27,32 @@ function draw_graphs(data){
                     pointRadius: 6,
                     borderColor: '#6E90C4',
                     data: data.weeks.map( x => { if(x.val.sleep_time_arr.length > 1) return x.val.avg_sleep_time })
-                }
+                },
+                {
+                    label: 'Genomsnittlig sängtid',
+                    fill: false,
+                    backgroundColor: '#f5e042',
+                    pointRadius: 6,
+                    borderColor: '#f5e042',
+                    data: data.weeks.map( x => { if(x.val.sleep_time_arr.length > 1) return x.val.avg_seconds_in_bed / 3600 })
+                }                
             ]
         }
+
+
+        // var data_avg_time_in_bed = {
+        //     labels: data.weeks.map( x => { return 'V' + x.w }),
+        //     datasets:[
+        //         {
+        //             label: 'Genomsnittlig sängtid',
+        //             fill: false,
+        //             backgroundColor: '#f5e042',
+        //             pointRadius: 6,
+        //             borderColor: '#f5e042',
+        //             data: data.weeks.map( x => { if(x.val.sleep_time_arr.length > 1) return x.val.avg_seconds_in_bed * 3600 })
+        //         }
+        //     ]
+        // }
 
 
         var se_graph = new Chart(document.getElementById('sleep-efficiency-canvas'), {
@@ -74,7 +97,7 @@ function draw_graphs(data){
 
         var se_graph = new Chart(document.getElementById('avg-sleep-time-canvas'), {
             type: 'line',
-            data: data_avg_sleptime,
+            data: dataset_second_graph,
             options:{
               responsive: true,
               scales: {
