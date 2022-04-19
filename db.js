@@ -22,10 +22,10 @@ db.query = function (sql, params) {
   });
 };
 
-db.firstUser = function () {
+db.getUserById = function (user_id) {
   var that = this;
   return new Promise(function (resolve, reject) {
-    that.get("SELECT * FROM users LIMIT 1", function(error, row){
+    that.get("SELECT * FROM users WHERE id = ?", [user_id], function(error, row){
       if (error)
         reject(error);
       else

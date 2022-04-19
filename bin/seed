@@ -13,6 +13,9 @@ function rnd_date_time_x_format(){ // return a night or morning date
 
 db.serialize( function(){
 
+  // Seed the following: 2 profiles A with no posts, B with several posts. 
+
+
 
   var sql,
       rel_date,
@@ -24,9 +27,12 @@ db.serialize( function(){
       rnd_awake, 
       rnd_rate;
 
-  // Clear previous data:
-  // db.run("DELETE FROM users WHERE 1; DELETE FROM posts WHERE 1;");
+  // Create user A with no posts:
+  db.run("INSERT INTO users (hash) VALUES (?)", ["123"], function(err){
+    console.log("User A id:", this.lastID);
+  });
 
+  // Create user B with several posts:
   db.run("INSERT INTO users (hash) VALUES (?)", ["123"], function(err){
     var userID = this.lastID;
 
@@ -56,9 +62,9 @@ db.serialize( function(){
 
     stmt.finalize();
     db.close(); 
-    console.log("User id:", userID);
-    console.log("User hash: 123");
-    console.log(`Login link: /${userID}/123`);
+    console.log("User B id:", userID);
+    console.log("User B hash: 123");
+    console.log(`Login B link: /${userID}/123`);
   });
 
 });
