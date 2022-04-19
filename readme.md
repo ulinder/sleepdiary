@@ -16,6 +16,10 @@ För att nå en överblick av alla dagböcker som ligger uppe
 Lokalt
 http://localhost:3001/admin123
 
+https://sleep.dunamis.se/admin123
+
+https://somndagbok.vgregion.se/admin123
+
 ## Teknik
 Nodejs/Express/SQLITE3
 För daemonisering av appen i prod är en rekommendation att använda pm2 

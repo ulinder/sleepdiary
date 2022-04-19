@@ -31,28 +31,13 @@ function draw_graphs(data){
                 {
                     label: 'Genomsnittlig sängtid',
                     fill: false,
-                    backgroundColor: '#f5e042',
+                    backgroundColor: '#42f5ce',
                     pointRadius: 6,
-                    borderColor: '#f5e042',
+                    borderColor: '#42f5ce',
                     data: data.weeks.map( x => { if(x.val.sleep_time_arr.length > 1) return x.val.avg_seconds_in_bed / 3600 })
                 }                
             ]
         }
-
-
-        // var data_avg_time_in_bed = {
-        //     labels: data.weeks.map( x => { return 'V' + x.w }),
-        //     datasets:[
-        //         {
-        //             label: 'Genomsnittlig sängtid',
-        //             fill: false,
-        //             backgroundColor: '#f5e042',
-        //             pointRadius: 6,
-        //             borderColor: '#f5e042',
-        //             data: data.weeks.map( x => { if(x.val.sleep_time_arr.length > 1) return x.val.avg_seconds_in_bed * 3600 })
-        //         }
-        //     ]
-        // }
 
 
         var se_graph = new Chart(document.getElementById('sleep-efficiency-canvas'), {
