@@ -12,7 +12,7 @@
     "start": "node ./bin/www",
     "dbsetup": "node ./bin/dbsetup",
     "seed": "node ./bin/seed",
-    "info": "node ./bin/info",
+    "info": "NODE_ENV=development node ./bin/info",
     "migrate": "node ./bin/migrate"
   },
   "dependencies": {
